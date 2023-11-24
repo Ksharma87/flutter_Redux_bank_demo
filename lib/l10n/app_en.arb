@@ -1,0 +1,15 @@
+{
+    "welcomeNoidaBank": "Welcome to Noida bank",
+    "bank" : "bank",
+    "noida" : "Noida",
+    "login" : "Log in",
+    "createAccount" : "create an account",
+    "email" : "Email",
+    "password": "Password",
+
+
+    "emailInvalidation" : "Enter a valid email address",
+    "emailEmpty" : "Please enter email address",
+    "passwordEmpty" : "Please enter password",
+    "passwordInvalidation": "Enter valid password"
+}

@@ -1,0 +1,13 @@
+# Ignore temporary files
+*.tmp
+.DS_Store
+
+# Ignore build output directory
+build/
+/build/
+.idea
+.dart_tool
+
+
+# Ignore a specific file
+secret.key
