@@ -5,6 +5,7 @@ import 'package:flutter_redux_bank/app/home/devices_views/home_viewmodel.dart';
 import 'package:flutter_redux_bank/app/utils/custom_view/app_logo.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
+import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -17,9 +18,9 @@ class _HomeWidgetState extends State<HomeWidget> {
   AppLocalizations? _appLocalizations;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _appLocalizations = AppLocalizations.of(context);
+  void initState() {
+    super.initState();
+    _appLocalizations = AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!);
   }
 
   @override

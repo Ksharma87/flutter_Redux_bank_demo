@@ -10,6 +10,7 @@ import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/store.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
+import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 
 class LoginWidget extends StatefulWidget {
   final String authType;
@@ -33,13 +34,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     super.initState();
     isLogin = (widget.authType.toString() == AuthType.LOGIN.toString());
     _validation = getIt<Validation>();
-
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _appLocalizations = AppLocalizations.of(context);
+    _appLocalizations = AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!);
   }
 
   @override
