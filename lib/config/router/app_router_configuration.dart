@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/app/dashboard/dashboard_page.dart';
 import 'package:flutter_redux_bank/app/home/home_page.dart';
 import 'package:flutter_redux_bank/app/login/login_page.dart';
+import 'package:flutter_redux_bank/app/user_details/user_details_page.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 
 class AppRouterConfiguration {
@@ -17,6 +18,8 @@ class AppRouterConfiguration {
         return _buildRoute(settings, const HomePage());
       case AppRouter.DASHBOARD:
         return _buildRoute(settings, const DashboardPage());
+      case AppRouter.USER_INFO:
+        return _buildRoute(settings, const UserDetailsPage());
       default:
         return _buildRoute(settings, const HomePage());
     }

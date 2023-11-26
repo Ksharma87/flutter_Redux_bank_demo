@@ -41,16 +41,21 @@ class LoginViewModel {
     completer.future.then((value) => {
           loading.hideProgressDialog(),
           value == null
-              ? _moveDashBoardScreen(store)
+              ? _moveDashBoardScreen(store, action)
               : errorMessageFilters(
                   value,
                 )
         });
   }
 
-  static _moveDashBoardScreen(Store<AppState> store) {
-    store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
-        AppRouter.DASHBOARD, (route) => false));
+  static _moveDashBoardScreen(Store<AppState> store, dynamic action) {
+    if(action is SignIn) {
+      store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
+          AppRouter.DASHBOARD, (route) => false));
+    } else {
+      store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
+          AppRouter.USER_INFO, (route) => false));
+    }
   }
 
   @override

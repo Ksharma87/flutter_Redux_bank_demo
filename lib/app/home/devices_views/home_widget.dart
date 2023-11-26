@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/home/devices_views/home_viewmodel.dart';
 import 'package:flutter_redux_bank/app/utils/custom_view/app_logo.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
-import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+import 'package:flutter_redux_bank/utils/app_localization.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -15,13 +14,6 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  AppLocalizations? _appLocalizations;
-
-  @override
-  void initState() {
-    super.initState();
-    _appLocalizations = AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +29,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               padding: const EdgeInsets.only(left: 50),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(_appLocalizations!.welcomeNoidaBank,
+                  child: Text(AppLocalization.localizations!.welcomeNoidaBank,
                       textAlign: TextAlign.start,
                       style: const TextStyle(
                           fontFamily: 'Roboto Light',
@@ -94,7 +86,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   vm.createAccount();
                   //code to execute when this button is pressed.
                 },
-                child: Text(_appLocalizations!.createAccount,
+                child: Text(AppLocalization.localizations!.createAccount,
                     style: const TextStyle(
                         fontFamily: 'Roboto Regular',
                         fontSize: 18,
@@ -137,7 +129,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 vm.login();
                 //code to execute when this button is pressed.
               },
-              child: Text(_appLocalizations!.login,
+              child: Text(AppLocalization.localizations!.login,
                   style: const TextStyle(
                       fontFamily: 'Roboto Regular',
                       fontSize: 18,
