@@ -1,13 +1,13 @@
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:base/src/base/base_screen.dart';
-import 'package:base/src/base/base_state.dart';
+import 'package:base/src/base/stateful/base_stateful_state.dart';
+import 'package:base/src/base/stateful/base_stateful_screen.dart';
 import 'package:flutter_redux_bank/app/dashboard/dashboard_page.dart';
 import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_widget.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 
-class DashBoardController extends BaseState<DashboardPage> with BaseScreen {
+class DashBoardController extends BaseStateFullState<DashboardPage> with BaseStatefulScreen {
   @override
   Widget body() {
     return const DashboardWidget();
