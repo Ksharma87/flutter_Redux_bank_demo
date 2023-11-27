@@ -14,6 +14,11 @@ class DashBoardController extends BaseStateFullState<DashboardPage> with BaseSta
   }
 
   @override
+  bool isFullScreen() {
+    return false;
+  }
+
+  @override
   PreferredSizeWidget? appBar() {
     String title =
         "${AppLocalization.localizations!.noida} ${AppLocalization.localizations!.bank}";

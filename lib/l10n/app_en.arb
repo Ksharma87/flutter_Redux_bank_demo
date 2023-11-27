@@ -11,5 +11,13 @@
     "emailInvalidation" : "Enter a valid email address",
     "emailEmpty" : "Please enter email address",
     "passwordEmpty" : "Please enter password",
-    "passwordInvalidation": "Enter valid password"
+    "passwordInvalidation": "Enter valid password",
+
+    "details": "Details",
+    "firstname" : "First name",
+    "lastname" : "Last name",
+    "mobileNumber" : "Mobile Number",
+    "male": "Male",
+    "female": "Female",
+    "submit": "Submit"
 }

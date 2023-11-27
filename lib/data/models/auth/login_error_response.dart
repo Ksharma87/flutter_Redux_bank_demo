@@ -1,4 +1,4 @@
-import 'package:flutter_redux_bank/domain/entity/auth/loginerror_response_entity.dart';
+import 'package:flutter_redux_bank/domain/entity/auth/login_error_response_entity.dart';
 
 /// error : {"code":400,"message":"EMAIL_NOT_FOUND","errors":[{"message":"EMAIL_NOT_FOUND","domain":"global","reason":"invalid"}]}
 

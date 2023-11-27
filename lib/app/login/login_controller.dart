@@ -6,8 +6,8 @@ import 'package:base/src/base/stateful/base_stateful_screen.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 
-class LoginController extends BaseStateFullState<LoginPage> with BaseStatefulScreen {
-
+class LoginController extends BaseStateFullState<LoginPage>
+    with BaseStatefulScreen {
   @override
   Widget body() {
     return LoginWidget(authType: widget.authType);
@@ -15,7 +15,7 @@ class LoginController extends BaseStateFullState<LoginPage> with BaseStatefulScr
 
   @override
   bool isFullScreen() {
-   return true;
+    return true;
   }
 
   @override

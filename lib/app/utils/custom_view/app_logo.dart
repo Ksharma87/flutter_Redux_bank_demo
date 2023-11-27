@@ -23,7 +23,7 @@ class AppLogo {
           Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!)!.noida.substring(1),
                       style: TextStyle(
                           fontSize: 50,
@@ -32,7 +32,7 @@ class AppLogo {
           Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(" ${AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!)!.bank}",
                       style: TextStyle(
                           fontFamily: 'Roboto Light',

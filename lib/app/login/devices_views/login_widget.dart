@@ -61,6 +61,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                               child: SizedBox(
                                 width: 320,
                                 child: TextField(
+                                  cursorColor: ColorsTheme.primaryColor,
+                                  textInputAction: TextInputAction.next,
                                   controller: _emailController,
                                   autocorrect: false,
                                   style: const TextStyle(
@@ -68,6 +70,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       fontSize: 18),
                                   obscureText: false,
                                   decoration: InputDecoration(
+                                    focusColor: ColorsTheme.secondColor,
                                     focusedBorder: const UnderlineInputBorder(
                                       //<-- SEE HERE
                                       borderSide: BorderSide(
@@ -79,8 +82,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       borderSide: BorderSide(
                                           width: 1, color: Colors.grey),
                                     ),
-
-                                    //border: OutlineInputBorder(),
+                                    labelStyle: const TextStyle(color: ColorsTheme.secondColor),
                                     labelText: AppLocalization.localizations!.email,
                                   ),
                                 ),
@@ -90,6 +92,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                               child: SizedBox(
                                 width: 320,
                                 child: TextField(
+                                  cursorColor: ColorsTheme.primaryColor,
+                                  textInputAction: TextInputAction.done,
                                   controller: _passwordController,
                                   autocorrect: false,
                                   style: const TextStyle(
@@ -98,6 +102,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   ),
                                   obscureText: true,
                                   decoration: InputDecoration(
+                                    hintStyle: const TextStyle(color: ColorsTheme.secondColor),
+                                    focusColor: ColorsTheme.secondColor,
                                     focusedBorder: const UnderlineInputBorder(
                                       //<-- SEE HERE
                                       borderSide: BorderSide(
@@ -109,6 +115,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       borderSide: BorderSide(
                                           width: 1, color: Colors.grey),
                                     ),
+                                    labelStyle: const TextStyle(color: ColorsTheme.secondColor),
                                     labelText: AppLocalization.localizations!.password,
                                   ),
                                 ),
@@ -157,10 +164,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             color: Colors.white)),
                                   )))
                         ])),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                            height: 80, color: ColorsTheme.bottomColor))
+                    Expanded(
+                      child: Align(
+                        alignment: FractionalOffset.bottomCenter,
+                        child: Container(height: 60, color: ColorsTheme.bottomColor)
+                      ),
+                    ),
                   ]);
             },
           );

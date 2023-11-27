@@ -14,6 +14,11 @@ class UserDetailsController extends BaseStateFullState<UserDetailsPage> with Bas
   }
 
   @override
+  bool isFullScreen() {
+    return true;
+  }
+
+  @override
   Color rootBackgroundColor() {
     return Colors.white;
   }
@@ -21,7 +26,7 @@ class UserDetailsController extends BaseStateFullState<UserDetailsPage> with Bas
   @override
   PreferredSizeWidget? appBar() {
     String title =
-        "${AppLocalization.localizations!.noida} ${AppLocalization.localizations!.bank}";
+        AppLocalization.localizations!.details;
     return AppBar(
       backgroundColor: ColorsTheme.primaryColor,
       toolbarHeight: 60,
