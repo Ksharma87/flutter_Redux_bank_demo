@@ -7,6 +7,7 @@ import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 
 class LoginController extends BaseState<LoginPage> with BaseScreen {
+
   @override
   Widget body() {
     return LoginWidget(authType: widget.authType);

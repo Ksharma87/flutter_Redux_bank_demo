@@ -15,13 +15,13 @@ class AppRouterConfiguration {
               authType: settings.arguments.toString(),
             ));
       case AppRouter.HOME_PAGE:
-        return _buildRoute(settings, const HomePage());
+        return _buildRoute(settings, HomePage());
       case AppRouter.DASHBOARD:
         return _buildRoute(settings, const DashboardPage());
       case AppRouter.USER_INFO:
         return _buildRoute(settings, const UserDetailsPage());
       default:
-        return _buildRoute(settings, const HomePage());
+        return _buildRoute(settings, HomePage());
     }
   }
 

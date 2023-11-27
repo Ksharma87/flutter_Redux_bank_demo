@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:base/src/base/base_widget.dart';
+import 'package:base/src/base/base_stateless_widget.dart';
 import 'package:flutter_redux_bank/app/home/home_controller.dart';
 
-class HomePage extends BaseWidget {
-  const HomePage({super.key});
+class HomePage extends BaseStatelessWidget {
+  HomePage({super.key});
+  final HomeController controller = HomeController();
 
   @override
-  State<HomePage> createState() => HomeController();
+  Widget build(BuildContext context) {
+    return controller.build(context);
+  }
 }

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:base/src/base/base_screen.dart';
-import 'package:base/src/base/base_state.dart';
 import 'package:flutter_redux_bank/app/home/devices_views/home_widget.dart';
 import 'package:flutter_redux_bank/app/home/home_page.dart';
+import 'package:base/src/base/base_stateless_screen.dart';
 
-class HomeController extends BaseState<HomePage> with BaseScreen {
+class HomeController extends BaseStatelessScreen<HomePage>{
 
   @override
   Widget body() {
-    return const HomeWidget();
+    return HomeWidget();
   }
-
 }

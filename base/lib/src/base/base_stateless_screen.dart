@@ -1,8 +1,7 @@
-import 'package:base/src/base/base_state.dart';
-import 'package:base/src/base/base_stateful_widget.dart';
 import 'package:flutter/material.dart';
 
-mixin BaseScreen<T extends BaseStatefulWidget> on BaseState<T> {
+abstract class BaseStatelessScreen<T extends StatelessWidget> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/home/devices_views/home_viewmodel.dart';
 import 'package:flutter_redux_bank/app/utils/custom_view/app_logo.dart';
-import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
+import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 
-class HomeWidget extends StatefulWidget {
-  const HomeWidget({super.key});
-
-  @override
-  State<HomeWidget> createState() => _HomeWidgetState();
-}
-
-class _HomeWidgetState extends State<HomeWidget> {
+class HomeWidget extends StatelessWidget {
+  HomeWidget({super.key});
+  final HomeViewModel _homeViewModel = HomeViewModel(store);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +16,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   Widget body(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Expanded(
-          child: AppLogo.logo(Colors.white, ColorsTheme.secondColor)),
+      Expanded(child: AppLogo.logo(Colors.white, ColorsTheme.secondColor)),
       Expanded(
           child: Padding(
               padding: const EdgeInsets.only(left: 50),
@@ -60,85 +53,53 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Widget createAccountButtonView(BuildContext context) {
-    return StoreConnector<AppState, HomeViewModel>(
-      distinct: true,
-      converter: (store) {
-        return HomeViewModel(store);
-      },
-      builder: (BuildContext context, HomeViewModel vm) {
-        return Builder(
-          builder: (BuildContext context) {
-            return ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorsTheme.secondColor,
-                    side: const BorderSide(
-                        width: 1.5, color: ColorsTheme.secondColor),
-                    //border width and color
-                    elevation: 1,
-                    //elevation of button
-                    shape: RoundedRectangleBorder(
-                        //to set border radius to button
-                        borderRadius: BorderRadius.circular(10)),
-                    padding:
-                        const EdgeInsets.all(0) //content padding inside button
-                    ),
-                onPressed: () {
-                  vm.createAccount();
-                  //code to execute when this button is pressed.
-                },
-                child: Text(AppLocalization.localizations!.createAccount,
-                    style: const TextStyle(
-                        fontFamily: 'Roboto Regular',
-                        fontSize: 18,
-                        fontStyle: FontStyle.normal,
-                        color: Colors.white)));
-          },
-        );
-      },
-    );
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: ColorsTheme.secondColor,
+            side: const BorderSide(width: 1.5, color: ColorsTheme.secondColor),
+            //border width and color
+            elevation: 1,
+            //elevation of button
+            shape: RoundedRectangleBorder(
+                //to set border radius to button
+                borderRadius: BorderRadius.circular(10)),
+            padding: const EdgeInsets.all(0) //content padding inside button
+            ),
+        onPressed: () {
+           _homeViewModel.createAccount();
+          //code to execute when this button is pressed.
+        },
+        child: Text(AppLocalization.localizations!.createAccount,
+            style: const TextStyle(
+                fontFamily: 'Roboto Regular',
+                fontSize: 18,
+                fontStyle: FontStyle.normal,
+                color: Colors.white)));
   }
 
   Widget loginButtonView(BuildContext context) {
-    return StoreConnector<AppState, HomeViewModel>(
-      distinct: true,
-      onWillChange: (old, view) {},
-      ignoreChange: (state) {
-        return false;
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          backgroundColor: ColorsTheme.primaryColor,
+          side: const BorderSide(width: 1.5, color: ColorsTheme.secondColor),
+          //border width and color
+          elevation: 1,
+          //elevation of button
+          shape: RoundedRectangleBorder(
+              //to set border radius to button
+              borderRadius: BorderRadius.circular(10)),
+          padding: const EdgeInsets.all(0) //content padding inside button
+          ),
+      onPressed: () {
+        _homeViewModel.login();
+        //code to execute when this button is pressed.
       },
-      converter: (store) {
-        return HomeViewModel(store);
-      },
-      builder: (BuildContext context, HomeViewModel vm) {
-        return Builder(
-          builder: (BuildContext context) {
-            return ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorsTheme.primaryColor,
-                  side: const BorderSide(
-                      width: 1.5, color: ColorsTheme.secondColor),
-                  //border width and color
-                  elevation: 1,
-                  //elevation of button
-                  shape: RoundedRectangleBorder(
-                      //to set border radius to button
-                      borderRadius: BorderRadius.circular(10)),
-                  padding:
-                      const EdgeInsets.all(0) //content padding inside button
-                  ),
-              onPressed: () {
-                vm.login();
-                //code to execute when this button is pressed.
-              },
-              child: Text(AppLocalization.localizations!.login,
-                  style: const TextStyle(
-                      fontFamily: 'Roboto Regular',
-                      fontSize: 18,
-                      fontStyle: FontStyle.normal,
-                      color: ColorsTheme.secondColor)),
-            );
-          },
-        );
-      },
+      child: Text(AppLocalization.localizations!.login,
+          style: const TextStyle(
+              fontFamily: 'Roboto Regular',
+              fontSize: 18,
+              fontStyle: FontStyle.normal,
+              color: ColorsTheme.secondColor)),
     );
   }
 }
