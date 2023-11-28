@@ -32,7 +32,7 @@ class LoginViewModel {
               store, SignIn(completer, email, password), completer);
         },
         onCreateAccount: (email, password) {
-          final Completer<String?> completer = Completer<String?>();
+          final Completer completer = Completer();
           _authResponseHandle(
               store, CreateAccount(completer, email, password), completer);
         });
