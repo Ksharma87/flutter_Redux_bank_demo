@@ -19,7 +19,7 @@ class GenderViewModel {
   int get hashCode => detailsState.isMale.hashCode;
 
   @override
-  bool operator ==(Object other) {
+  bool operator == (Object other) {
     GenderViewModel details = (other as GenderViewModel);
     return detailsState.isMale == details.detailsState.isMale;
   }

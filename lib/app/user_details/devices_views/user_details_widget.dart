@@ -31,6 +31,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                   width: 320,
                   child: TextField(
                     //controller: _emailController,
+                    textInputAction: TextInputAction.next,
                     autocorrect: false,
                     style: const TextStyle(
                         color: ColorsTheme.primaryColor, fontSize: 18),
@@ -57,6 +58,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                   width: 320,
                   child: TextField(
                     //controller: _emailController,
+                    textInputAction: TextInputAction.next,
                     autocorrect: false,
                     style: const TextStyle(
                         color: ColorsTheme.primaryColor, fontSize: 18),
@@ -81,6 +83,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
               width: 320,
               child: TextField(
                 //controller: _emailController,
+                textInputAction: TextInputAction.done,
                 autocorrect: false,
                 keyboardType: TextInputType.number,
                 style: const TextStyle(
@@ -121,7 +124,9 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                         padding: const EdgeInsets.all(
                             0) //content padding inside button
                         ),
-                    onPressed: () {},
+                    onPressed: () {
+
+                    },
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 70, right: 70, top: 10, bottom: 10),

@@ -1,6 +1,8 @@
 import 'package:flutter_redux_bank/di/injection.dart';
-import 'package:flutter_redux_bank/data/models/auth/login_request.dart';
+import 'package:flutter_redux_bank/domain/entity/auth/login_response_entity.dart';
 import 'package:flutter_redux_bank/domain/useCase/auth/auth_useCase.dart';
+import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
+import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/auth/store.dart';
 import 'package:redux/redux.dart';
@@ -23,7 +25,7 @@ Middleware<AppState> _createLoginRequest() {
     authUseCase.invokeLoginPassword(email, pwd).then((data) {
       data.whenSuccess((success) => {
             store.dispatch(AuthLoggedIn(token: success.idToken)),
-            action.completer.complete(null)
+            action.completer.complete(success)
           });
       data.whenError((error) => {
             store.dispatch(AuthError(error: error.errorMsg)),
@@ -43,7 +45,7 @@ Middleware<AppState> _createAccountRequest() {
     authUseCase.invokeCreateAccount(email, pwd).then((data) {
       data.whenSuccess((success) => {
             store.dispatch(AuthLoggedIn(token: success.idToken)),
-            action.completer.complete(null)
+            action.completer.complete(success)
           });
       data.whenError((error) => {
             store.dispatch(AuthError(error: error.errorMsg)),

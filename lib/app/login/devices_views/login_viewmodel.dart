@@ -3,6 +3,10 @@ import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialo
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
 import 'package:flutter_redux_bank/common/account_status.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
+import 'package:flutter_redux_bank/di/injection.dart';
+import 'package:flutter_redux_bank/domain/entity/auth/login_response_entity.dart';
+import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
+import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/auth/auth_actions.dart';
 import 'package:flutter_redux_bank/redux/store/auth/auth_state.dart';
@@ -23,33 +27,36 @@ class LoginViewModel {
     return LoginViewModel(
         authState: store.state.authState,
         onLogin: (email, password) {
-          final Completer<String?> completer = Completer<String?>();
-          _authCalling(store, SignIn(completer, email, password), completer);
+          final Completer completer = Completer();
+          _authResponseHandle(
+              store, SignIn(completer, email, password), completer);
         },
         onCreateAccount: (email, password) {
           final Completer<String?> completer = Completer<String?>();
-          _authCalling(
+          _authResponseHandle(
               store, CreateAccount(completer, email, password), completer);
         });
   }
 
-  static _authCalling(
-      Store<AppState> store, dynamic action, Completer<String?> completer) {
+  static _authResponseHandle(
+      Store<AppState> store, dynamic action, Completer completer) {
     final loading = LoadingProgressDialog();
     loading.showProgressDialog();
     store.dispatch(action);
     completer.future.then((value) => {
           loading.hideProgressDialog(),
-          value == null
-              ? _moveDashBoardScreen(store, action)
-              : errorMessageFilters(
-                  value,
-                )
+          value is LoginResponseEntity
+              ? {saveUserDetails(value), _moveDashBoardScreen(store, action)}
+              : errorMessageFilters(value)
         });
   }
 
   static _moveDashBoardScreen(Store<AppState> store, dynamic action) {
-    if(action is SignIn) {
+    PreferencesManager preferencesManager = getIt<PreferencesManager>();
+    String? displayName =
+        preferencesManager.getPreferencesValue(PreferencesContents.displayName);
+
+    if (action is SignIn && displayName != null && displayName.isNotEmpty) {
       store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
           AppRouter.DASHBOARD, (route) => false));
     } else {
@@ -58,9 +65,12 @@ class LoginViewModel {
     }
   }
 
-  @override
-  bool operator ==(Object other) {
-    return true;
+  static saveUserDetails(LoginResponseEntity response) {
+    PreferencesManager preferencesManager = getIt<PreferencesManager>();
+    preferencesManager.setPreferencesValue(
+        PreferencesContents.loginToken, response.idToken);
+    preferencesManager.setPreferencesValue(
+        PreferencesContents.displayName, response.displayName);
   }
 
   static errorMessageFilters(String value) {
@@ -77,5 +87,10 @@ class LoginViewModel {
         0) {
       ToastView.displaySnackBar("Account already exist.");
     }
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return true;
   }
 }

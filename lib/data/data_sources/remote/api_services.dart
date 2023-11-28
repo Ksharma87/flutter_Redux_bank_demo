@@ -7,7 +7,7 @@ class ApiServices {
    static const String ServerVersion = "/v1/";
 
    // WebAPI KEY_Value firebase projects
-   static const String WebAPI_KEY_Value = "FIREBASE_WEB_KEYS";
+   static const String WebAPI_KEY_Value = "AIzaSyDSFOpJ7KtAbUVPio-UXJx1SAVX91dH3W8";
 
 
    static const String WebAPI_KEY = "key=";
@@ -18,6 +18,8 @@ class ApiServices {
 
    static const String loginPassword = "accounts:signInWithPassword?";
    static const String createAccount = "accounts:signUp?";
+   static const String updateProfile = "accounts:update?";
+   static const String getProfile = "accounts:lookup?";
 
 
 //

@@ -4,3 +4,7 @@ class GenderSelectAction extends Actions {
   final bool gender;
   GenderSelectAction({required this.gender});
 }
+
+class UserDetailsSubmit extends Actions {
+  UserDetailsSubmit();
+}

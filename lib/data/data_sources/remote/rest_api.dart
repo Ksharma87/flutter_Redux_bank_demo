@@ -4,6 +4,7 @@ import 'package:flutter_redux_bank/data/data_sources/remote/rest_api_config.dart
 import 'package:flutter_redux_bank/data/models/auth/login_error_response.dart';
 import 'package:flutter_redux_bank/data/models/auth/login_response.dart';
 import 'package:flutter_redux_bank/data/models/auth/login_request.dart';
+import 'package:flutter_redux_bank/data/models/profile/update_profile_request.dart';
 import 'package:flutter_redux_bank/domain/entity/auth/login_response_entity.dart';
 import 'package:flutter_redux_bank/domain/entity/auth/login_error_response_entity.dart';
 import 'package:http/http.dart' as http;
@@ -42,11 +43,11 @@ class RestApi {
     }
   }
 
-  updateProfile() async {
+  Future<void> updateProfile(UpdateProfileRequest request) async {
     String url = ApiServices.updateProfile;
-    //http.Response response =
-    //await restApiConfig.httpCallPost(url, request.toString());
-    //final json = jsonDecode(response.body);
+    http.Response response =
+    await restApiConfig.httpCallPost(url, request.toString());
+    final json = jsonDecode(response.body);
   }
 
 }

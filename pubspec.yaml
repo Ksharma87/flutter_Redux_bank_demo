@@ -46,12 +46,13 @@ dependencies:
   flutter_redux_navigation: ^0.7.1
   injectable: ^2.3.2
   get_it: ^7.6.4
-  http: ^1.1.0
+  http: ^1.1.2
   multiple_result: ^5.1.0
   equatable: ^2.0.5
   json_annotation: ^4.8.1
   fluid_bottom_nav_bar: ^1.4.0
-  flutter_screenutil: ^5.9.0
+  shared_preferences: ^2.2.2
+
 
 
 
@@ -62,7 +63,7 @@ dev_dependencies:
   # add the generator to your dev_dependencies
   injectable_generator:
   # add build runner if not already added
-  build_runner: ^2.4.6
+  build_runner: ^2.4.7
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
