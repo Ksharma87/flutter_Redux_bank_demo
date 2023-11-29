@@ -6,5 +6,9 @@ class GenderSelectAction extends Actions {
 }
 
 class UserDetailsSubmit extends Actions {
-  UserDetailsSubmit();
+  final bool gender;
+  final String firstName;
+  final String lastName;
+  final String mobileNumber;
+  UserDetailsSubmit({required this.firstName, required this.lastName, required this.mobileNumber, required this.gender});
 }

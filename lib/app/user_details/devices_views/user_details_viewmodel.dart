@@ -2,15 +2,15 @@ import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/details/details_state.dart';
 import 'package:redux/redux.dart';
 
-class GenderViewModel {
+class UserDetailsViewModel {
   final DetailsState detailsState;
 
-  GenderViewModel({
+  UserDetailsViewModel({
     required this.detailsState,
   });
 
-  static GenderViewModel fromStore(Store<AppState> store) {
-    return GenderViewModel(
+  static UserDetailsViewModel fromStore(Store<AppState> store) {
+    return UserDetailsViewModel(
         detailsState: store.state.detailsState,
     );
   }
@@ -20,7 +20,7 @@ class GenderViewModel {
 
   @override
   bool operator == (Object other) {
-    GenderViewModel details = (other as GenderViewModel);
+    UserDetailsViewModel details = (other as UserDetailsViewModel);
     return detailsState.isMale == details.detailsState.isMale;
   }
 }

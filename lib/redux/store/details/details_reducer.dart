@@ -4,11 +4,25 @@ import 'package:redux/redux.dart';
 
 Reducer<DetailsState> detailsStateReducer = combineReducers<DetailsState>([
   TypedReducer<DetailsState, GenderSelectAction>(_genderSelected).call,
+  TypedReducer<DetailsState, UserDetailsSubmit>(_userDetailsSubmit).call,
 ]);
 
 DetailsState _genderSelected(
     DetailsState detailsState, GenderSelectAction action) {
   return detailsState.copyWith(
+    firstName: '',
+    lastName: '',
+    mobileNumber: '',
+    isMale: action.gender,
+  );
+}
+
+DetailsState _userDetailsSubmit(
+    DetailsState detailsState, UserDetailsSubmit action) {
+  return detailsState.copyWith(
+    firstName: action.firstName,
+    lastName: action.lastName,
+    mobileNumber: action.mobileNumber,
     isMale: action.gender,
   );
 }

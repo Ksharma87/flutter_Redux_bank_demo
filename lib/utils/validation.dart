@@ -1,6 +1,6 @@
-import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+import 'package:flutter_redux_bank/common/user_details_type.dart';
+import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:injectable/injectable.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @injectable
 class Validation {
@@ -27,13 +27,11 @@ class Validation {
     final regex = RegExp(pattern);
 
     if (value!.isEmpty) {
-      return AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!)!
-          .emailEmpty;
+      return AppLocalization.localizations!.emailEmpty;
     }
 
     return value.isEmpty || !regex.hasMatch(value)
-        ? AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!)!
-            .emailInvalidation
+        ? AppLocalization.localizations!.emailInvalidation
         : null;
   }
 
@@ -41,16 +39,61 @@ class Validation {
     RegExp regex =
         RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     if (value!.isEmpty) {
-      return AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!)!
-          .passwordEmpty;
+      return AppLocalization.localizations!.passwordEmpty;
     } else {
       if (!regex.hasMatch(value)) {
-        return AppLocalizations.of(
-                NavigatorHolder.navigatorKey.currentContext!)!
-            .passwordInvalidation;
+        return AppLocalization.localizations!.passwordInvalidation;
       } else {
         return null;
       }
     }
+  }
+
+  String? validateUserDetails(
+      String? firstName, String? lastName, String? mobileNumber) {
+    String? firstNameValue =
+        validateName(firstName, UserDetailsType.FIRSTNAME.name);
+    String? lastNameValue =
+        validateName(lastName, UserDetailsType.LASTNAME.name);
+    String? mobileNumberValue = validateMobile(mobileNumber!);
+    if (firstNameValue == null &&
+        lastNameValue == null &&
+        mobileNumberValue == null) {
+      return null;
+    } else if (firstNameValue != null) {
+      return firstNameValue;
+    } else if (lastNameValue != null) {
+      return lastNameValue;
+    } else {
+      return mobileNumberValue;
+    }
+  }
+
+  String? validateName(String? value, String prefix) {
+    RegExp regex = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]');
+    if (value!.isEmpty) {
+      return prefix == UserDetailsType.FIRSTNAME.name.toString()
+          ? AppLocalization.localizations!.firstNameEmpty
+          : AppLocalization.localizations!.lastNameEmpty;
+    } else {
+      if (regex.hasMatch(value)) {
+        return prefix == UserDetailsType.FIRSTNAME.name.toString()
+            ? AppLocalization.localizations!.firstnameInvalidation
+            : AppLocalization.localizations!.lastNameInvalidation;
+      } else {
+        return null;
+      }
+    }
+  }
+
+  String? validateMobile(String value) {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = RegExp(pattern);
+    if (value.isEmpty) {
+      return AppLocalization.localizations!.mobileEmpty;
+    } else if (!regExp.hasMatch(value)) {
+      return AppLocalization.localizations!.mobileInvalidation;
+    }
+    return null;
   }
 }

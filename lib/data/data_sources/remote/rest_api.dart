@@ -23,6 +23,7 @@ class RestApi {
     http.Response response =
         await restApiConfig.httpCallPost(url, request.toString());
     final json = jsonDecode(response.body);
+    print(json);
     if (response.statusCode == ApiServices.apiStatusSuccessful) {
       return result_type.Success(LoginResponse.fromJson(json));
     } else {
@@ -36,6 +37,7 @@ class RestApi {
     http.Response response =
         await restApiConfig.httpCallPost(url, request.toString());
     final json = jsonDecode(response.body);
+    print(json);
     if (response.statusCode == ApiServices.apiStatusSuccessful) {
       return result_type.Success(LoginResponse.fromJson(json));
     } else {
@@ -48,6 +50,7 @@ class RestApi {
     http.Response response =
     await restApiConfig.httpCallPost(url, request.toString());
     final json = jsonDecode(response.body);
+    print(json);
   }
 
 }

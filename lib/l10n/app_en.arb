@@ -12,6 +12,12 @@
     "emailEmpty" : "Please enter email address",
     "passwordEmpty" : "Please enter password",
     "passwordInvalidation": "Enter valid password",
+    "firstNameEmpty" : "Please enter first name",
+    "firstnameInvalidation" : "Please enter valid first name",
+    "lastNameEmpty" : "Please enter last name",
+    "lastNameInvalidation" : "Please enter valid last name",
+    "mobileEmpty": "Please enter mobile number",
+    "mobileInvalidation": "Please enter valid mobile number",
 
     "details": "Details",
     "firstname" : "First name",

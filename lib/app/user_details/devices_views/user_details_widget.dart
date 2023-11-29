@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_redux_bank/app/user_details/devices_views/gender_viewmodel.dart';
+import 'package:flutter_redux_bank/app/user_details/devices_views/user_details_viewmodel.dart';
+import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
+import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
+import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/details/details_actions.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
+import 'package:flutter_redux_bank/utils/validation.dart';
 import 'package:redux/redux.dart';
 
 class UserDetailsWidget extends StatefulWidget {
@@ -16,7 +22,11 @@ class UserDetailsWidget extends StatefulWidget {
 }
 
 class _UserDetailsWidgetState extends State<UserDetailsWidget> {
-  bool _gender = true;
+  late final Validation _validation = getIt<Validation>();
+  final TextEditingController _firstName = TextEditingController();
+  final TextEditingController _lastName = TextEditingController();
+  final TextEditingController _mobileNumber = TextEditingController();
+  bool isMale = true;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +40,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                 child: SizedBox(
                   width: 320,
                   child: TextField(
-                    //controller: _emailController,
+                    controller: _firstName,
                     textInputAction: TextInputAction.next,
                     autocorrect: false,
                     style: const TextStyle(
@@ -46,8 +56,8 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                         //<-- SEE HERE
                         borderSide: BorderSide(width: 1, color: Colors.grey),
                       ),
-
-                      labelStyle: const TextStyle(color: ColorsTheme.secondColor),
+                      labelStyle:
+                          const TextStyle(color: ColorsTheme.secondColor),
                       labelText: AppLocalization.localizations!.firstname,
                     ),
                   ),
@@ -57,7 +67,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                 child: SizedBox(
                   width: 320,
                   child: TextField(
-                    //controller: _emailController,
+                    controller: _lastName,
                     textInputAction: TextInputAction.next,
                     autocorrect: false,
                     style: const TextStyle(
@@ -73,8 +83,8 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                         //<-- SEE HERE
                         borderSide: BorderSide(width: 1, color: Colors.grey),
                       ),
-
-                      labelStyle: const TextStyle(color: ColorsTheme.secondColor),
+                      labelStyle:
+                          const TextStyle(color: ColorsTheme.secondColor),
                       labelText: AppLocalization.localizations!.lastname,
                     ),
                   ),
@@ -82,7 +92,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
             SizedBox(
               width: 320,
               child: TextField(
-                //controller: _emailController,
+                controller: _mobileNumber,
                 textInputAction: TextInputAction.done,
                 autocorrect: false,
                 keyboardType: TextInputType.number,
@@ -99,7 +109,6 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                     //<-- SEE HERE
                     borderSide: BorderSide(width: 1, color: Colors.grey),
                   ),
-
                   labelStyle: const TextStyle(color: ColorsTheme.secondColor),
                   labelText: AppLocalization.localizations!.mobileNumber,
                 ),
@@ -125,7 +134,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                             0) //content padding inside button
                         ),
                     onPressed: () {
-
+                      _onSubmitClick();
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -140,8 +149,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
             Expanded(
               child: Align(
                   alignment: FractionalOffset.bottomCenter,
-                  child: Container(height: 60, color: ColorsTheme.bottomColor)
-              ),
+                  child: Container(height: 60, color: ColorsTheme.bottomColor)),
             ),
           ]));
     });
@@ -155,13 +163,17 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
             backgroundColor:
                 (isMale) ? ColorsTheme.primaryColor : Colors.white),
         onPressed: () {
-           bool gender = (genderLabel == AppLocalization.localizations!.male) ? true : false;
-           store.dispatch(GenderSelectAction(gender: gender));
+          bool gender = (genderLabel == AppLocalization.localizations!.male)
+              ? true
+              : false;
+          store.dispatch(GenderSelectAction(gender: gender));
         },
         child: Row(
           children: [
             Icon(
-              (genderLabel == AppLocalization.localizations!.male) ? Icons.male : Icons.female,
+              (genderLabel == AppLocalization.localizations!.male)
+                  ? Icons.male
+                  : Icons.female,
               color: (isMale) ? Colors.white : ColorsTheme.primaryColor,
             ),
             Text(
@@ -177,27 +189,57 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
   }
 
   Widget genderView() {
-    return StoreConnector<AppState, GenderViewModel>(
+    return StoreConnector<AppState, UserDetailsViewModel>(
         distinct: true,
         converter: (store) {
-          return GenderViewModel.fromStore(store);
+          return UserDetailsViewModel.fromStore(store);
         },
-        builder: (BuildContext context, GenderViewModel vm) {
+        builder: (BuildContext context, UserDetailsViewModel vm) {
           return Builder(builder: (BuildContext context) {
-            _gender = vm.detailsState.isMale;
+            isMale = vm.detailsState.isMale;
+            print('${vm.detailsState.mobileNumber}  ${vm.detailsState.isMale}');
             return Row(
               children: [
                 Padding(
                     padding: const EdgeInsets.only(top: 10, left: 10),
                     child: customRadioButton(
-                        AppLocalization.localizations!.male, vm.detailsState.isMale, store)),
+                        AppLocalization.localizations!.male,
+                        vm.detailsState.isMale,
+                        store)),
                 Padding(
                     padding: const EdgeInsets.only(top: 10, left: 10),
                     child: customRadioButton(
-                        AppLocalization.localizations!.female, !(vm.detailsState.isMale), store))
+                        AppLocalization.localizations!.female,
+                        !(vm.detailsState.isMale),
+                        store))
               ],
             );
           });
         });
+  }
+
+  _onSubmitClick() {
+    String? result = _validation.validateUserDetails(_firstName.text.toString(),
+        _lastName.text.toString(), _mobileNumber.text.toString());
+    if (result == null) {
+      final loading = LoadingProgressDialog();
+      loading.showProgressDialog();
+      store.dispatch(UserDetailsSubmit(
+          firstName: _firstName.text.toString(),
+          lastName: _lastName.text.toString(),
+          mobileNumber: _mobileNumber.text.toString(),
+          gender: isMale));
+
+      final Completer completer = Completer();
+      completer.future.then((value) => {
+
+      });
+      completer.future.whenComplete(() => {
+        loading.hideProgressDialog()
+      });
+
+    } else {
+      ToastView.displaySnackBar(result);
+    }
   }
 }
