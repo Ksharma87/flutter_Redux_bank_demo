@@ -2,15 +2,31 @@ import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:base/src/base/stateful/base_stateful_state.dart';
 import 'package:base/src/base/stateful/base_stateful_screen.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/dashboard/dashboard_page.dart';
+import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_viewmodel.dart';
 import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_widget.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
+import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
+import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
+import 'package:flutter_redux_bank/redux/store/dashboard/bottom_nav_actions.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 
-class DashBoardController extends BaseStateFullState<DashboardPage> with BaseStatefulScreen {
+class DashBoardController extends BaseStateFullState<DashboardPage>
+    with BaseStatefulScreen {
+
   @override
   Widget body() {
-    return const DashboardWidget();
+    return StoreConnector<AppState, DashboardViewModel>(
+        distinct: true,
+        converter: (store) {
+          return DashboardViewModel.fromStore(store);
+        },
+        builder: (BuildContext context, DashboardViewModel vm) {
+          return Builder(builder: (BuildContext context) {
+            return DashboardWidget(index: vm.bottomNavState.index);
+          });
+        });
   }
 
   @override
@@ -19,24 +35,30 @@ class DashBoardController extends BaseStateFullState<DashboardPage> with BaseSta
   }
 
   @override
+  Color rootBackgroundColor() {
+    return Colors.white;
+  }
+
+  @override
   PreferredSizeWidget? appBar() {
     String title =
         "${AppLocalization.localizations!.noida} ${AppLocalization.localizations!.bank}";
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorsTheme.primaryColor,
       toolbarHeight: 60,
       title: Text(title,
           style: const TextStyle(
               fontFamily: 'Roboto Regular',
               fontSize: 20,
               fontWeight: FontWeight.w100,
-              color: ColorsTheme.primaryColor)),
+              color: Colors.white)),
     );
   }
 
   @override
   Widget? bottomNavigationBar() {
-    return FluidNavBar(
+    return SafeArea(
+        child: FluidNavBar(
       icons: [
         FluidNavBarIcon(
             icon: Icons.home,
@@ -51,7 +73,7 @@ class DashBoardController extends BaseStateFullState<DashboardPage> with BaseSta
             backgroundColor: ColorsTheme.secondColor,
             extras: {"label": "profile"}),
       ],
-      //onChange: _handleNavigationChange,
+      onChange: _handleNavigationChange,
       style: const FluidNavBarStyle(
           iconSelectedForegroundColor: ColorsTheme.primaryColor,
           iconUnselectedForegroundColor: Colors.white,
@@ -63,6 +85,10 @@ class DashBoardController extends BaseStateFullState<DashboardPage> with BaseSta
         label: icon.extras!["label"],
         child: item,
       ),
-    );
+    ));
+  }
+
+  void _handleNavigationChange(int index) {
+    store.dispatch(BottomTabChange(index: index));
   }
 }

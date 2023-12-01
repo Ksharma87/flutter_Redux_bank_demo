@@ -45,12 +45,26 @@ class RestApi {
     }
   }
 
-  Future<void> updateProfile(UpdateProfileRequest request) async {
+  Future<bool> updateProfile(UpdateProfileRequest request) async {
     String url = ApiServices.updateProfile;
     http.Response response =
     await restApiConfig.httpCallPost(url, request.toString());
-    final json = jsonDecode(response.body);
-    print(json);
+    if (response.statusCode == ApiServices.apiStatusSuccessful) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> getProfile(String request) async {
+    String url = ApiServices.getProfile;
+    http.Response response =
+    await restApiConfig.httpCallPost(url, request);
+    if (response.statusCode == ApiServices.apiStatusSuccessful) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

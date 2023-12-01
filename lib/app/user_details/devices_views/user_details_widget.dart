@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/user_details/devices_views/user_details_viewmodel.dart';
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
@@ -26,7 +25,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
   final TextEditingController _firstName = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
   final TextEditingController _mobileNumber = TextEditingController();
-  bool isMale = true;
+  late UserDetailsViewModel userDetailsViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -192,11 +191,11 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
     return StoreConnector<AppState, UserDetailsViewModel>(
         distinct: true,
         converter: (store) {
-          return UserDetailsViewModel.fromStore(store);
+          userDetailsViewModel = UserDetailsViewModel.fromStore(store);
+          return userDetailsViewModel;
         },
         builder: (BuildContext context, UserDetailsViewModel vm) {
           return Builder(builder: (BuildContext context) {
-            isMale = vm.detailsState.isMale;
             print('${vm.detailsState.mobileNumber}  ${vm.detailsState.isMale}');
             return Row(
               children: [
@@ -222,22 +221,14 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
     String? result = _validation.validateUserDetails(_firstName.text.toString(),
         _lastName.text.toString(), _mobileNumber.text.toString());
     if (result == null) {
-      final loading = LoadingProgressDialog();
-      loading.showProgressDialog();
-      store.dispatch(UserDetailsSubmit(
-          firstName: _firstName.text.toString(),
-          lastName: _lastName.text.toString(),
-          mobileNumber: _mobileNumber.text.toString(),
-          gender: isMale));
-
       final Completer completer = Completer();
-      completer.future.then((value) => {
-
-      });
-      completer.future.whenComplete(() => {
-        loading.hideProgressDialog()
-      });
-
+      userDetailsViewModel.userDetailsSubmitApi(
+          UserDetailsSubmit(
+              firstName: _firstName.text.toString(),
+              lastName: _lastName.text.toString(),
+              mobileNumber: _mobileNumber.text.toString(),
+              gender: userDetailsViewModel.detailsState.isMale, completer: completer),
+          completer);
     } else {
       ToastView.displaySnackBar(result);
     }

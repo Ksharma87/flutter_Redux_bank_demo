@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux_bank/app/account/devices_views/account_widget.dart';
+import 'package:flutter_redux_bank/app/payment/devices_views/payment_widget.dart';
+import 'package:flutter_redux_bank/app/profile/devices_views/profile_widget.dart';
 
-class DashboardWidget extends StatefulWidget {
-  const DashboardWidget({super.key});
+class DashboardWidget extends StatelessWidget {
+  final int index;
+  final List<Widget> list = [
+    const AccountWidget(),
+    const PaymentWidget(),
+    const ProfileWidget()
+  ];
 
-  @override
-  State<DashboardWidget> createState() => _DashboardWidgetState();
-}
+  DashboardWidget({super.key, required this.index});
 
-class _DashboardWidgetState extends State<DashboardWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return list[index];
   }
 }

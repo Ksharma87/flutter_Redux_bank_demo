@@ -15,9 +15,14 @@ class ProfileRepositoryImpl implements ProfileRepository {
   ProfileRepositoryImpl({required this.restApi});
 
   @override
-  Future<void> doUpdateProfile(
+  Future<bool> doUpdateProfile(
       String idToken, String displayName, String photoUrl) async {
     return await restApi.updateProfile(UpdateProfileRequest(
         idToken: idToken, displayName: displayName, photoUrl: photoUrl));
+  }
+
+  @override
+  Future<bool> doGetProfile(String idToken) async {
+    return await restApi.getProfile(idToken);
   }
 }

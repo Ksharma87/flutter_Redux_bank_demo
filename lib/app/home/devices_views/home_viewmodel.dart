@@ -2,6 +2,7 @@ import 'package:flutter_redux_bank/common/auth_type.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:redux/redux.dart';
 
 class HomeViewModel {
@@ -17,10 +18,5 @@ class HomeViewModel {
   void createAccount() {
     _store.dispatch(NavigateToAction.push(AppRouter.LOGIN_PAGE,
         arguments: AuthType.CREATE_ACCOUNT.toString()));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return true;
   }
 }

@@ -11,8 +11,12 @@ class ProfileUseCase {
 
   ProfileUseCase({required this.profileRepository});
 
-  Future<void> invokeUpdateProfile(String idToken, String displayName, String photoUrl) async {
+  Future<bool> invokeUpdateProfile(String idToken, String displayName, String photoUrl) async {
     return await profileRepository.doUpdateProfile(idToken, displayName, photoUrl);
+  }
+
+  Future<bool> invokeGetProfile(String idToken) async {
+    return await profileRepository.doGetProfile(idToken);
   }
 
 }
