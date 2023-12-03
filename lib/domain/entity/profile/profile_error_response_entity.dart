@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
+@immutable
 class ProfileResponseErrorEntity extends Equatable {
 
   String errorMsg;
@@ -9,6 +11,5 @@ class ProfileResponseErrorEntity extends Equatable {
 });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [errorMsg];
 }
