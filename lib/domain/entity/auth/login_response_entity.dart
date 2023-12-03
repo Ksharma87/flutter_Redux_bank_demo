@@ -17,7 +17,7 @@ class LoginResponseEntity extends Equatable {
     required this.email,
     required this.displayName,
     required this.idToken,
-    });
+  });
 
   @override
   List<Object?> get props =>

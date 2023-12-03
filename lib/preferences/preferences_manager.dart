@@ -1,16 +1,12 @@
+import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @injectable
+@singleton
 class PreferencesManager {
-  PreferencesManager._internal();
 
-  static final PreferencesManager _instance = PreferencesManager._internal();
   static SharedPreferences? prefs;
-
-  factory PreferencesManager() {
-    return _instance;
-  }
 
   static initManager() async {
     prefs = await SharedPreferences.getInstance();
@@ -22,5 +18,9 @@ class PreferencesManager {
 
   String? getPreferencesValue(String key) {
     return prefs?.getString(key);
+  }
+
+  String? getUid() {
+    return prefs?.getString(PreferencesContents.userUid);
   }
 }

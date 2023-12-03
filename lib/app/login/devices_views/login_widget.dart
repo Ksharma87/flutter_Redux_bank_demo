@@ -11,29 +11,16 @@ import 'package:flutter_redux_bank/redux/store/app/store.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
 
-class LoginWidget extends StatefulWidget {
+class LoginWidget extends StatelessWidget {
   final String authType;
 
-  const LoginWidget({super.key, required this.authType});
+  LoginWidget({super.key, required this.authType});
 
-  @override
-  State<LoginWidget> createState() => _LoginWidgetState();
-}
-
-class _LoginWidgetState extends State<LoginWidget> {
-
-  bool isLogin = true;
+  late bool isLogin = (authType.toString() == AuthType.LOGIN.toString());
   late String buttonLabel;
-  late Validation _validation;
+  final Validation _validation = getIt<Validation>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    isLogin = (widget.authType.toString() == AuthType.LOGIN.toString());
-    _validation = getIt<Validation>();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +69,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       borderSide: BorderSide(
                                           width: 1, color: Colors.grey),
                                     ),
-                                    labelStyle: const TextStyle(color: ColorsTheme.secondColor),
-                                    labelText: AppLocalization.localizations!.email,
+                                    labelStyle: const TextStyle(
+                                        color: ColorsTheme.secondColor),
+                                    labelText:
+                                        AppLocalization.localizations!.email,
                                   ),
                                 ),
                               )),
@@ -102,7 +91,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   ),
                                   obscureText: true,
                                   decoration: InputDecoration(
-                                    hintStyle: const TextStyle(color: ColorsTheme.secondColor),
+                                    hintStyle: const TextStyle(
+                                        color: ColorsTheme.secondColor),
                                     focusColor: ColorsTheme.secondColor,
                                     focusedBorder: const UnderlineInputBorder(
                                       //<-- SEE HERE
@@ -115,8 +105,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       borderSide: BorderSide(
                                           width: 1, color: Colors.grey),
                                     ),
-                                    labelStyle: const TextStyle(color: ColorsTheme.secondColor),
-                                    labelText: AppLocalization.localizations!.password,
+                                    labelStyle: const TextStyle(
+                                        color: ColorsTheme.secondColor),
+                                    labelText:
+                                        AppLocalization.localizations!.password,
                                   ),
                                 ),
                               )),
@@ -153,9 +145,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         bottom: 10),
                                     child: Text(
                                         isLogin
-                                            ? AppLocalization.localizations!.login
+                                            ? AppLocalization
+                                                .localizations!.login
                                                 .toUpperCase()
-                                            : AppLocalization.localizations!.createAccount
+                                            : AppLocalization
+                                                .localizations!.createAccount
                                                 .toUpperCase(),
                                         style: const TextStyle(
                                             fontFamily: 'Roboto Regular',
@@ -166,9 +160,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ])),
                     Expanded(
                       child: Align(
-                        alignment: FractionalOffset.bottomCenter,
-                        child: Container(height: 60, color: ColorsTheme.bottomColor)
-                      ),
+                          alignment: FractionalOffset.bottomCenter,
+                          child: Container(
+                              height: 60, color: ColorsTheme.bottomColor)),
                     ),
                   ]);
             },

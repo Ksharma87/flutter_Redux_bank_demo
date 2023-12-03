@@ -1,5 +1,8 @@
+import 'package:flutter_redux_bank/data/models/profile/profile_response.dart';
 import 'package:flutter_redux_bank/domain/entity/auth/login_response_entity.dart';
 import 'package:flutter_redux_bank/domain/entity/auth/login_error_response_entity.dart';
+import 'package:flutter_redux_bank/domain/entity/profile/profile_error_response_entity.dart';
+import 'package:flutter_redux_bank/domain/entity/profile/profile_response_entity.dart';
 import 'package:flutter_redux_bank/domain/repositories/auth/auth_repository.dart';
 import 'package:flutter_redux_bank/domain/repositories/profile/profile_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -11,12 +14,21 @@ class ProfileUseCase {
 
   ProfileUseCase({required this.profileRepository});
 
-  Future<bool> invokeUpdateProfile(String idToken, String displayName, String photoUrl) async {
-    return await profileRepository.doUpdateProfile(idToken, displayName, photoUrl);
+  Future<bool> invokeUpdateProfile(String email, String firstName, String lastName, String mobileNumber, String gender) async {
+    return await profileRepository.doUpdateProfile(email, firstName, lastName, mobileNumber, gender);
   }
 
-  Future<bool> invokeGetProfile(String idToken) async {
-    return await profileRepository.doGetProfile(idToken);
+  Future<bool> invokeUpdateIdentity(String email, String mobileNumber, String uid) async {
+    return await profileRepository.doUpdateIdentity(email, mobileNumber, uid);
+  }
+
+  Future<bool> invokeUniqueMobileNumber(String mobileNumber) async {
+    return await profileRepository.doUniqueMobileNumber(mobileNumber);
+  }
+
+  Future<result_type.Result<ProfileResponseEntity, ProfileResponseErrorEntity>> invokeGetUserProfile(String idToken, String uid) async {
+    final response = await profileRepository.doGetProfile(idToken, uid);
+    return response;
   }
 
 }

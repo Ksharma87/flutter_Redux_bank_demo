@@ -1,12 +1,19 @@
 class UpdateProfileRequest {
-  String idToken;
-  String displayName;
-  String photoUrl;
+  String email;
+  String firstName;
+  String lastName;
+  String mobileNumber;
+  String gender;
 
-  UpdateProfileRequest({this.idToken = "", this.displayName = "", this.photoUrl = ""});
+  UpdateProfileRequest(
+      {this.email = "",
+      this.firstName = "",
+      this.lastName = "",
+      this.mobileNumber = "",
+      this.gender = ""});
 
   @override
   String toString() {
-    return "{\"idToken\": \"$idToken\", \"displayName\": \"$displayName\",  \"photoUrl\": \"$photoUrl\"}";
+    return "{\"email\": \"$email\", \"firstName\": \"$firstName\",  \"lastName\": \"$lastName\", \"mobileNumber\": \"$mobileNumber\",  \"gender\": \"$gender\"}";
   }
 }

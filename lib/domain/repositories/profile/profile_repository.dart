@@ -1,7 +1,15 @@
+import 'package:flutter_redux_bank/domain/entity/profile/profile_error_response_entity.dart';
+import 'package:flutter_redux_bank/domain/entity/profile/profile_response_entity.dart';
+import 'package:multiple_result/multiple_result.dart';
+
 abstract class ProfileRepository {
+  Future<bool> doUpdateProfile(String email, String firstName, String lastName,
+      String mobileNumber, String gender);
 
-  Future<bool> doUpdateProfile(String idToken, String displayName, String photoUrl);
+  Future<bool> doUpdateIdentity(String email, String mobileNumber, String uid);
 
-  Future<bool> doGetProfile(String idToken);
+  Future<bool> doUniqueMobileNumber(String mobileNumber);
 
+  Future<Result<ProfileResponseEntity, ProfileResponseErrorEntity>>
+      doGetProfile(String idToken, String uid);
 }

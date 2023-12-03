@@ -40,12 +40,9 @@ class LoginViewModel {
 
   static _authResponseHandle(
       Store<AppState> store, dynamic action, Completer completer) {
-    final loading = LoadingProgressDialog();
-    loading.showProgressDialog();
     store.dispatch(action);
     completer.future.then((value) => {
-          loading.hideProgressDialog(),
-          value is LoginResponseEntity
+      value is LoginResponseEntity
               ? {saveUserDetails(value), _moveDashBoardScreen(store, action)}
               : errorMessageFilters(value)
         });
@@ -68,9 +65,11 @@ class LoginViewModel {
   static saveUserDetails(LoginResponseEntity response) {
     PreferencesManager preferencesManager = getIt<PreferencesManager>();
     preferencesManager.setPreferencesValue(
+        PreferencesContents.userUid, response.localId);
+    preferencesManager.setPreferencesValue(
         PreferencesContents.loginToken, response.idToken);
     preferencesManager.setPreferencesValue(
-        PreferencesContents.displayName, response.displayName);
+        PreferencesContents.emailId, response.email);
   }
 
   static errorMessageFilters(String value) {

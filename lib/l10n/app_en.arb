@@ -25,5 +25,7 @@
     "mobileNumber" : "Mobile Number",
     "male": "Male",
     "female": "Female",
-    "submit": "Submit"
+    "submit": "Submit",
+
+    "balance": "Balance"
 }

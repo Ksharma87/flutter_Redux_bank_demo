@@ -22,3 +22,28 @@ class UserDetailsSubmit extends Actions {
       required this.gender,
       required this.completer});
 }
+
+class UserUniqueMobileNumber extends Actions {
+  final String mobileNumber;
+  final Completer completer;
+  UserUniqueMobileNumber({required this.mobileNumber, required this.completer});
+}
+
+class UserUniqueMobileNumberVerify extends Actions {
+  UserUniqueMobileNumberVerify();
+}
+
+class UserUniqueMobileNumberExist extends Actions {
+  UserUniqueMobileNumberExist();
+}
+
+class UserIdentity extends Actions {
+  final String email;
+  final String mobileNumber;
+  final Completer completer;
+
+  UserIdentity(
+      {required this.email,
+      required this.mobileNumber,
+      required this.completer});
+}

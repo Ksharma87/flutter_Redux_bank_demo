@@ -1,14 +1,42 @@
 import 'package:flutter_redux_bank/data/data_sources/remote/api_services.dart';
+import 'package:flutter_redux_bank/di/injection.dart';
+import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
 
 @injectable
 class RestApiConfig {
 
-  Future<http.Response> httpCallPost(String url, String request) async {
+  Future<http.Response> patchHttpCall(String url, String request) async {
+    Uri uri = Uri.parse(url);
+    final http.Response response = await http.patch(uri, body: request.toString());
+    return response;
+  }
+
+  Future<http.Response> postHttpCall(String url, String request) async {
     Uri uri = Uri.parse(_getServerUrl(url).toString());
     final http.Response response = await http.post(uri, body: request.toString());
     return response;
+  }
+
+  Future<http.Response> getHttpCall(String url) async {
+    Uri uri = Uri.parse(url);
+    final http.Response response = await http.get(uri);
+    return response;
+  }
+
+  String getFireBaseDataBaseUrl(String url) {
+    String? uid = getIt<PreferencesManager>().getUid();
+    return "${ApiServices.firebase_Database_URL}$url${uid!}/.json";
+  }
+
+  String getFireBaseDataBaseIdentityKeyUrl(String url, String key) {
+    String? uid = getIt<PreferencesManager>().getUid();
+    return "${ApiServices.firebase_Database_URL}$url$key.json";
+  }
+
+  String getFireBaseDataBaseUrlIdentity(String url) {
+    return "${ApiServices.firebase_Database_URL}$url/.json";
   }
 
   String _getServerUrl(String url) {

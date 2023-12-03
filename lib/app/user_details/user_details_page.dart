@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:base/src/base/stateful/base_stateful_widget.dart';
+import 'package:base/src/base/stateless/base_stateless_widget.dart';
 import 'package:flutter_redux_bank/app/user_details/user_details_controller.dart';
 
-class UserDetailsPage extends BaseStatefulWidget {
-  const UserDetailsPage({super.key});
+class UserDetailsPage extends BaseStatelessWidget {
+  UserDetailsPage({super.key});
+
+  final UserDetailsController _userDetailsController = UserDetailsController();
 
   @override
-  State<UserDetailsPage> createState() => UserDetailsController();
+  Widget build(BuildContext context) {
+    return _userDetailsController.build(context);
+  }
 }
-
-

@@ -1,10 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/user_details/devices_views/user_details_viewmodel.dart';
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
+import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
+import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/details/details_actions.dart';
@@ -13,14 +14,9 @@ import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
 import 'package:redux/redux.dart';
 
-class UserDetailsWidget extends StatefulWidget {
-  const UserDetailsWidget({super.key});
+class UserDetailsWidget extends StatelessWidget {
+  UserDetailsWidget({super.key});
 
-  @override
-  State<UserDetailsWidget> createState() => _UserDetailsWidgetState();
-}
-
-class _UserDetailsWidgetState extends State<UserDetailsWidget> {
   late final Validation _validation = getIt<Validation>();
   final TextEditingController _firstName = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
@@ -196,7 +192,6 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
         },
         builder: (BuildContext context, UserDetailsViewModel vm) {
           return Builder(builder: (BuildContext context) {
-            print('${vm.detailsState.mobileNumber}  ${vm.detailsState.isMale}');
             return Row(
               children: [
                 Padding(
@@ -221,14 +216,20 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
     String? result = _validation.validateUserDetails(_firstName.text.toString(),
         _lastName.text.toString(), _mobileNumber.text.toString());
     if (result == null) {
-      final Completer completer = Completer();
+      final Completer completer1 = Completer();
+      final Completer completer2 = Completer();
+      PreferencesManager manager = getIt<PreferencesManager>();
       userDetailsViewModel.userDetailsSubmitApi(
+          UserIdentity(
+              email: manager.getPreferencesValue(PreferencesContents.emailId)!,
+              mobileNumber: _mobileNumber.text.toString(),
+              completer: completer1),
           UserDetailsSubmit(
               firstName: _firstName.text.toString(),
               lastName: _lastName.text.toString(),
               mobileNumber: _mobileNumber.text.toString(),
-              gender: userDetailsViewModel.detailsState.isMale, completer: completer),
-          completer);
+              gender: userDetailsViewModel.detailsState.isMale,
+              completer: completer2));
     } else {
       ToastView.displaySnackBar(result);
     }

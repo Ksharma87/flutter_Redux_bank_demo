@@ -19,7 +19,7 @@ class AppRouterConfiguration {
       case AppRouter.DASHBOARD:
         return _buildRoute(settings, const DashboardPage());
       case AppRouter.USER_INFO:
-        return _buildRoute(settings, const UserDetailsPage());
+        return _buildRoute(settings, UserDetailsPage());
       default:
         return _buildRoute(settings, HomePage());
     }
