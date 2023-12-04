@@ -10,17 +10,22 @@ class AuthUseCase {
 
   AuthUseCase({required this.authRepository});
 
-  Future<result_type.Result<LoginResponseEntity, LoginResponseErrorEntity>> invokeLoginPassword(String email, String pwd) async {
+  Future<result_type.Result<LoginResponseEntity, LoginResponseErrorEntity>>
+      invokeLoginPassword(String email, String pwd) async {
     final response = await authRepository.doLoginPassword(email, pwd);
     return response;
   }
 
-  Future<result_type.Result<LoginResponseEntity, LoginResponseErrorEntity>> invokeCreateAccount(String email, String pwd) async {
+  Future<result_type.Result<LoginResponseEntity, LoginResponseErrorEntity>>
+      invokeCreateAccount(String email, String pwd) async {
     return await authRepository.doCreateAccount(email, pwd);
+  }
+
+  Future<bool> invokeEmailLinkedDataBase(String email) async {
+    return await authRepository.doEmailLinkedDataBase(email);
   }
 
   Future<void> invokeLogout() async {
     return await authRepository.doLogout();
   }
-
 }

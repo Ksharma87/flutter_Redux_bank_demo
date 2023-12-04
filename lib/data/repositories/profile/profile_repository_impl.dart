@@ -42,6 +42,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<bool> doUniqueMobileNumber(String mobileNumber) async {
     String mobileNumberEncode = base64.encode(utf8.encode(mobileNumber));
-    return await restApi.getUniqueMobileNumber(mobileNumberEncode);
+    return await restApi.getUniqueMobileNumberEmail(mobileNumberEncode);
   }
 }

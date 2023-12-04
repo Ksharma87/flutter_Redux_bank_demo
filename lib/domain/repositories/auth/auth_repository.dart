@@ -8,5 +8,7 @@ abstract class AuthRepository {
 
   Future<result_type.Result<LoginResponseEntity, LoginResponseErrorEntity>> doCreateAccount(String email, String pwd);
 
+  Future<bool> doEmailLinkedDataBase(String email);
+
   Future<void> doLogout();
 }

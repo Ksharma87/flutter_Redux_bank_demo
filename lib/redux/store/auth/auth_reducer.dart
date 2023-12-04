@@ -7,13 +7,15 @@ Reducer<AuthState> authStateReducer = combineReducers<AuthState>([
   TypedReducer<AuthState, AuthLoggedIn>(_loggedIn).call,
   TypedReducer<AuthState, AuthError>(_loggedError).call,
   TypedReducer<AuthState, AuthLoggedOut>(_loggedOut).call,
+  TypedReducer<AuthState, AuthInitialization>(_init).call,
 
 ]);
 
 AuthState _loggedIn(AuthState authState, AuthLoggedIn action) {
   return authState.copyWith(
     token: action.token,
-    hasToken: action.token.isNotEmpty,
+    uid: action.uid,
+    isEmailLinked: action.isEmailLinked,
     isLoading: false, errorMsg: '',
   );
 }
@@ -21,7 +23,8 @@ AuthState _loggedIn(AuthState authState, AuthLoggedIn action) {
 AuthState _loggedOut(AuthState authState, AuthLoggedOut action) {
   return authState.copyWith(
     token: '',
-    hasToken: false,
+    uid: '',
+    isEmailLinked: false,
     isLoading: false, errorMsg: '',
   );
 }
@@ -29,7 +32,18 @@ AuthState _loggedOut(AuthState authState, AuthLoggedOut action) {
 AuthState _loggedError(AuthState authState, AuthError action) {
   return authState.copyWith(
     token: '',
-    hasToken: false,
+    uid: '',
+    isEmailLinked: false,
     isLoading: false, errorMsg: action.error!,
+  );
+}
+
+
+AuthState _init(AuthState authState, AuthInitialization action) {
+  return authState.copyWith(
+    token: '',
+    uid: '',
+    isEmailLinked: false,
+    isLoading: false, errorMsg: '',
   );
 }

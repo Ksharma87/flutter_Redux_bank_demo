@@ -4,7 +4,6 @@ import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
 import 'package:flutter_redux_bank/common/account_status.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
-import 'package:flutter_redux_bank/domain/entity/auth/login_response_entity.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
@@ -27,33 +26,19 @@ class LoginViewModel {
     return LoginViewModel(
         authState: store.state.authState,
         onLogin: (email, password) {
-          final Completer completer = Completer();
-          _authResponseHandle(
-              store, SignIn(completer, email, password), completer);
+          _authResponseHandle(store, SignIn(email, password));
         },
         onCreateAccount: (email, password) {
-          final Completer completer = Completer();
-          _authResponseHandle(
-              store, CreateAccount(completer, email, password), completer);
+          _authResponseHandle(store, CreateAccount(email, password));
         });
   }
 
-  static _authResponseHandle(
-      Store<AppState> store, dynamic action, Completer completer) {
+  static _authResponseHandle(Store<AppState> store, dynamic action) {
     store.dispatch(action);
-    completer.future.then((value) => {
-      value is LoginResponseEntity
-              ? {saveUserDetails(value), _moveDashBoardScreen(store, action)}
-              : errorMessageFilters(value)
-        });
   }
 
-  static _moveDashBoardScreen(Store<AppState> store, dynamic action) {
-    PreferencesManager preferencesManager = getIt<PreferencesManager>();
-    String? displayName =
-        preferencesManager.getPreferencesValue(PreferencesContents.displayName);
-
-    if (action is SignIn && displayName != null && displayName.isNotEmpty) {
+  moveDashBoardScreen(Store store, bool moveDashBoard) {
+    if (moveDashBoard) {
       store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
           AppRouter.DASHBOARD, (route) => false));
     } else {
@@ -62,17 +47,15 @@ class LoginViewModel {
     }
   }
 
-  static saveUserDetails(LoginResponseEntity response) {
+  saveUserDetails(String email, String idToken, String uid) {
     PreferencesManager preferencesManager = getIt<PreferencesManager>();
+    preferencesManager.setPreferencesValue(PreferencesContents.userUid, uid);
     preferencesManager.setPreferencesValue(
-        PreferencesContents.userUid, response.localId);
-    preferencesManager.setPreferencesValue(
-        PreferencesContents.loginToken, response.idToken);
-    preferencesManager.setPreferencesValue(
-        PreferencesContents.emailId, response.email);
+        PreferencesContents.loginToken, idToken);
+    preferencesManager.setPreferencesValue(PreferencesContents.emailId, email);
   }
 
-  static errorMessageFilters(String value) {
+  errorMessageFilters(String value) {
     if (value.compareTo(AccountApiStatus.EMAIL_NOT_FOUND.name.toString()) ==
         0) {
       ToastView.displaySnackBar("Account does not exist.");
@@ -80,6 +63,9 @@ class LoginViewModel {
                 AccountApiStatus.INVALID_PASSWORD.name.toString())) ==
             0 ||
         (value.compareTo(AccountApiStatus.INVALID_PASSWORD.name.toString())) ==
+            0 ||
+        (value.compareTo(
+                AccountApiStatus.INVALID_LOGIN_CREDENTIALS.name.toString())) ==
             0) {
       ToastView.displaySnackBar("user credentials mismatch");
     } else if (value.compareTo(AccountApiStatus.EMAIL_EXISTS.name.toString()) ==
@@ -89,7 +75,12 @@ class LoginViewModel {
   }
 
   @override
+  int get hashCode => authState.token.hashCode ^ authState.errorMsg.hashCode;
+
+  @override
   bool operator ==(Object other) {
-    return true;
+    LoginViewModel model = (other as LoginViewModel);
+    return authState.token == model.authState.token &&
+        authState.errorMsg == model.authState.errorMsg;
   }
 }

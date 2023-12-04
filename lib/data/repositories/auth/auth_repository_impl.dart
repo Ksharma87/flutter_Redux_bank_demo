@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_redux_bank/data/data_sources/remote/rest_api.dart';
 import 'package:flutter_redux_bank/data/models/auth/login_request.dart';
 import 'package:flutter_redux_bank/domain/entity/auth/login_response_entity.dart';
@@ -13,16 +15,25 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.restApi});
 
   @override
-  Future<Result<LoginResponseEntity, LoginResponseErrorEntity>> doCreateAccount(String email, String pwd) async {
-    return await restApi.createAccountApi(LoginRequest(email: email, password: pwd));
+  Future<Result<LoginResponseEntity, LoginResponseErrorEntity>> doCreateAccount(
+      String email, String pwd) async {
+    return await restApi
+        .createAccountApi(LoginRequest(email: email, password: pwd));
   }
 
   @override
   Future<Result<LoginResponseEntity, LoginResponseErrorEntity>> doLoginPassword(
       String email, String pwd) async {
-    return await restApi.loginWithPasswordApi(LoginRequest(email: email, password: pwd));
+    return await restApi
+        .loginWithPasswordApi(LoginRequest(email: email, password: pwd));
   }
 
   @override
   Future<void> doLogout() async {}
+
+  @override
+  Future<bool> doEmailLinkedDataBase(String email) async {
+    String emailEncode = base64.encode(utf8.encode(email));
+    return await restApi.getUniqueMobileNumberEmail(emailEncode);
+  }
 }

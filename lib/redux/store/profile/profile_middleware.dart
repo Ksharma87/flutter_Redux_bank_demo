@@ -1,4 +1,3 @@
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/domain/useCase/profile/profile_useCase.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
@@ -16,8 +15,6 @@ List<Middleware<AppState>> profileStoreAuthMiddleware() {
 
 Middleware<AppState> _getUserProfileRequest() {
   return (Store<AppState> store, action, NextDispatcher next) {
-    // LoadingProgressDialog dialog = LoadingProgressDialog();
-    // dialog.showProgressDialog();
     ProfileUseCase profileUseCase = getIt<ProfileUseCase>();
     PreferencesManager preferencesManager = getIt<PreferencesManager>();
     String? idToken =
@@ -25,11 +22,8 @@ Middleware<AppState> _getUserProfileRequest() {
     String? uid =
         preferencesManager.getPreferencesValue(PreferencesContents.userUid)!;
     profileUseCase.invokeGetUserProfile(idToken, uid).then((value) => {
-          value.whenError((error) => {
-          //  dialog.hideProgressDialog()
-          }),
+          value.whenError((error) => {}),
           value.whenSuccess((success) => {
-                //dialog.hideProgressDialog(),
                 store.dispatch(GetUserProfileLoaded(
                     email: success.email,
                     firstName: success.firstName,

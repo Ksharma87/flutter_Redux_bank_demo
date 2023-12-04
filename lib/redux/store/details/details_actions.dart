@@ -29,14 +29,6 @@ class UserUniqueMobileNumber extends Actions {
   UserUniqueMobileNumber({required this.mobileNumber, required this.completer});
 }
 
-class UserUniqueMobileNumberVerify extends Actions {
-  UserUniqueMobileNumberVerify();
-}
-
-class UserUniqueMobileNumberExist extends Actions {
-  UserUniqueMobileNumberExist();
-}
-
 class UserIdentity extends Actions {
   final String email;
   final String mobileNumber;

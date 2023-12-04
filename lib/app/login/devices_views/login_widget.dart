@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/login/devices_views/login_viewmodel.dart';
 import 'package:flutter_redux_bank/app/utils/custom_view/app_logo.dart';
+import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
 import 'package:flutter_redux_bank/common/auth_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/store.dart';
+import 'package:flutter_redux_bank/redux/store/auth/store.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
 
@@ -18,6 +20,7 @@ class LoginWidget extends StatelessWidget {
 
   late bool isLogin = (authType.toString() == AuthType.LOGIN.toString());
   late String buttonLabel;
+  final LoadingProgressDialog _loadingProgressDialog = LoadingProgressDialog();
   final Validation _validation = getIt<Validation>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -27,12 +30,25 @@ class LoginWidget extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       return StoreConnector<AppState, LoginViewModel>(
         distinct: true,
+        onDidChange: (oldViewModel, newViewModel) {
+          if (newViewModel.authState.token.isNotEmpty) {
+            newViewModel.saveUserDetails(_emailController.text.toString(),
+                newViewModel.authState.token, newViewModel.authState.uid);
+            newViewModel.moveDashBoardScreen(
+                store, newViewModel.authState.isEmailLinked);
+          } else if (newViewModel.authState.errorMsg.isNotEmpty) {
+            _loadingProgressDialog.hideProgressDialog();
+            newViewModel.errorMessageFilters(newViewModel.authState.errorMsg);
+            store.dispatch(AuthInitialization());
+          }
+        },
         converter: (store) {
           return LoginViewModel.fromStore(store);
         },
         builder: (BuildContext context, LoginViewModel vm) {
           return Builder(
             builder: (BuildContext context) {
+              print("BuildContext");
               return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -176,6 +192,7 @@ class LoginWidget extends StatelessWidget {
     String? result = _validation.validateLogin(
         _emailController.text.toString(), _passwordController.text.toString());
     if (result == null) {
+      _loadingProgressDialog.showProgressDialog();
       loginViewModel.onLogin(_emailController.text.toString(),
           _passwordController.text.toString());
     } else {

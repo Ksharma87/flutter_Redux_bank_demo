@@ -71,9 +71,9 @@ class RestApi {
     }
   }
 
-  Future<bool> getUniqueMobileNumber(String mobileNumber) async {
+  Future<bool> getUniqueMobileNumberEmail(String entity) async {
     String url = restApiConfig.getFireBaseDataBaseIdentityKeyUrl(
-        ApiServices.identity_prefix, mobileNumber);
+        ApiServices.identity_prefix, entity);
     http.Response response = await restApiConfig.getHttpCall(url);
     if (response.statusCode == ApiServices.apiStatusSuccessful) {
       if (response.body == "null") {

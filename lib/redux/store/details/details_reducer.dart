@@ -4,12 +4,6 @@ import 'package:redux/redux.dart';
 
 Reducer<DetailsState> detailsStateReducer = combineReducers<DetailsState>([
   TypedReducer<DetailsState, GenderSelectAction>(_genderSelected).call,
-  TypedReducer<DetailsState, UserUniqueMobileNumberVerify>(
-          _userUniqueMobileNumberVerify)
-      .call,
-  TypedReducer<DetailsState, UserUniqueMobileNumberExist>(
-          _userUniqueMobileNumberExist)
-      .call,
   TypedReducer<DetailsState, UserDetailsSubmit>(_userDetailsSubmit).call,
 ]);
 
@@ -20,26 +14,6 @@ DetailsState _genderSelected(
     lastName: '',
     mobileNumber: '',
     isMale: action.gender,
-  );
-}
-
-DetailsState _userUniqueMobileNumberExist(
-    DetailsState detailsState, UserUniqueMobileNumberExist action) {
-  return detailsState.copyWith(
-    firstName: '',
-    lastName: '',
-    mobileNumber: '',
-    isMale: true,
-  );
-}
-
-DetailsState _userUniqueMobileNumberVerify(
-    DetailsState detailsState, UserUniqueMobileNumberVerify action) {
-  return detailsState.copyWith(
-    firstName: '',
-    lastName: '',
-    mobileNumber: '',
-    isMale: true,
   );
 }
 
