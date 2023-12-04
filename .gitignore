@@ -8,7 +8,7 @@ build/
 .idea
 .dart_tool
 .android
-
+/.gradle/
 
 # Ignore a specific file
 secret.key
