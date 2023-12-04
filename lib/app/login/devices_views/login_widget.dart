@@ -31,16 +31,7 @@ class LoginWidget extends StatelessWidget {
       return StoreConnector<AppState, LoginViewModel>(
         distinct: true,
         onDidChange: (oldViewModel, newViewModel) {
-          if (newViewModel.authState.token.isNotEmpty) {
-            newViewModel.saveUserDetails(_emailController.text.toString(),
-                newViewModel.authState.token, newViewModel.authState.uid);
-            newViewModel.moveDashBoardScreen(
-                store, newViewModel.authState.isEmailLinked);
-          } else if (newViewModel.authState.errorMsg.isNotEmpty) {
-            _loadingProgressDialog.hideProgressDialog();
-            newViewModel.errorMessageFilters(newViewModel.authState.errorMsg);
-            store.dispatch(AuthInitialization());
-          }
+          _handleResponse(newViewModel);
         },
         converter: (store) {
           return LoginViewModel.fromStore(store);
@@ -186,6 +177,19 @@ class LoginWidget extends StatelessWidget {
         },
       );
     });
+  }
+
+  _handleResponse(LoginViewModel newViewModel) {
+    if (newViewModel.authState.token.isNotEmpty) {
+      newViewModel.saveUserDetails(_emailController.text.toString(),
+          newViewModel.authState.token, newViewModel.authState.uid);
+      newViewModel.moveDashBoardScreen(
+          store, newViewModel.authState.isEmailLinked);
+    } else if (newViewModel.authState.errorMsg.isNotEmpty) {
+      _loadingProgressDialog.hideProgressDialog();
+      newViewModel.errorMessageFilters(newViewModel.authState.errorMsg);
+      store.dispatch(AuthInitialization());
+    }
   }
 
   _onLoginClick(LoginViewModel loginViewModel) {
