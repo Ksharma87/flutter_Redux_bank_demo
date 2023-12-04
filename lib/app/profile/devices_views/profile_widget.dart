@@ -76,13 +76,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         ),
                                       ))),
                               SizedBox(
-                                child: Center(
-                                    child: vm.profileState.isMale ==
-                                            GenderType.MALE.name.toString()
-                                        ? profileImage(
-                                            ResourceConstants.maleProfileHolder)
-                                        : profileImage(ResourceConstants
-                                            .femaleProfileHolder)),
+                                child: Center(child: profileImageHolder(vm)),
                               )
                             ],
                           )),
@@ -138,7 +132,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   }
 
   Widget getQRImage(ProfileViewModel vm, BoxConstraints constraints) {
-    if(vm.profileState.mobileNumber.isNotEmpty) {
+    if (vm.profileState.mobileNumber.isNotEmpty) {
       return Padding(
           padding: const EdgeInsets.only(top: 30),
           child: QrImageView(
@@ -155,6 +149,16 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           ));
     } else {
       return const SizedBox();
+    }
+  }
+
+  Widget profileImageHolder(ProfileViewModel vm) {
+    if (vm.profileState.mobileNumber.isEmpty) {
+      return const SizedBox();
+    } else {
+      return vm.profileState.isMale == GenderType.MALE.name.toString()
+          ? profileImage(ResourceConstants.maleProfileHolder)
+          : profileImage(ResourceConstants.femaleProfileHolder);
     }
   }
 
