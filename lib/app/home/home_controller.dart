@@ -5,7 +5,7 @@ import 'package:base/src/base/stateless/base_stateless_screen.dart';
 
 class HomeController extends BaseStatelessScreen<HomePage> {
   @override
-  Widget body() {
+  Widget body(BoxConstraints constraints) {
     return HomeWidget();
   }
 

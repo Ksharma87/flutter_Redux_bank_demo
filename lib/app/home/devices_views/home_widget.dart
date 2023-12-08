@@ -1,3 +1,4 @@
+import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/app/home/devices_views/home_viewmodel.dart';
 import 'package:flutter_redux_bank/app/utils/custom_view/app_logo.dart';
@@ -7,16 +8,28 @@ import 'package:flutter_redux_bank/utils/app_localization.dart';
 
 class HomeWidget extends StatelessWidget {
   HomeWidget({super.key});
+
   final HomeViewModel _homeViewModel = HomeViewModel(store);
 
   @override
   Widget build(BuildContext context) {
+    store.state.bottomNavState.copyWith(index: 0);
     return body(context);
   }
 
   Widget body(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Expanded(child: AppLogo.logo(Colors.white, ColorsTheme.secondColor)),
+      Expanded(
+        child: ClipPath(
+          clipper: DirectionalWaveClipper(verticalPosition: VerticalPosition.bottom, horizontalPosition: HorizontalPosition.left),
+          child: Container(
+            padding: const EdgeInsets.only(bottom: 60),
+            color: ColorsTheme.secondColor,
+            alignment: Alignment.center,
+            child: AppLogo.logo(Colors.white, Colors.white),
+          ),
+        ),
+      ),
       Expanded(
           child: Padding(
               padding: const EdgeInsets.only(left: 50),
@@ -66,7 +79,7 @@ class HomeWidget extends StatelessWidget {
             padding: const EdgeInsets.all(0) //content padding inside button
             ),
         onPressed: () {
-           _homeViewModel.createAccount();
+          _homeViewModel.createAccount();
           //code to execute when this button is pressed.
         },
         child: Text(AppLocalization.localizations!.createAccount,

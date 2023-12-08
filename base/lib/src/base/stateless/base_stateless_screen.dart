@@ -8,12 +8,13 @@ abstract class BaseStatelessScreen<T extends StatelessWidget> {
 
   Widget? rootView() {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         extendBody: true,
         appBar: appBar(),
         drawer: drawer(),
         bottomNavigationBar: bottomNavigationBar(),
         backgroundColor: rootBackgroundColor(),
-        body: body());
+        body: _layoutBuilderBody());
   }
 
   bool isFullScreen() => false;
@@ -22,11 +23,17 @@ abstract class BaseStatelessScreen<T extends StatelessWidget> {
     return null;
   }
 
+  Widget _layoutBuilderBody() {
+    return LayoutBuilder(builder: (context, constraints) {
+      return body(constraints);
+    });
+  }
+
+  Widget body(BoxConstraints constraints);
+
   PreferredSizeWidget? appBar() {
     return null;
   }
-
-  Widget body();
 
   Widget? bottomNavigationBar() {
     return null;

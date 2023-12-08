@@ -5,7 +5,8 @@ import 'package:redux/redux.dart';
 class ProfileViewModel {
   final ProfileState profileState;
 
-  ProfileViewModel({required this.profileState,
+  ProfileViewModel({
+    required this.profileState,
   });
 
   static ProfileViewModel fromStore(Store<AppState> store) {

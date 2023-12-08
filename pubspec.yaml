@@ -53,6 +53,15 @@ dependencies:
   shared_preferences: ^2.2.2
   internet_connection_checker: ^1.0.0+1
   qr_flutter: ^4.1.0
+  money_formatter: ^0.0.5
+  custom_clippers: ^2.0.0
+  flutter_credit_card: ^4.0.1
+  flutter_screenutil: ^5.9.0
+  firebase_core: ^2.24.0
+  firebase_database: ^10.3.6
+  number_to_words_english: ^2.0.2
+  event_bus: ^2.0.0
+
 
 
 

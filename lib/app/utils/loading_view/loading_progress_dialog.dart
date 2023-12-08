@@ -5,18 +5,23 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class LoadingProgressDialog {
+  bool isLoading = false;
 
-  showProgressDialog() {
+  void showProgressDialog() {
     showDialog(
         barrierColor: Colors.black38,
         barrierDismissible: false,
         context: NavigatorHolder.navigatorKey.currentState!.context,
         builder: (BuildContext context) {
+          isLoading = true;
           return const LoadingProgressView();
         });
   }
 
-  hideProgressDialog() {
-    Navigator.pop(NavigatorHolder.navigatorKey.currentState!.context);
+  void hideProgressDialog() {
+    if (isLoading) {
+      isLoading = false;
+      Navigator.pop(NavigatorHolder.navigatorKey.currentState!.context);
+    }
   }
 }

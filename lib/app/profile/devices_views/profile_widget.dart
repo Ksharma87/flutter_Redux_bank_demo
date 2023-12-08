@@ -1,51 +1,57 @@
+import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/profile/devices_views/profile_viewModel.dart';
 import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
+import 'package:flutter_redux_bank/app/utils/profile_view/profile_view_utils.dart';
 import 'package:flutter_redux_bank/common/gender_type.dart';
+import 'package:flutter_redux_bank/common/money_format.dart';
 import 'package:flutter_redux_bank/common/string_extension.dart';
 import 'package:flutter_redux_bank/config/drawable/resource_constants.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
+import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
+import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
+import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/profile/profile_actions.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
+import 'package:flutter_redux_bank/utils/global_key_holder.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class ProfileWidget extends StatefulWidget {
-  const ProfileWidget({super.key});
+class ProfileWidget extends StatelessWidget {
+  ProfileWidget({super.key, required this.boxConstraints});
 
-  @override
-  State<ProfileWidget> createState() => _ProfileWidgetState();
-}
-
-class _ProfileWidgetState extends State<ProfileWidget> {
+  final BoxConstraints boxConstraints;
   final LoadingProgressDialog _progressDialog = LoadingProgressDialog();
+  final String? uid =
+      PreferencesManager().getPreferencesValue(PreferencesContents.userUid);
+  final ProfileViewUtils _profileViewUtils = ProfileViewUtils();
+
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return _body(constraints);
-    });
+    return _body(boxConstraints);
   }
 
   Widget _body(BoxConstraints constraints) {
     return StoreConnector<AppState, ProfileViewModel>(
         distinct: true,
         onInit: (store) {
-          store.dispatch(GetUserProfile());
-          print("onInit");
+          store.dispatch(InitUserProfile());
+          print("onInit ProfileWidget");
         },
         onWillChange: (oldVm, newVm) {
-          print("onWillChange");
+          print("onWillChange ProfileWidget");
         },
         onDidChange: (oldVm, newVm) {
-          print("onDidChange");
+          print("onDidChange ProfileWidget");
           if (newVm.profileState.mobileNumber.isNotEmpty) {
             _progressDialog.hideProgressDialog();
           }
         },
-        onInitialBuild: (vmModel) {
-          print("onInitialBuild");
+        onInitialBuild: (profileViewModel) {
+          print("onInitialBuild ProfileWidget");
+          store.dispatch(GetUserProfile(uid: uid!));
           _progressDialog.showProgressDialog();
         },
         converter: (store) {
@@ -53,7 +59,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
         },
         builder: (BuildContext context, ProfileViewModel vm) {
           return Builder(builder: (BuildContext context) {
-            print("build");
+            print("build ProfileWidget");
             return Column(
               children: [
                 Padding(
@@ -76,7 +82,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         ),
                                       ))),
                               SizedBox(
-                                child: Center(child: profileImageHolder(vm)),
+                                child: Center(child: _profileViewUtils.profileImageHolder(vm.profileState)),
                               )
                             ],
                           )),
@@ -89,7 +95,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text(profileName(vm),
+                                      Text(_profileViewUtils.profileName(vm.profileState),
                                           style: const TextStyle(
                                             fontFamily: 'Roboto Regular',
                                             fontSize: 20,
@@ -103,71 +109,76 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                       Text(
                                         AppLocalization.localizations!.balance,
                                         style: const TextStyle(
+                                          fontFamily: 'Roboto Regular',
                                           color: ColorsTheme.secondColor,
-                                          fontSize: 20,
+                                          fontSize: 28,
                                         ),
                                       ),
-                                      const Text("₹ 17,5260",
-                                          style: TextStyle(
+                                      Text(
+                                          (vm.profileState.balance)
+                                              .amountFormat(),
+                                          style: const TextStyle(
                                               color: ColorsTheme.secondColor,
-                                              fontFamily: 'Roboto Regular',
-                                              fontSize: 28,
+                                              fontFamily: 'Roboto Light',
+                                              fontSize: 20,
                                               fontWeight: FontWeight.bold))
                                     ],
                                   )))
                         ])),
                 getQRImage(vm, constraints),
+                Expanded(
+                  flex: 2,
+                  child: Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ClipPath(
+                            clipper: DirectionalWaveClipper(
+                                verticalPosition: VerticalPosition.top,
+                                horizontalPosition: HorizontalPosition.right),
+                            child: Container(
+                                height: 100,
+                                padding: const EdgeInsets.only(bottom: 0),
+                                color: ColorsTheme.secondColor,
+                                alignment: FractionalOffset.bottomCenter),
+                          ),
+                          Container(height: 45, color: ColorsTheme.bottomColor)
+                        ],
+                      )),
+                )
               ],
             );
           });
         });
   }
 
-  String profileName(ProfileViewModel viewModel) {
-    if (viewModel.profileState.firstName.isNotEmpty &&
-        viewModel.profileState.lastName.isNotEmpty) {
-      return "${viewModel.profileState.firstName.capitalize()} ${viewModel.profileState.lastName.capitalize()}";
-    }
-    return '';
-  }
-
   Widget getQRImage(ProfileViewModel vm, BoxConstraints constraints) {
+    PreferencesManager manager = PreferencesManager();
     if (vm.profileState.mobileNumber.isNotEmpty) {
-      return Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: QrImageView(
-            eyeStyle: QrEyeStyle(
-                eyeShape: vm.profileState.isMale == GenderType.MALE.name
-                    ? QrEyeShape.square
-                    : QrEyeShape.circle,
-                color: ColorsTheme.primaryColor),
-            foregroundColor: ColorsTheme.secondColor,
-            backgroundColor: Colors.white,
-            data: vm.profileState.mobileNumber,
-            version: QrVersions.auto,
-            size: constraints.maxHeight / 2,
-          ));
+      return SizedBox(
+          height: constraints.maxHeight / 2,
+          child: Center(
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 0),
+                  child: QrImageView(
+                    eyeStyle: QrEyeStyle(
+                        eyeShape: vm.profileState.isMale == GenderType.MALE.name
+                            ? QrEyeShape.square
+                            : QrEyeShape.circle,
+                        color: ColorsTheme.primaryColor),
+                    foregroundColor: ColorsTheme.secondColor,
+                    backgroundColor: Colors.white,
+                    data: manager
+                        .getPreferencesValue(PreferencesContents.userUid)!,
+                    version: QrVersions.auto,
+                    size: 2 * (constraints.maxWidth) / 3,
+                  ))));
     } else {
       return const SizedBox();
     }
   }
 
-  Widget profileImageHolder(ProfileViewModel vm) {
-    if (vm.profileState.mobileNumber.isEmpty) {
-      return const SizedBox();
-    } else {
-      return vm.profileState.isMale == GenderType.MALE.name.toString()
-          ? profileImage(ResourceConstants.maleProfileHolder)
-          : profileImage(ResourceConstants.femaleProfileHolder);
-    }
-  }
 
-  Widget profileImage(String uri) {
-    return Image.asset(
-      uri,
-      width: 145,
-      height: 145,
-      fit: BoxFit.cover,
-    );
-  }
 }

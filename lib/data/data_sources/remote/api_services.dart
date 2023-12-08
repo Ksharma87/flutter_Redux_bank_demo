@@ -10,6 +10,7 @@ class ApiServices {
    static const String user_prefix = "/users/";
    static const String accountDetails = "details/";
    static const String identity_prefix = "/identity/";
+   static const String bankAccount = "accounts/";
 
    // WebAPI KEY_Value firebase projects
    static const String WebAPI_KEY_Value = "AIzaSyDSFOpJ7KtAbUVPio-UXJx1SAVX91dH3W8";

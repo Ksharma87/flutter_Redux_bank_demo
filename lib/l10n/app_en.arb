@@ -18,6 +18,17 @@
     "lastNameInvalidation" : "Please enter valid last name",
     "mobileEmpty": "Please enter mobile number",
     "mobileInvalidation": "Please enter valid mobile number",
+    "mobileLinked": "This number already linked with other Account.",
+    "branch": "Branch",
+    "gaurCity": "Gaur City",
+    "accountNo": "Account No :",
+    "mPassbook": "m-PassBook",
+
+    "amountInvalidation": "amount is empty OR Zero",
+    "amountNotZero": "please enter the amount",
+    "payment": "PAYMENT",
+    "yourBalance": "Your Balance",
+    "enterTheAmount": "Enter the amount",
 
     "details": "Details",
     "firstname" : "First name",
@@ -27,5 +38,6 @@
     "female": "Female",
     "submit": "Submit",
 
-    "balance": "Balance"
+    "balance": "Balance",
+    "rupeeSymbol": "₹"
 }

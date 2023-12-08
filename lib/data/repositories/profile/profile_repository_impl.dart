@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_redux_bank/data/data_sources/remote/rest_api.dart';
-import 'package:flutter_redux_bank/data/models/profile/update_profile_request.dart';
+import 'package:flutter_redux_bank/data/models/profile/request/update_profile_request.dart';
 import 'package:flutter_redux_bank/domain/entity/profile/profile_error_response_entity.dart';
 import 'package:flutter_redux_bank/domain/entity/profile/profile_response_entity.dart';
 import 'package:flutter_redux_bank/domain/repositories/profile/profile_repository.dart';
@@ -36,7 +36,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Result<ProfileResponseEntity, ProfileResponseErrorEntity>>
       doGetProfile(String idToken, String uid) async {
-    return await restApi.getProfile();
+    return await restApi.getProfile(uid);
   }
 
   @override

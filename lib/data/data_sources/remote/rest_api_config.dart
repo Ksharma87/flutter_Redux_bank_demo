@@ -30,8 +30,15 @@ class RestApiConfig {
     return "${ApiServices.firebase_Database_URL}$url${uid!}/.json";
   }
 
+  String getProfileDetailsUrl(String url) {
+    return "${ApiServices.firebase_Database_URL}$url/.json";
+  }
+
+  String getUIDUrl(String url) {
+    return "${ApiServices.firebase_Database_URL}$url/.json";
+  }
+
   String getFireBaseDataBaseIdentityKeyUrl(String url, String key) {
-    String? uid = getIt<PreferencesManager>().getUid();
     return "${ApiServices.firebase_Database_URL}$url$key.json";
   }
 

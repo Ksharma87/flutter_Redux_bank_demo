@@ -1,3 +1,4 @@
+import 'package:flutter_redux_bank/redux/store/accounts/accounts_middleware.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_reducer.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/auth/auth_middleware.dart';
@@ -12,5 +13,6 @@ final store = Store<AppState>(appStateReducer,
       const NavigationMiddleware().call,
       ...createStoreAuthMiddleware(),
       ...detailsStoreAuthMiddleware(),
-      ...profileStoreAuthMiddleware()
+      ...profileStoreAuthMiddleware(),
+      ...accountStoreAuthMiddleware()
     ]);

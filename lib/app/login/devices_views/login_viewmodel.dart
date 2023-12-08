@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
 import 'package:flutter_redux_bank/common/account_status.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';

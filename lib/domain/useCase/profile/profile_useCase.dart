@@ -1,4 +1,4 @@
-import 'package:flutter_redux_bank/data/models/profile/profile_response.dart';
+import 'package:flutter_redux_bank/data/models/profile/response/profile_response.dart';
 import 'package:flutter_redux_bank/domain/entity/auth/login_response_entity.dart';
 import 'package:flutter_redux_bank/domain/entity/auth/login_error_response_entity.dart';
 import 'package:flutter_redux_bank/domain/entity/profile/profile_error_response_entity.dart';

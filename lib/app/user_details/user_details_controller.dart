@@ -8,8 +8,8 @@ import 'package:flutter_redux_bank/utils/app_localization.dart';
 class UserDetailsController extends BaseStatelessScreen<UserDetailsPage>  {
 
   @override
-  Widget body() {
-    return UserDetailsWidget();
+  Widget body(BoxConstraints constraints) {
+    return UserDetailsWidget(boxConstraints: constraints);
   }
 
   @override

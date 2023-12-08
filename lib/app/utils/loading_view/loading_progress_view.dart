@@ -9,7 +9,7 @@ class LoadingProgressView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BackdropFilter(
         filter: ImageFilter.blur(
-            sigmaX: 3.0, sigmaY: 3.0, tileMode: TileMode.mirror),
+            sigmaX: 12.0, sigmaY: 12.0, tileMode: TileMode.mirror),
         child: Container(
           alignment: FractionalOffset.center,
           child: const CircularProgressIndicator(

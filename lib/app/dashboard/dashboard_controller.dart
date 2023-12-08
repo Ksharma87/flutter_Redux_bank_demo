@@ -14,24 +14,27 @@ import 'package:flutter_redux_bank/utils/app_localization.dart';
 
 class DashBoardController extends BaseStateFullState<DashboardPage>
     with BaseStatefulScreen {
-
   @override
-  Widget body() {
+  Widget body(BoxConstraints constraints) {
     return StoreConnector<AppState, DashboardViewModel>(
         distinct: true,
+        onInit: (store) {
+          store.dispatch(BottomTabChange(index: 0));
+        },
         converter: (store) {
           return DashboardViewModel.fromStore(store);
         },
         builder: (BuildContext context, DashboardViewModel vm) {
           return Builder(builder: (BuildContext context) {
-            return DashboardWidget(index: vm.bottomNavState.index);
+            return DashboardWidget(
+                index: vm.bottomNavState.index, boxConstraints: constraints);
           });
         });
   }
 
   @override
   bool isFullScreen() {
-    return false;
+    return true;
   }
 
   @override
@@ -44,6 +47,23 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
     String title =
         "${AppLocalization.localizations!.noida} ${AppLocalization.localizations!.bank}";
     return AppBar(
+      actions: [
+        Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: IconButton(
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                  size: 24.0,
+                ),
+                onPressed: () => {
+                  Future.delayed(const Duration(milliseconds: 1000), () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, "/", (route) => false);
+                      })
+                    })),
+      ],
+      titleSpacing: 2,
       backgroundColor: ColorsTheme.primaryColor,
       toolbarHeight: 60,
       title: Text(title,

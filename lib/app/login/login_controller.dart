@@ -11,8 +11,11 @@ class LoginController extends BaseStatelessScreen<LoginPage> {
   LoginController({required this.authType});
 
   @override
-  Widget body() {
-    return LoginWidget(authType: authType);
+  Widget body(BoxConstraints constraints) {
+    return LoginWidget(
+      authType: authType,
+      boxConstraints: constraints,
+    );
   }
 
   @override

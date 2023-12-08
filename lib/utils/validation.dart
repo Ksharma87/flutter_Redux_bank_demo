@@ -96,4 +96,16 @@ class Validation {
     }
     return null;
   }
+
+  String? validateAmount(String value) {
+    if (value.isEmpty) {
+      return AppLocalization.localizations!.amountNotZero;
+    } else {
+      if (double.parse(value) == 0) {
+        return AppLocalization.localizations!.amountNotZero;
+      } else {
+        return null;
+      }
+    }
+  }
 }
