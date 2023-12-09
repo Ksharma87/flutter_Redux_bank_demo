@@ -13,7 +13,7 @@ class PaymentUseCase {
 
   PaymentUseCase({required this.paymentRepository});
 
-  Future<void> invokePayment(String selfUid, String paymentUid,
+  Future<bool> invokePayment(String selfUid, String paymentUid,
       String selfAmount, String otherAmount) async {
     return await paymentRepository.doPayment(
         selfUid, paymentUid, selfAmount, otherAmount);

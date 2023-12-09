@@ -19,4 +19,8 @@ class AccountsUseCase {
   Future<BankAccountResponseEntity> invokeBankAccountDetails(String uid) async {
     return await accountsRepository.getBankAccounts(uid);
   }
+
+  Future<String> invokeUpdateBalance(String uid) async {
+    return await accountsRepository.updatedBalance(uid);
+  }
 }

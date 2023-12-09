@@ -4,5 +4,5 @@ import 'package:flutter_redux_bank/domain/entity/profile/profile_response_entity
 import 'package:multiple_result/multiple_result.dart';
 
 abstract class PaymentRepository {
-  Future<void> doPayment(String selfUid, String paymentUid, String selfAmount, String otherAmount);
+  Future<bool> doPayment(String selfUid, String paymentUid, String selfAmount, String otherAmount);
 }

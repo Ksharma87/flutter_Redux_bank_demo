@@ -5,7 +5,7 @@ import 'package:flutter_redux_bank/app/login/devices_views/login_viewmodel.dart'
 import 'package:flutter_redux_bank/app/utils/custom_view/app_logo.dart';
 import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
-import 'package:flutter_redux_bank/common/auth_type.dart';
+import 'package:flutter_redux_bank/common/types/auth_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/redux/store/app/store.dart';

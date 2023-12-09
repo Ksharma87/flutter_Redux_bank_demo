@@ -8,4 +8,6 @@ abstract class AccountsRepository {
 
   Future<BankAccountResponseEntity> getBankAccounts(String uid);
 
+  Future<String> updatedBalance(String uid);
+
 }

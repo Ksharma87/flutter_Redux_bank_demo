@@ -20,6 +20,12 @@ class AccountsRepositoryImpl implements AccountsRepository {
   @override
   Future<BankAccountResponseEntity> getBankAccounts(String uid) async {
     return await restApi.getBankAccountDetails(uid);
-
   }
+
+  @override
+  Future<String> updatedBalance(String uid) async {
+   return await restApi.getUpdatedBalance(uid);
+  }
+
+
 }

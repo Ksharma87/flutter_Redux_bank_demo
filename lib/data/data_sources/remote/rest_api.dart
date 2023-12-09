@@ -118,8 +118,7 @@ class RestApi {
 
   Future<BankAccountResponseEntity> getBankAccountDetails(String uid) async {
     String url = restApiConfig.getProfileDetailsUrl(
-        ApiServices.user_prefix + ApiServices.bankAccount+ uid);
-    print(url);
+        ApiServices.user_prefix + ApiServices.bankAccount + uid);
     http.Response response = await restApiConfig.getHttpCall(url);
     final json = jsonDecode(response.body);
     if (response.statusCode == ApiServices.apiStatusSuccessful) {}
@@ -135,10 +134,21 @@ class RestApi {
     } else {}
   }
 
+  Future<String> getUpdatedBalance(String uid) async {
+    String url =
+        "https://redux-flutter-bank-default-rtdb.firebaseio.com/users/accounts/$uid/balance.json";
+    http.Response response = await restApiConfig.getHttpCall(url);
+    if (response.statusCode == ApiServices.apiStatusSuccessful) {
+      return response.body.replaceAll("\"", '');
+    } else {
+      return '';
+    }
+  }
+
   ////      payment Transfer ///////////
 
-  Future<void> paymentTransfer(
-      String selfUid, String paymentUid, String selfAmount, String otherAmount) async {
+  Future<bool> paymentTransfer(String selfUid, String paymentUid,
+      String selfAmount, String otherAmount) async {
     String selfUrl = restApiConfig.getProfileDetailsUrl(
         "${ApiServices.user_prefix}${ApiServices.bankAccount}$selfUid");
     String otherUrl = restApiConfig.getProfileDetailsUrl(
@@ -149,7 +159,9 @@ class RestApi {
         await restApiConfig.patchHttpCall(otherUrl, request2.toString());
     http.Response response2 =
         await restApiConfig.patchHttpCall(selfUrl, request1.toString());
-    if (response1.statusCode == ApiServices.apiStatusSuccessful &&
-        response2.statusCode == ApiServices.apiStatusSuccessful) {}
+    return (response1.statusCode == ApiServices.apiStatusSuccessful &&
+            response2.statusCode == ApiServices.apiStatusSuccessful)
+        ? true
+        : false;
   }
 }

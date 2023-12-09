@@ -19,17 +19,22 @@ class AccountsDetailsLoaded extends Actions {
       required this.displayName});
 }
 
+class InitAccountsDetails extends Actions {
+  InitAccountsDetails();
+}
+
 class CreateAccountsAction extends Actions {
   final Completer completer;
   final String uid;
   final String balance;
   final String accountNumber;
-  CreateAccountsAction(
-      {required this.completer,
-      required this.uid,
-      required this.balance,
-      required this.accountNumber,
-      });
+
+  CreateAccountsAction({
+    required this.completer,
+    required this.uid,
+    required this.balance,
+    required this.accountNumber,
+  });
 }
 
 class CreateAccountsSuccessful extends Actions {

@@ -1,4 +1,4 @@
-import 'package:flutter_redux_bank/common/user_details_type.dart';
+import 'package:flutter_redux_bank/common/types/user_details_type.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:injectable/injectable.dart';
 

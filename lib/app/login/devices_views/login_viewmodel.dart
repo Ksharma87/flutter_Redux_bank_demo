@@ -1,12 +1,14 @@
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
-import 'package:flutter_redux_bank/common/account_status.dart';
+import 'package:flutter_redux_bank/common/status/account_status.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
+import 'package:flutter_redux_bank/redux/store/accounts/accounts_actions.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/auth/auth_actions.dart';
 import 'package:flutter_redux_bank/redux/store/auth/auth_state.dart';
+import 'package:flutter_redux_bank/redux/store/profile/profile_actions.dart';
 import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:redux/redux.dart';
 
@@ -36,6 +38,12 @@ class LoginViewModel {
   }
 
   moveDashBoardScreen(Store store, bool moveDashBoard) {
+
+    PreferencesManager preferencesManager = PreferencesManager();
+    preferencesManager.setPreferencesValue(PreferencesContents.balance, '');
+    store.dispatch(InitUserProfile());
+    store.dispatch(InitAccountsDetails());
+
     if (moveDashBoard) {
       store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
           AppRouter.DASHBOARD, (route) => false));

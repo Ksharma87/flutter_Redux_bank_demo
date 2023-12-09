@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux_bank/common/gender_type.dart';
-import 'package:flutter_redux_bank/common/string_extension.dart';
+import 'package:flutter_redux_bank/common/types/gender_type.dart';
+import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
 import 'package:flutter_redux_bank/config/drawable/resource_constants.dart';
 import 'package:flutter_redux_bank/redux/store/profile/profile_state.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/app/login/devices_views/login_widget.dart';
 import 'package:flutter_redux_bank/app/login/login_page.dart';
-import 'package:base/src/base/stateless/base_stateless_screen.dart';
+import 'package:base/base_view.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 

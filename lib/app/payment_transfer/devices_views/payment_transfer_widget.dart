@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,17 +6,16 @@ import 'package:flutter_redux_bank/app/payment_transfer/devices_views/payment_tr
 import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/app/utils/profile_view/profile_view_utils.dart';
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
-import 'package:flutter_redux_bank/common/money_format.dart';
+import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
-import 'package:flutter_redux_bank/domain/useCase/payment/payment_useCase.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/profile/profile_actions.dart';
+import 'package:flutter_redux_bank/services/balance_service.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
-import 'package:flutter_redux_bank/utils/global_key_holder.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
 
 class PaymentTransferWidget extends StatelessWidget {
@@ -31,6 +28,8 @@ class PaymentTransferWidget extends StatelessWidget {
   final ProfileViewUtils _profileViewUtils = ProfileViewUtils();
   final TextEditingController _amountController = TextEditingController();
   final PreferencesManager _manager = PreferencesManager();
+  late String yourBalance = _manager.getPreferencesValue(PreferencesContents.balance)!;
+  final Stream<String> updateBalance = BalanceUpdateService().updateBalanceStream();
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +37,19 @@ class PaymentTransferWidget extends StatelessWidget {
         distinct: true,
         onInit: (store) {
           store.dispatch(InitUserProfile());
-          print("onInit");
+       //   print("onInit");
         },
         onWillChange: (oldVm, newVm) {
-          print("onWillChange");
+        //  print("onWillChange");
         },
         onDidChange: (oldVm, newVm) {
-          print("onDidChange");
+       //   print("onDidChange");
           if (newVm.profileState.mobileNumber.isNotEmpty) {
             _progressDialog.hideProgressDialog();
           }
         },
         onInitialBuild: (profileViewModel) {
-          print("onInitialBuild");
+       //   print("onInitialBuild");
           store.dispatch(GetUserProfile(uid: uid));
           _progressDialog.showProgressDialog();
         },
@@ -124,13 +123,7 @@ class PaymentTransferWidget extends StatelessWidget {
               children: [
                 Padding(
                     padding: const EdgeInsets.only(bottom: 20),
-                    child: Text(
-                        "${AppLocalization.localizations!.yourBalance} : ${_manager.getPreferencesValue(PreferencesContents.balance)}",
-                        style: const TextStyle(
-                            fontFamily: 'Roboto Regular',
-                            fontSize: 20,
-                            fontStyle: FontStyle.normal,
-                            color: ColorsTheme.secondColor))),
+                    child: balanceUpdate(yourBalance)),
                 SizedBox(
                   width: 200,
                   child: TextField(
@@ -241,51 +234,31 @@ class PaymentTransferWidget extends StatelessWidget {
       String ourAmount =
           _manager.getPreferencesValue(PreferencesContents.balance)!;
       String amtAmount = _amountController.text.toString();
-      if (isSufficientBalance(ourAmount, amtAmount)) {
-        paymentCall(vm, amtAmount, context);
+      if (vm.isSufficientBalance(ourAmount, amtAmount)) {
+        vm.paymentCall(uid, vm, amtAmount, context);
       } else {
-        ToastView.displaySnackBar("Insufficient Balance in Your Account.");
+        ToastView.displaySnackBar(
+            AppLocalization.localizations!.insufficientAmount);
       }
     } else {
       ToastView.displaySnackBar(amountMsg);
     }
   }
 
-  void paymentCall(
-      PaymentTransferViewModel vm, String amt, BuildContext context) {
-    //_progressDialog.showProgressDialog();
-    PaymentUseCase useCase = getIt<PaymentUseCase>();
-    useCase
-        .invokePayment(
-            _manager.getPreferencesValue(PreferencesContents.userUid)!,
-            uid,
-            yourUpdatedAmount(vm, amt),
-            otherUpdatedAmount(vm, amt))
-        .then((value) => {
-          Future.delayed(const Duration(seconds: 3), ()=>{
-              GlobalKeyHolder.event.fire("update"),
-              Navigator.pop(context)
-          })
+  Widget balanceUpdate(String balance) {
+    return StreamBuilder(
+        initialData: balance,
+        stream: updateBalance,
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          bool isData = snapshot.hasData;
+          String? value = isData ? snapshot.data : balance;
+          return Text(
+              '${AppLocalization.localizations!.yourBalance} ${(value!).amountFormat()}',
+              style: const TextStyle(
+                  color: ColorsTheme.secondColor,
+                  fontFamily: 'Roboto Light',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold));
         });
-  }
-
-  bool isSufficientBalance(String ourAmount, String amt) {
-    if (int.parse((ourAmount)) >= int.parse(amt)) {
-      return true;
-    }
-    return false;
-  }
-
-  String otherUpdatedAmount(PaymentTransferViewModel vm, String amt) {
-    int amtTransfer = int.parse(amt);
-    int other = int.parse(vm.profileState.balance);
-    return (other + amtTransfer).toString();
-  }
-
-  String yourUpdatedAmount(PaymentTransferViewModel vm, String amt) {
-    int amtTransfer = int.parse(amt);
-    int yourAmount =
-        int.parse(_manager.getPreferencesValue(PreferencesContents.balance)!);
-    return (yourAmount - amtTransfer).toString();
   }
 }

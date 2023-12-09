@@ -4,18 +4,14 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/profile/devices_views/profile_viewModel.dart';
 import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/app/utils/profile_view/profile_view_utils.dart';
-import 'package:flutter_redux_bank/common/gender_type.dart';
-import 'package:flutter_redux_bank/common/money_format.dart';
-import 'package:flutter_redux_bank/common/string_extension.dart';
-import 'package:flutter_redux_bank/config/drawable/resource_constants.dart';
+import 'package:flutter_redux_bank/common/types/gender_type.dart';
+import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
-import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
-import 'package:flutter_redux_bank/redux/store/profile/profile_actions.dart';
+import 'package:flutter_redux_bank/services/balance_service.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
-import 'package:flutter_redux_bank/utils/global_key_holder.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ProfileWidget extends StatelessWidget {
@@ -26,7 +22,8 @@ class ProfileWidget extends StatelessWidget {
   final String? uid =
       PreferencesManager().getPreferencesValue(PreferencesContents.userUid);
   final ProfileViewUtils _profileViewUtils = ProfileViewUtils();
-
+  final Stream<String> updateBalance =
+      BalanceUpdateService().updateBalanceStream();
 
   @override
   Widget build(BuildContext context) {
@@ -37,23 +34,19 @@ class ProfileWidget extends StatelessWidget {
     return StoreConnector<AppState, ProfileViewModel>(
         distinct: true,
         onInit: (store) {
-          store.dispatch(InitUserProfile());
+          //store.dispatch(InitUserProfile());
           print("onInit ProfileWidget");
         },
         onWillChange: (oldVm, newVm) {
-          print("onWillChange ProfileWidget");
+
         },
         onDidChange: (oldVm, newVm) {
           print("onDidChange ProfileWidget");
-          if (newVm.profileState.mobileNumber.isNotEmpty) {
-            _progressDialog.hideProgressDialog();
-          }
+
         },
         onInitialBuild: (profileViewModel) {
           print("onInitialBuild ProfileWidget");
-          store.dispatch(GetUserProfile(uid: uid!));
-          _progressDialog.showProgressDialog();
-        },
+          },
         converter: (store) {
           return ProfileViewModel.fromStore(store);
         },
@@ -82,7 +75,9 @@ class ProfileWidget extends StatelessWidget {
                                         ),
                                       ))),
                               SizedBox(
-                                child: Center(child: _profileViewUtils.profileImageHolder(vm.profileState)),
+                                child: Center(
+                                    child: _profileViewUtils
+                                        .profileImageHolder(vm.profileState)),
                               )
                             ],
                           )),
@@ -95,7 +90,9 @@ class ProfileWidget extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text(_profileViewUtils.profileName(vm.profileState),
+                                      Text(
+                                          _profileViewUtils
+                                              .profileName(vm.profileState),
                                           style: const TextStyle(
                                             fontFamily: 'Roboto Regular',
                                             fontSize: 20,
@@ -114,14 +111,7 @@ class ProfileWidget extends StatelessWidget {
                                           fontSize: 28,
                                         ),
                                       ),
-                                      Text(
-                                          (vm.profileState.balance)
-                                              .amountFormat(),
-                                          style: const TextStyle(
-                                              color: ColorsTheme.secondColor,
-                                              fontFamily: 'Roboto Light',
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold))
+                                      balanceUpdate(vm)
                                     ],
                                   )))
                         ])),
@@ -180,5 +170,27 @@ class ProfileWidget extends StatelessWidget {
     }
   }
 
+  Widget balanceUpdate(ProfileViewModel viewModel) {
+    PreferencesManager manager =  PreferencesManager();
+    String balance = manager.getPreferencesValue(PreferencesContents.balance) ?? '';
+    return StreamBuilder(
+        initialData: balance,
+        stream: updateBalance,
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          bool isData = snapshot.hasData;
+          if (isData) {
+            manager.saveBalance(snapshot.data!);
+          }
+          String? value =
+              isData ? snapshot.data : balance;
 
+          print("profile-Stream");
+          return Text((value!).amountFormat(),
+              style: const TextStyle(
+                  color: ColorsTheme.secondColor,
+                  fontFamily: 'Roboto Light',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold));
+        });
+  }
 }

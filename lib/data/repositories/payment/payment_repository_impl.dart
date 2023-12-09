@@ -13,7 +13,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
   PaymentRepositoryImpl({required this.restApi});
 
   @override
-  Future<void> doPayment(String selfUid, String paymentUid, String selfAmount, String otherAmount) async {
-   restApi.paymentTransfer(selfUid, paymentUid, selfAmount, otherAmount);
+  Future<bool> doPayment(String selfUid, String paymentUid, String selfAmount, String otherAmount) async {
+   return restApi.paymentTransfer(selfUid, paymentUid, selfAmount, otherAmount);
   }
 }

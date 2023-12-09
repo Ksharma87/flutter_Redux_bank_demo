@@ -1,7 +1,6 @@
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:base/src/base/stateful/base_stateful_state.dart';
-import 'package:base/src/base/stateful/base_stateful_screen.dart';
+import 'package:base/base_view.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/dashboard/dashboard_page.dart';
 import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_viewmodel.dart';
@@ -88,6 +87,10 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
             icon: Icons.payments_rounded,
             backgroundColor: ColorsTheme.secondColor,
             extras: {"label": "payment"}),
+        FluidNavBarIcon(
+            icon: Icons.book_online_outlined,
+            backgroundColor: ColorsTheme.secondColor,
+            extras: {"label": "passbook"}),
         FluidNavBarIcon(
             icon: Icons.account_box_sharp,
             backgroundColor: ColorsTheme.secondColor,

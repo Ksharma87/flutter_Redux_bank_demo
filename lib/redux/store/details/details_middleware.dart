@@ -1,4 +1,4 @@
-import 'package:flutter_redux_bank/common/gender_type.dart';
+import 'package:flutter_redux_bank/common/types/gender_type.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/domain/useCase/profile/profile_useCase.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';

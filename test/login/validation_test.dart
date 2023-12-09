@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux_bank/common/user_details_type.dart';
+import 'package:flutter_redux_bank/common/types/user_details_type.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
 import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';

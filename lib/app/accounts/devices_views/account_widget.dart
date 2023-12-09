@@ -1,54 +1,51 @@
 import 'package:custom_clippers/custom_clippers.dart';
-import 'package:event_bus/event_bus.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/accounts/devices_views/account_viewmodel.dart';
 import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
-import 'package:flutter_redux_bank/common/money_format.dart';
-import 'package:flutter_redux_bank/common/string_extension.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
+import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
-import 'package:flutter_redux_bank/data/data_sources/remote/api_services.dart';
+import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
+import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/accounts/accounts_actions.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
-import 'package:flutter_redux_bank/redux/store/profile/store.dart';
+import 'package:flutter_redux_bank/services/balance_service.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
-import 'package:flutter_redux_bank/utils/global_key_holder.dart';
-import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+
 
 class AccountWidget extends StatelessWidget {
   AccountWidget({super.key, required this.boxConstraints});
-
 
   final BoxConstraints boxConstraints;
   final LoadingProgressDialog _loadingProgressDialog = LoadingProgressDialog();
   final String appName =
       '${AppLocalization.localizations!.noida} ${(AppLocalization.localizations!.bank).capitalize()}';
+  final PreferencesManager _manager = PreferencesManager();
+  final Stream<String> updateBalance = BalanceUpdateService().updateBalanceStream();
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AccountViewModel>(
         distinct: true,
-        onInit: (store) {
-          addListener();
-          store.dispatch(GetAccountsDetails());
-        },
+        onInit: (store) {},
         onDispose: (store) {},
         onWillChange: (oldViewModel, newViewModel) {
-          print("calling-onWillChange");
-        },
-        onInitialBuild: (accountViewModel) {
-          if (accountViewModel.accountsState.balance.isEmpty) {
+          if (newViewModel.accountsState.balance.isEmpty) {
             _loadingProgressDialog.showProgressDialog();
           }
+          },
+        onInitialBuild: (accountViewModel) {
+          if (accountViewModel.accountsState.balance.isEmpty) {
+            _manager.saveBalance(accountViewModel.accountsState.balance);
+            _loadingProgressDialog.showProgressDialog();
+          }
+          store.dispatch(GetAccountsDetails());
         },
         onDidChange: (oldViewModel, newViewModel) {
           if (newViewModel.accountsState.balance.isNotEmpty) {
-            print("onDidChange--->");
-            newViewModel.saveBalance(newViewModel.accountsState.balance);
             _loadingProgressDialog.hideProgressDialog();
           }
         },
@@ -71,13 +68,7 @@ class AccountWidget extends StatelessWidget {
                               Padding(
                                   padding: const EdgeInsets.only(
                                       top: 30, bottom: 20),
-                                  child: Text(
-                                      (vm.accountsState.balance).amountFormat(),
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Roboto Regular',
-                                          fontSize: 26,
-                                          fontWeight: FontWeight.normal))),
+                                  child: balanceUpdate()),
                               Row(
                                 children: [
                                   Expanded(
@@ -242,10 +233,22 @@ class AccountWidget extends StatelessWidget {
         });
   }
 
-  void addListener() {
-    GlobalKeyHolder.event.on().listen((event) {
-      // Print the runtime type. Such a set up could be used for logging.
-      store.dispatch(GetAccountsDetails());
-    });
+
+
+  Widget balanceUpdate() {
+    return StreamBuilder(
+        stream: updateBalance,
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          if(snapshot.hasData) {_manager.saveBalance(snapshot.data!);}
+          String? value = snapshot.hasData
+              ? snapshot.data
+              : _manager.getPreferencesValue(PreferencesContents.balance) ?? '';
+          return Text((value!.amountFormat()),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Roboto Regular',
+                  fontSize: 26,
+                  fontWeight: FontWeight.normal));
+        });
   }
 }

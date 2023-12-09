@@ -6,7 +6,6 @@ class ProfileState {
   final String firstName;
   final String lastName;
   final String mobileNumber;
-  final String balance;
   final String email;
 
   const ProfileState(
@@ -14,7 +13,6 @@ class ProfileState {
       required this.lastName,
       required this.mobileNumber,
       required this.isMale,
-      required this.balance,
       required this.email});
 
   factory ProfileState.initial() {
@@ -23,7 +21,6 @@ class ProfileState {
         lastName: '',
         mobileNumber: '',
         isMale: '',
-        balance: '',
         email: '');
   }
 
@@ -39,7 +36,6 @@ class ProfileState {
         lastName: lastName,
         mobileNumber: mobileNumber,
         isMale: isMale,
-        balance: balance,
         email: email);
   }
 }

@@ -1,3 +1,6 @@
+import 'package:injectable/injectable.dart';
+
+@singleton
 class PreferencesContents {
 
   static const String loginToken = "login_token_key";

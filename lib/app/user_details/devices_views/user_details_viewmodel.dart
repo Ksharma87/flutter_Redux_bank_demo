@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
-import 'package:flutter_redux_bank/common/string_extension.dart';
+import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';

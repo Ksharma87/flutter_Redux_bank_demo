@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 @injectable
 @singleton
 class PreferencesManager {
-
   static SharedPreferences? prefs;
 
   static initManager() async {
@@ -22,5 +21,9 @@ class PreferencesManager {
 
   String? getUid() {
     return prefs?.getString(PreferencesContents.userUid);
+  }
+
+  void saveBalance(String balance) {
+    setPreferencesValue(PreferencesContents.balance, balance);
   }
 }

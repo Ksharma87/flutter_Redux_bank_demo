@@ -29,6 +29,7 @@
     "payment": "PAYMENT",
     "yourBalance": "Your Balance",
     "enterTheAmount": "Enter the amount",
+    "insufficientAmount": "Insufficient Balance in Your Account.",
 
     "details": "Details",
     "firstname" : "First name",
