@@ -17,11 +17,6 @@ class AccountViewModel {
     );
   }
 
-  void navigationPayment(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => PaymentTransferPage()));
-  }
-
   @override
   int get hashCode => accountsState.balance.hashCode;
 

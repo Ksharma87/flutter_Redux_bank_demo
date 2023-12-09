@@ -13,6 +13,13 @@ import 'package:flutter_redux_bank/utils/app_localization.dart';
 
 class DashBoardController extends BaseStateFullState<DashboardPage>
     with BaseStatefulScreen {
+  List<String> tabs = [
+    AppLocalization.localizations!.homeTab,
+    AppLocalization.localizations!.paymentTab,
+    AppLocalization.localizations!.passbookTab,
+    AppLocalization.localizations!.profileTab
+  ];
+
   @override
   Widget body(BoxConstraints constraints) {
     return StoreConnector<AppState, DashboardViewModel>(
@@ -41,10 +48,29 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
     return Colors.white;
   }
 
+  Widget toolBarTitle() {
+    return StoreConnector<AppState, DashboardViewModel>(
+        distinct: true,
+        onInit: (store) {
+          store.dispatch(BottomTabChange(index: 0));
+        },
+        converter: (store) {
+          return DashboardViewModel.fromStore(store);
+        },
+        builder: (BuildContext context, DashboardViewModel vm) {
+          return Builder(builder: (BuildContext context) {
+            return Text(tabs[vm.bottomNavState.index],
+                style: const TextStyle(
+                    fontFamily: 'Roboto Regular',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w100,
+                    color: Colors.white));
+          });
+        });
+  }
+
   @override
   PreferredSizeWidget? appBar() {
-    String title =
-        "${AppLocalization.localizations!.noida} ${AppLocalization.localizations!.bank}";
     return AppBar(
       actions: [
         Padding(
@@ -56,7 +82,7 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
                   size: 24.0,
                 ),
                 onPressed: () => {
-                  Future.delayed(const Duration(milliseconds: 1000), () {
+                      Future.delayed(const Duration(milliseconds: 1000), () {
                         Navigator.pushNamedAndRemoveUntil(
                             context, "/", (route) => false);
                       })
@@ -65,12 +91,7 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
       titleSpacing: 2,
       backgroundColor: ColorsTheme.primaryColor,
       toolbarHeight: 60,
-      title: Text(title,
-          style: const TextStyle(
-              fontFamily: 'Roboto Regular',
-              fontSize: 20,
-              fontWeight: FontWeight.w100,
-              color: Colors.white)),
+      title: toolBarTitle(),
     );
   }
 

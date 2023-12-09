@@ -28,8 +28,10 @@ class PaymentTransferWidget extends StatelessWidget {
   final ProfileViewUtils _profileViewUtils = ProfileViewUtils();
   final TextEditingController _amountController = TextEditingController();
   final PreferencesManager _manager = PreferencesManager();
-  late String yourBalance = _manager.getPreferencesValue(PreferencesContents.balance)!;
-  final Stream<String> updateBalance = BalanceUpdateService().updateBalanceStream();
+  late String yourBalance =
+      _manager.getPreferencesValue(PreferencesContents.balance)!;
+  final Stream<String> updateBalance =
+      BalanceUpdateService().updateBalanceStream();
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +39,14 @@ class PaymentTransferWidget extends StatelessWidget {
         distinct: true,
         onInit: (store) {
           store.dispatch(InitUserProfile());
-       //   print("onInit");
         },
-        onWillChange: (oldVm, newVm) {
-        //  print("onWillChange");
-        },
+        onWillChange: (oldVm, newVm) {},
         onDidChange: (oldVm, newVm) {
-       //   print("onDidChange");
           if (newVm.profileState.mobileNumber.isNotEmpty) {
             _progressDialog.hideProgressDialog();
           }
         },
         onInitialBuild: (profileViewModel) {
-       //   print("onInitialBuild");
           store.dispatch(GetUserProfile(uid: uid));
           _progressDialog.showProgressDialog();
         },

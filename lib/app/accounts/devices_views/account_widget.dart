@@ -192,13 +192,13 @@ class AccountWidget extends StatelessWidget {
                                         0) //content padding inside button
                                     ),
                                 onPressed: () {
-                                  vm.navigationPayment(context);
+
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 40, right: 40, top: 10, bottom: 10),
                                   child: Text(
-                                      AppLocalization.localizations!.mPassbook,
+                                      AppLocalization.localizations!.logout,
                                       style: const TextStyle(
                                           fontFamily: 'Roboto Regular',
                                           fontSize: 18,

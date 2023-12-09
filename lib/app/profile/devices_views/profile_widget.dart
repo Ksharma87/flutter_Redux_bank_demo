@@ -2,7 +2,6 @@ import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/profile/devices_views/profile_viewModel.dart';
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/app/utils/profile_view/profile_view_utils.dart';
 import 'package:flutter_redux_bank/common/types/gender_type.dart';
 import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
@@ -18,12 +17,12 @@ class ProfileWidget extends StatelessWidget {
   ProfileWidget({super.key, required this.boxConstraints});
 
   final BoxConstraints boxConstraints;
-  final LoadingProgressDialog _progressDialog = LoadingProgressDialog();
   final String? uid =
       PreferencesManager().getPreferencesValue(PreferencesContents.userUid);
   final ProfileViewUtils _profileViewUtils = ProfileViewUtils();
   final Stream<String> updateBalance =
       BalanceUpdateService().updateBalanceStream();
+  final PreferencesManager manager = PreferencesManager();
 
   @override
   Widget build(BuildContext context) {
@@ -33,26 +32,15 @@ class ProfileWidget extends StatelessWidget {
   Widget _body(BoxConstraints constraints) {
     return StoreConnector<AppState, ProfileViewModel>(
         distinct: true,
-        onInit: (store) {
-          //store.dispatch(InitUserProfile());
-          print("onInit ProfileWidget");
-        },
-        onWillChange: (oldVm, newVm) {
-
-        },
-        onDidChange: (oldVm, newVm) {
-          print("onDidChange ProfileWidget");
-
-        },
-        onInitialBuild: (profileViewModel) {
-          print("onInitialBuild ProfileWidget");
-          },
+        onInit: (store) {},
+        onWillChange: (oldVm, newVm) {},
+        onDidChange: (oldVm, newVm) {},
+        onInitialBuild: (profileViewModel) {},
         converter: (store) {
           return ProfileViewModel.fromStore(store);
         },
         builder: (BuildContext context, ProfileViewModel vm) {
           return Builder(builder: (BuildContext context) {
-            print("build ProfileWidget");
             return Column(
               children: [
                 Padding(
@@ -145,7 +133,7 @@ class ProfileWidget extends StatelessWidget {
   }
 
   Widget getQRImage(ProfileViewModel vm, BoxConstraints constraints) {
-    PreferencesManager manager = PreferencesManager();
+
     if (vm.profileState.mobileNumber.isNotEmpty) {
       return SizedBox(
           height: constraints.maxHeight / 2,
@@ -183,8 +171,6 @@ class ProfileWidget extends StatelessWidget {
           }
           String? value =
               isData ? snapshot.data : balance;
-
-          print("profile-Stream");
           return Text((value!).amountFormat(),
               style: const TextStyle(
                   color: ColorsTheme.secondColor,

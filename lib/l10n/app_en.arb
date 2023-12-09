@@ -30,6 +30,8 @@
     "yourBalance": "Your Balance",
     "enterTheAmount": "Enter the amount",
     "insufficientAmount": "Insufficient Balance in Your Account.",
+    "linkedMobileNumber": "This number already linked with other Account",
+    "emailOrMobileNumber" : "Please enter email-Id OR mobile Number",
 
     "details": "Details",
     "firstname" : "First name",
@@ -40,5 +42,11 @@
     "submit": "Submit",
 
     "balance": "Balance",
-    "rupeeSymbol": "₹"
+    "rupeeSymbol": "₹",
+    "homeTab": "Home",
+    "paymentTab": "Payment",
+    "passbookTab": "Passbook",
+    "profileTab": "Profile",
+
+    "logout": "Logout"
 }

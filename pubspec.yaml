@@ -60,6 +60,8 @@ dependencies:
   firebase_core: ^2.24.0
   firebase_database: ^10.3.6
   number_to_words_english: ^2.0.2
+  flutter_zxing: ^1.4.1
+
 
 
 

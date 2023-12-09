@@ -13,7 +13,6 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    store.state.bottomNavState.copyWith(index: 0);
     return body(context);
   }
 

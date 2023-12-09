@@ -10,6 +10,7 @@ import 'package:flutter_redux_bank/redux/store/accounts/accounts_actions.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/details/store.dart';
+import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:redux/redux.dart';
 
@@ -55,7 +56,7 @@ class UserDetailsViewModel {
             {
               loadingProgressDialog.hideProgressDialog(),
               ToastView.displaySnackBar(
-                  "This number already linked with other Account")
+                  AppLocalization.localizations!.linkedMobileNumber)
             }
         });
 
@@ -78,7 +79,7 @@ class UserDetailsViewModel {
   int get hashCode => detailsState.isMale.hashCode;
 
   @override
-  bool operator ==(Object other) {
+  bool operator == (Object other) {
     UserDetailsViewModel details = (other as UserDetailsViewModel);
     return detailsState.isMale == details.detailsState.isMale;
   }

@@ -48,7 +48,23 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 
+
+
 	<key>FLTEnableImpeller</key>
     <false />
+    <key>io.flutter.embedded_views_preview</key>
+    <true/>
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs camera access to scan QR codes</string>
+
+
+       <key>NSMicrophoneUsageDescription</key>
+        <string>Chatty requires access to the Microphone so you can take call.</string>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>The app needs the location, Get the location of your city and match the corresponding profile</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>Chatty requires access to the photos library so you can upload photos of profile.</string>
+        <key>UIApplicationSupportsIndirectInputEvents</key>
+        <true/>
 </dict>
 </plist>

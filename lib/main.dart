@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/config/router/app_router_configuration.dart';
+import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
             Locale('en'), // English
           ],
           theme: ThemeData(
-            primarySwatch: Colors.blueGrey,
+              primaryColor: ColorsTheme.primaryColor,
+              primaryColorDark: ColorsTheme.secondColor
           ),
           navigatorKey: NavigatorHolder.navigatorKey,
           scaffoldMessengerKey: GlobalKeyHolder.scaffoldMessengerKey,
