@@ -29,7 +29,7 @@ class LoginViewModel {
           _authResponseHandle(store, SignIn(email, password));
         },
         onCreateAccount: (email, password) {
-          _authResponseHandle(store, CreateAccount(email, password));
+          _authResponseHandle(store, CreateAccountAction(email, password));
         });
   }
 
@@ -42,7 +42,7 @@ class LoginViewModel {
     PreferencesManager preferencesManager = PreferencesManager();
     preferencesManager.setPreferencesValue(PreferencesContents.balance, '');
     store.dispatch(InitUserProfile());
-    store.dispatch(InitAccountsDetails());
+    store.dispatch(InitialAccountsDetailsAction());
 
     if (moveDashBoard) {
       store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(

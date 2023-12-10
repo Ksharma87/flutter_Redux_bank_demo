@@ -65,7 +65,7 @@ class ProfileWidget extends StatelessWidget {
                               SizedBox(
                                 child: Center(
                                     child: _profileViewUtils
-                                        .profileImageHolder(vm.profileState)),
+                                        .profileImageHolder(vm.profileState.mobileNumber, vm.profileState.isMale)),
                               )
                             ],
                           )),
@@ -80,7 +80,7 @@ class ProfileWidget extends StatelessWidget {
                                     children: [
                                       Text(
                                           _profileViewUtils
-                                              .profileName(vm.profileState),
+                                              .profileName(vm.profileState.firstName, vm.profileState.lastName),
                                           style: const TextStyle(
                                             fontFamily: 'Roboto Regular',
                                             fontSize: 20,

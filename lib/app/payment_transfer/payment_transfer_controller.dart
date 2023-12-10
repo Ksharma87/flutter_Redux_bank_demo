@@ -6,11 +6,16 @@ import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 
-class PaymentTransferController extends BaseStatelessScreen<PaymentTransferPage>  {
+class PaymentTransferController
+    extends BaseStatelessScreen<PaymentTransferPage> {
+  final String payeeUid;
+
+  PaymentTransferController({required this.payeeUid});
 
   @override
   Widget body(BoxConstraints constraints) {
-    return PaymentTransferWidget(uid: 'YZ1ACz4AKQYVHutHNartcfObYSm1', boxConstraints: constraints);
+    return PaymentTransferWidget(
+        uid: payeeUid, boxConstraints: constraints);
   }
 
   @override

@@ -8,7 +8,7 @@ abstract class ProfileRepository {
 
   Future<bool> doUpdateIdentity(String email, String mobileNumber, String uid);
 
-  Future<bool> doUniqueMobileNumber(String mobileNumber);
+  Future<String?> doUniqueMobileNumberOrEmail(String mobileNumber);
 
   Future<Result<ProfileResponseEntity, ProfileResponseErrorEntity>>
       doGetProfile(String idToken, String uid);

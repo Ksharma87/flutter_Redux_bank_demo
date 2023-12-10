@@ -97,18 +97,18 @@ class RestApi {
     }
   }
 
-  Future<bool> getUniqueMobileNumberEmail(String entity) async {
+  Future<String?> getUniqueMobileNumberEmail(String entity) async {
     String url = restApiConfig.getFireBaseDataBaseIdentityKeyUrl(
         ApiServices.identity_prefix, entity);
     http.Response response = await restApiConfig.getHttpCall(url);
     if (response.statusCode == ApiServices.apiStatusSuccessful) {
       if (response.body == "null") {
-        return true;
+        return null;
       } else {
-        return false;
+        return response.body;
       }
     } else {
-      return false;
+      return null;
     }
   }
 
@@ -125,13 +125,16 @@ class RestApi {
     return BankAccountResponse.fromJson(json);
   }
 
-  Future<void> createBankAccount(CreateAccountsRequest request) async {
+  Future<bool> createBankAccount(CreateAccountsRequest request) async {
     String url = restApiConfig.getFireBaseDataBaseUrl(
         ApiServices.user_prefix + ApiServices.bankAccount);
     http.Response response =
         await restApiConfig.patchHttpCall(url, request.toString());
     if (response.statusCode == ApiServices.apiStatusSuccessful) {
-    } else {}
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<String> getUpdatedBalance(String uid) async {

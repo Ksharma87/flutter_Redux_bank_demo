@@ -1,3 +1,4 @@
+import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/domain/entity/accounts/bank_account_response_entity.dart';
@@ -16,29 +17,17 @@ import 'package:redux/redux.dart';
 
 List<Middleware<AppState>> accountStoreAuthMiddleware() {
   final getUsrAccountDetails = _getAccountDetailsRequest();
-  final crateBankAccount = _createBankAccount();
+
   return [
     TypedMiddleware<AppState, GetAccountsDetails>(getUsrAccountDetails).call,
-    TypedMiddleware<AppState, CreateAccountsAction>(crateBankAccount).call,
   ];
-}
-
-Middleware<AppState> _createBankAccount() {
-  return (Store<AppState> store, action, NextDispatcher next) {
-    CreateAccountsAction createAccountsAction = action;
-    String balance = createAccountsAction.balance;
-    String accountNumber = createAccountsAction.accountNumber;
-    AccountsUseCase accountsUseCase = getIt<AccountsUseCase>();
-    accountsUseCase
-        .invokeCreateBankAccount(accountNumber, balance)
-        .then((value) => {createAccountsAction.completer.complete()});
-
-    next(action);
-  };
 }
 
 Middleware<AppState> _getAccountDetailsRequest() {
   return (Store<AppState> store, action, NextDispatcher next) {
+
+    LoadingProgressDialog progressDialog = LoadingProgressDialog();
+    progressDialog.showProgressDialog();
     PreferencesManager preferencesManager = getIt<PreferencesManager>();
     String? uid =
         preferencesManager.getPreferencesValue(PreferencesContents.userUid)!;
@@ -54,9 +43,15 @@ Middleware<AppState> _getAccountDetailsRequest() {
       Future<Result<ProfileResponseEntity, ProfileResponseErrorEntity>>
           profileResponse = profileUseCase.invokeGetUserProfile(token, uid);
       Future.wait([profileResponse, bankResponse])
-          .then((result) => {_handleResponse(result)});
+          .then((result) => {
+             progressDialog.hideProgressDialog(),
+            _handleResponse(result)
+          });
     } else {
-      Future.wait([bankResponse]).then((result) => {_handleResponseAccount(result)});
+      Future.wait([bankResponse]).then((result) => {
+         progressDialog.hideProgressDialog(),
+        _handleResponseAccount(result)
+      });
     }
 
     next(action);

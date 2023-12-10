@@ -15,7 +15,6 @@ import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/services/balance_service.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 
-
 class AccountWidget extends StatelessWidget {
   AccountWidget({super.key, required this.boxConstraints});
 
@@ -24,7 +23,8 @@ class AccountWidget extends StatelessWidget {
   final String appName =
       '${AppLocalization.localizations!.noida} ${(AppLocalization.localizations!.bank).capitalize()}';
   final PreferencesManager _manager = PreferencesManager();
-  final Stream<String> updateBalance = BalanceUpdateService().updateBalanceStream();
+  final Stream<String> updateBalance =
+      BalanceUpdateService().updateBalanceStream();
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +32,16 @@ class AccountWidget extends StatelessWidget {
         distinct: true,
         onInit: (store) {},
         onDispose: (store) {},
-        onWillChange: (oldViewModel, newViewModel) {
-          if (newViewModel.accountsState.balance.isEmpty) {
-            _loadingProgressDialog.showProgressDialog();
-          }
-          },
+        onWillChange: (oldViewModel, newViewModel) {},
         onInitialBuild: (accountViewModel) {
-          if (accountViewModel.accountsState.balance.isEmpty) {
-            _manager.saveBalance(accountViewModel.accountsState.balance);
-            _loadingProgressDialog.showProgressDialog();
-          }
           store.dispatch(GetAccountsDetails());
+          if (accountViewModel.accountsState.balance.isNotEmpty) {
+            _manager.saveBalance(accountViewModel.accountsState.balance);
+          }
         },
         onDidChange: (oldViewModel, newViewModel) {
           if (newViewModel.accountsState.balance.isNotEmpty) {
-            _loadingProgressDialog.hideProgressDialog();
+            _manager.saveBalance(newViewModel.accountsState.balance);
           }
         },
         converter: (store) {
@@ -191,9 +186,7 @@ class AccountWidget extends StatelessWidget {
                                     padding: const EdgeInsets.all(
                                         0) //content padding inside button
                                     ),
-                                onPressed: () {
-
-                                },
+                                onPressed: () {},
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 40, right: 40, top: 10, bottom: 10),
@@ -233,13 +226,13 @@ class AccountWidget extends StatelessWidget {
         });
   }
 
-
-
   Widget balanceUpdate() {
     return StreamBuilder(
         stream: updateBalance,
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if(snapshot.hasData) {_manager.saveBalance(snapshot.data!);}
+          if (snapshot.hasData) {
+            _manager.saveBalance(snapshot.data!);
+          }
           String? value = snapshot.hasData
               ? snapshot.data
               : _manager.getPreferencesValue(PreferencesContents.balance) ?? '';

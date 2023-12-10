@@ -4,7 +4,6 @@ import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/profile/profile_actions.dart';
-import 'package:multiple_result/multiple_result.dart';
 import 'package:redux/redux.dart';
 
 List<Middleware<AppState>> profileStoreAuthMiddleware() {
@@ -36,6 +35,6 @@ Middleware<AppState> _getUserProfileRequest() {
               }),
         });
 
-    // next(action);
+     next(action);
   };
 }

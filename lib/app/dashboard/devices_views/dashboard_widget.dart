@@ -25,6 +25,10 @@ class DashboardWidget extends StatelessWidget {
         }
       case 2:
         {
+          return Container();
+        }
+      case 3:
+        {
           return ProfileWidget(boxConstraints: boxConstraints);
         }
       default:

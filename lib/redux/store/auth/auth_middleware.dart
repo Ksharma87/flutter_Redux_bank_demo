@@ -12,7 +12,7 @@ List<Middleware<AppState>> createStoreAuthMiddleware() {
   final createAccountRequest = _createAccountRequest();
   return [
     TypedMiddleware<AppState, SignIn>(loginRequest).call,
-    TypedMiddleware<AppState, CreateAccount>(createAccountRequest).call,
+    TypedMiddleware<AppState, CreateAccountAction>(createAccountRequest).call,
   ];
 }
 
@@ -47,7 +47,7 @@ Middleware<AppState> _createLoginRequest() {
 
 Middleware<AppState> _createAccountRequest() {
   return (Store<AppState> store, action, NextDispatcher next) {
-    CreateAccount createAccount = action;
+    CreateAccountAction createAccount = action;
     String email = createAccount.email;
     String pwd = createAccount.password;
     AuthUseCase authUseCase = getIt<AuthUseCase>();

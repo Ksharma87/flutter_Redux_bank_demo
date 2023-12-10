@@ -22,7 +22,8 @@ class AuthUseCase {
   }
 
   Future<bool> invokeEmailLinkedDataBase(String email) async {
-    return await authRepository.doEmailLinkedDataBase(email);
+    final response = await authRepository.doEmailLinkedDataBase(email);
+    return response == null ? true : false;
   }
 
   Future<void> invokeLogout() async {

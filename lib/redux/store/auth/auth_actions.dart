@@ -26,10 +26,10 @@ class SignIn extends Actions {
   SignIn(this.email, this.password);
 }
 
-class CreateAccount extends Actions {
+class CreateAccountAction extends Actions {
 
   final String email;
   final String password;
 
-  CreateAccount(this.email, this.password);
+  CreateAccountAction(this.email, this.password);
 }

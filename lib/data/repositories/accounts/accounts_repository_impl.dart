@@ -13,8 +13,7 @@ class AccountsRepositoryImpl implements AccountsRepository {
 
   @override
   Future<bool> doCreateBankAccount(String accountNO, String balance) async {
-     await restApi.createBankAccount(CreateAccountsRequest(bankAccountNumber : accountNO, balance:balance));
-     return true;
+     return await restApi.createBankAccount(CreateAccountsRequest(bankAccountNumber : accountNO, balance:balance));
   }
 
   @override

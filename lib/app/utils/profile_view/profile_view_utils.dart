@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/common/types/gender_type.dart';
 import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
 import 'package:flutter_redux_bank/config/drawable/resource_constants.dart';
+import 'package:flutter_redux_bank/redux/store/payment/payment_state.dart';
 import 'package:flutter_redux_bank/redux/store/profile/profile_state.dart';
 
 class ProfileViewUtils {
-  Widget profileImageHolder(ProfileState profileState) {
-    if (profileState.mobileNumber.isEmpty) {
+  Widget profileImageHolder(String mobileNumber, String isMale) {
+    if (mobileNumber.isEmpty) {
       return const SizedBox();
     } else {
-      return profileState.isMale == GenderType.MALE.name.toString()
+      return isMale == GenderType.MALE.name.toString()
           ? profileImage(ResourceConstants.maleProfileHolder)
           : profileImage(ResourceConstants.femaleProfileHolder);
     }
@@ -24,9 +25,9 @@ class ProfileViewUtils {
     );
   }
 
-  String profileName(ProfileState profileState) {
-    if (profileState.firstName.isNotEmpty && profileState.lastName.isNotEmpty) {
-      return "${profileState.firstName.capitalize()} ${profileState.lastName.capitalize()}";
+  String profileName(String firstName, String lastName) {
+    if (firstName.isNotEmpty && lastName.isNotEmpty) {
+      return "${firstName.capitalize()} ${lastName.capitalize()}";
     }
     return '';
   }

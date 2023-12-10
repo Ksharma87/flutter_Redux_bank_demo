@@ -22,8 +22,8 @@ class ProfileUseCase {
     return await profileRepository.doUpdateIdentity(email, mobileNumber, uid);
   }
 
-  Future<bool> invokeUniqueMobileNumber(String mobileNumber) async {
-    return await profileRepository.doUniqueMobileNumber(mobileNumber);
+  Future<String?> invokeUniqueMobileNumberOrEmail(String mobileNumberOrEmail) async {
+    return await profileRepository.doUniqueMobileNumberOrEmail(mobileNumberOrEmail);
   }
 
   Future<result_type.Result<ProfileResponseEntity, ProfileResponseErrorEntity>> invokeGetUserProfile(String idToken, String uid) async {

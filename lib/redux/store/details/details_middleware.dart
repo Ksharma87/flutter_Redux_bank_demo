@@ -1,5 +1,6 @@
 import 'package:flutter_redux_bank/common/types/gender_type.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
+import 'package:flutter_redux_bank/domain/useCase/accounts/accounts_useCase.dart';
 import 'package:flutter_redux_bank/domain/useCase/profile/profile_useCase.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
@@ -11,11 +12,28 @@ List<Middleware<AppState>> detailsStoreAuthMiddleware() {
   final updateDetails = _updateDetailsRequest();
   final updateIdentity = _updateIdentityRequest();
   final uniqueMobileNumber = _uniqueMobileNumber();
+  final createBankAccount = _createBankAccount();
   return [
     TypedMiddleware<AppState, UserDetailsSubmit>(updateDetails).call,
-    TypedMiddleware<AppState, UserUniqueMobileNumber>(uniqueMobileNumber).call,
+    TypedMiddleware<AppState, UserUniqueMobileNumberCall>(uniqueMobileNumber)
+        .call,
     TypedMiddleware<AppState, UserIdentity>(updateIdentity).call,
+    TypedMiddleware<AppState, CreateAccountsAction>(createBankAccount).call,
   ];
+}
+
+Middleware<AppState> _uniqueMobileNumber() {
+  return (Store<AppState> store, action, NextDispatcher next) {
+    UserUniqueMobileNumberCall uniqueMobileNumber = action;
+    ProfileUseCase profileUseCase = getIt<ProfileUseCase>();
+    profileUseCase
+        .invokeUniqueMobileNumberOrEmail(uniqueMobileNumber.mobileNumber)
+        .then((value) => {
+              store.dispatch(UserUniqueMobileNumberCallResult(
+                  isUniqueMobileNumber: value == null ? true : false))
+            });
+    next(action);
+  };
 }
 
 Middleware<AppState> _updateDetailsRequest() {
@@ -43,18 +61,6 @@ Middleware<AppState> _updateDetailsRequest() {
   };
 }
 
-Middleware<AppState> _uniqueMobileNumber() {
-  return (Store<AppState> store, action, NextDispatcher next) {
-    UserUniqueMobileNumber uniqueMobileNumber = action;
-    ProfileUseCase profileUseCase = getIt<ProfileUseCase>();
-    profileUseCase
-        .invokeUniqueMobileNumber(uniqueMobileNumber.mobileNumber)
-        .then((value) => {uniqueMobileNumber.completer.complete(value)});
-
-    next(action);
-  };
-}
-
 Middleware<AppState> _updateIdentityRequest() {
   return (Store<AppState> store, action, NextDispatcher next) {
     UserIdentity userIdentity = action;
@@ -67,7 +73,19 @@ Middleware<AppState> _updateIdentityRequest() {
     profileUseCase
         .invokeUpdateIdentity(email, userIdentity.mobileNumber, uid!)
         .then((value) => {userIdentity.completer.complete(value)});
+    next(action);
+  };
+}
 
+Middleware<AppState> _createBankAccount() {
+  return (Store<AppState> store, action, NextDispatcher next) {
+    CreateAccountsAction createAccountsAction = action;
+    String balance = createAccountsAction.balance;
+    String accountNumber = createAccountsAction.accountNumber;
+    AccountsUseCase accountsUseCase = getIt<AccountsUseCase>();
+    accountsUseCase
+        .invokeCreateBankAccount(accountNumber, balance)
+        .then((value) => {createAccountsAction.completer.complete(value)});
     next(action);
   };
 }

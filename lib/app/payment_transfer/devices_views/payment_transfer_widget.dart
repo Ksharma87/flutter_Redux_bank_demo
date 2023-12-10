@@ -13,7 +13,7 @@ import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
-import 'package:flutter_redux_bank/redux/store/profile/profile_actions.dart';
+import 'package:flutter_redux_bank/redux/store/payment/store.dart';
 import 'package:flutter_redux_bank/services/balance_service.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
@@ -28,8 +28,8 @@ class PaymentTransferWidget extends StatelessWidget {
   final ProfileViewUtils _profileViewUtils = ProfileViewUtils();
   final TextEditingController _amountController = TextEditingController();
   final PreferencesManager _manager = PreferencesManager();
-  late String yourBalance =
-      _manager.getPreferencesValue(PreferencesContents.balance)!;
+  late String yourBalance;
+
   final Stream<String> updateBalance =
       BalanceUpdateService().updateBalanceStream();
 
@@ -38,16 +38,17 @@ class PaymentTransferWidget extends StatelessWidget {
     return StoreConnector<AppState, PaymentTransferViewModel>(
         distinct: true,
         onInit: (store) {
-          store.dispatch(InitUserProfile());
+          yourBalance = _manager.getPreferencesValue(PreferencesContents.balance)!;
+          store.dispatch(InitialAction());
         },
         onWillChange: (oldVm, newVm) {},
         onDidChange: (oldVm, newVm) {
-          if (newVm.profileState.mobileNumber.isNotEmpty) {
+          if (newVm.paymentState.mobileNumber.isNotEmpty) {
             _progressDialog.hideProgressDialog();
           }
         },
         onInitialBuild: (profileViewModel) {
-          store.dispatch(GetUserProfile(uid: uid));
+          store.dispatch(GetPayeeUserProfile(uid: uid));
           _progressDialog.showProgressDialog();
         },
         converter: (store) {
@@ -77,7 +78,7 @@ class PaymentTransferWidget extends StatelessWidget {
                         child: Align(
                             alignment: Alignment.topLeft,
                             child: _profileViewUtils
-                                .profileImageHolder(vm.profileState))),
+                                .profileImageHolder(vm.paymentState.mobileNumber, vm.paymentState.isMale))),
                     Flexible(
                         flex: 2,
                         child: Padding(
@@ -89,18 +90,18 @@ class PaymentTransferWidget extends StatelessWidget {
                               children: [
                                 Text(
                                     _profileViewUtils
-                                        .profileName(vm.profileState),
+                                        .profileName(vm.paymentState.firstName, vm.paymentState.lastName),
                                     style: const TextStyle(
                                       fontFamily: 'Roboto Regular',
                                       fontSize: 20,
                                     )),
-                                Text(vm.profileState.mobileNumber,
+                                Text(vm.paymentState.mobileNumber,
                                     style: const TextStyle(
                                       fontFamily: 'Roboto Light',
                                       fontSize: 25,
                                     )),
                                 Text(
-                                  vm.profileState.email,
+                                  vm.paymentState.email,
                                   style: const TextStyle(
                                     fontFamily: 'Roboto Regular',
                                     color: ColorsTheme.secondColor,

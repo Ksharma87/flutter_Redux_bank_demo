@@ -22,7 +22,7 @@ class AppRouterConfiguration {
       case AppRouter.USER_INFO:
         return _buildRoute(settings, UserDetailsPage());
       case AppRouter.PAYMENT_TRANSFER:
-        return _buildRoute(settings, PaymentTransferPage());
+        return _buildRoute(settings, PaymentTransferPage(payeeUid : settings.arguments.toString()));
       default:
         return _buildRoute(settings, HomePage());
     }

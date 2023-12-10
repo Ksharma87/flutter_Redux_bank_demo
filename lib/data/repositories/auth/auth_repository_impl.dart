@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> doLogout() async {}
 
   @override
-  Future<bool> doEmailLinkedDataBase(String email) async {
+  Future<String?> doEmailLinkedDataBase(String email) async {
     String emailEncode = base64.encode(utf8.encode(email));
     return await restApi.getUniqueMobileNumberEmail(emailEncode);
   }

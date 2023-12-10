@@ -1,26 +1,27 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/domain/useCase/accounts/accounts_useCase.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
-import 'package:flutter_redux_bank/redux/store/profile/profile_state.dart';
+import 'package:flutter_redux_bank/redux/store/payment/payment_state.dart';
+import 'package:flutter_redux_bank/redux/store/profile/store.dart';
 import 'package:redux/redux.dart';
 import '../../../domain/useCase/payment/payment_useCase.dart';
 
 class PaymentTransferViewModel {
-  final ProfileState profileState;
+  final PaymentState paymentState;
   final PreferencesManager preferencesManager = PreferencesManager();
   final LoadingProgressDialog progressDialog = LoadingProgressDialog();
 
   PaymentTransferViewModel({
-    required this.profileState,
+    required this.paymentState,
   });
 
   static PaymentTransferViewModel fromStore(Store<AppState> store) {
     return PaymentTransferViewModel(
-      profileState: store.state.profileState,
+      paymentState: store.state.paymentState,
     );
   }
 

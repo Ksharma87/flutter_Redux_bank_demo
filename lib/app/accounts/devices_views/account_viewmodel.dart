@@ -18,11 +18,13 @@ class AccountViewModel {
   }
 
   @override
-  int get hashCode => accountsState.balance.hashCode;
+  int get hashCode =>
+      accountsState.balance.hashCode ^ accountsState.isLoading.hashCode;
 
   @override
   bool operator ==(Object other) {
     AccountViewModel model = (other as AccountViewModel);
-    return accountsState.balance == model.accountsState.balance;
+    return accountsState.balance == model.accountsState.balance &&
+        accountsState.isLoading == model.accountsState.isLoading;
   }
 }

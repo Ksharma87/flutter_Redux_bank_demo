@@ -4,6 +4,7 @@ import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
+@singleton
 class LoadingProgressDialog {
   bool isLoading = false;
 

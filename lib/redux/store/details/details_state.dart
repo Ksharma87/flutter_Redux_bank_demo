@@ -2,32 +2,27 @@ import 'package:flutter/material.dart';
 
 @immutable
 class DetailsState {
+  final bool isApiCall;
   final bool isMale;
-  final String firstName;
-  final String lastName;
-  final String mobileNumber;
+  final bool isUniqueMobileNumber;
 
   const DetailsState(
-      {required this.firstName,
-      required this.lastName,
-      required this.mobileNumber,
-      required this.isMale});
+      {required this.isApiCall,
+      required this.isMale,
+      required this.isUniqueMobileNumber});
 
   factory DetailsState.initial() {
     return const DetailsState(
-        firstName: '', lastName: '', mobileNumber: '', isMale: true);
+        isApiCall: false, isMale: true, isUniqueMobileNumber: false);
   }
 
-  DetailsState copyWith({
-    required String firstName,
-    required String lastName,
-    required String mobileNumber,
-    required bool isMale,
-  }) {
+  DetailsState copyWith(
+      {required bool isApiCall,
+      required bool isMale,
+      required bool isUniqueMobileNumber}) {
     return DetailsState(
-        firstName: firstName,
-        lastName: lastName,
-        mobileNumber: mobileNumber,
-        isMale: isMale);
+        isApiCall: isApiCall,
+        isMale: isMale,
+        isUniqueMobileNumber: isUniqueMobileNumber);
   }
 }

@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter_redux_bank/redux/actions.dart';
 
-class GenderSelectAction extends Actions {
+class GenderSelectionAction extends Actions {
   final bool gender;
 
-  GenderSelectAction({required this.gender});
+  GenderSelectionAction({required this.gender});
 }
 
 class UserDetailsSubmit extends Actions {
@@ -23,19 +22,52 @@ class UserDetailsSubmit extends Actions {
       required this.completer});
 }
 
-class UserUniqueMobileNumber extends Actions {
+class DetailsStateReset extends Actions {
+  DetailsStateReset();
+}
+
+class UserUniqueMobileNumberCall extends Actions {
   final String mobileNumber;
-  final Completer completer;
-  UserUniqueMobileNumber({required this.mobileNumber, required this.completer});
+
+  UserUniqueMobileNumberCall({required this.mobileNumber});
+}
+
+class UserUniqueMobileNumberCallResult extends Actions {
+  final bool isUniqueMobileNumber;
+  UserUniqueMobileNumberCallResult({required this.isUniqueMobileNumber});
 }
 
 class UserIdentity extends Actions {
   final String email;
   final String mobileNumber;
   final Completer completer;
+  UserIdentity({
+    required this.email,
+    required this.mobileNumber,
+    required this.completer
+  });
+}
 
-  UserIdentity(
-      {required this.email,
-      required this.mobileNumber,
-      required this.completer});
+class CreateAccountsAction extends Actions {
+  final String uid;
+  final String balance;
+  final String accountNumber;
+  final Completer completer;
+
+  CreateAccountsAction({
+    required this.uid,
+    required this.balance,
+    required this.accountNumber,
+    required this.completer
+  });
+}
+
+class CreateAccountsSuccessful extends Actions {
+  final String uid;
+
+  CreateAccountsSuccessful({required this.uid});
+}
+
+class CreateAccountsError extends Actions {
+  CreateAccountsError();
 }
