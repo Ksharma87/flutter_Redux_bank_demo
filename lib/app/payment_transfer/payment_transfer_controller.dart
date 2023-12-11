@@ -3,6 +3,7 @@ import 'package:flutter_redux_bank/app/payment_transfer/devices_views/payment_tr
 import 'package:flutter_redux_bank/app/payment_transfer/payment_transfer_page.dart';
 import 'package:base/base_view.dart';
 import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 
@@ -37,7 +38,7 @@ class PaymentTransferController
       toolbarHeight: 60,
       title: Text(title,
           style: const TextStyle(
-              fontFamily: 'Roboto Regular',
+              fontFamily: FontType.fontRobotoRegular,
               fontSize: 20,
               fontWeight: FontWeight.w100,
               color: Colors.white)),

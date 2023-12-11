@@ -2,11 +2,14 @@ import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/payment/devices_views/payment_viewmodel.dart';
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
+import 'package:flutter_redux_bank/app/utils/screen_config/ScreenConfig.dart';
+import 'package:flutter_redux_bank/app/utils/view/view.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/redux/store/app/store.dart';
 import 'package:flutter_redux_bank/redux/store/payment/payment_actions.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_zxing/flutter_zxing.dart';
 
 class PaymentWidget extends StatefulWidget {
@@ -60,7 +63,9 @@ class _PaymentWidgetState extends State<PaymentWidget> {
         Expanded(
             flex: 3,
             child: ReaderWidget(
-              onScan: (result) async {},
+              onScan: (result) async {
+                vm.checkUserStatus(result.text.toString());
+              },
               loading: const DecoratedBox(
                   decoration: BoxDecoration(color: ColorsTheme.primaryColor)),
               showScannerOverlay: true,
@@ -77,16 +82,16 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             child: Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: (const EdgeInsets.all(10).w),
                     child: SizedBox(
-                      width: 320,
+                      width: 320.w,
                       child: TextField(
                         cursorColor: ColorsTheme.primaryColor,
                         textInputAction: TextInputAction.done,
                         controller: _emailOrMobile,
                         autocorrect: false,
-                        style: const TextStyle(
-                            color: ColorsTheme.primaryColor, fontSize: 18),
+                        style: TextStyle(
+                            color: ColorsTheme.primaryColor, fontSize: 18.sp),
                         obscureText: false,
                         decoration: InputDecoration(
                           focusColor: ColorsTheme.secondColor,
@@ -100,15 +105,15 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                             borderSide:
                                 BorderSide(width: 1, color: Colors.grey),
                           ),
-                          labelStyle: const TextStyle(
-                              fontSize: 15, color: ColorsTheme.secondColor),
+                          labelStyle: TextStyle(
+                              fontSize: 15.sp, color: ColorsTheme.secondColor),
                           labelText: AppLocalization
                               .localizations!.emailOrMobileNumber,
                         ),
                       ),
                     )),
                 Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.only(top: 20.h),
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: ColorsTheme.primaryColor,
@@ -124,16 +129,20 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                                 0) //content padding inside button
                             ),
                         onPressed: () {
-                          progressDialog.showProgressDialog();
-                          vm.onClickContinue(_emailOrMobile.text.toString());
+                          bool isValid = vm
+                              .onClickContinue(_emailOrMobile.text.toString());
+                          if (isValid) {
+                            progressDialog.showProgressDialog();
+                          }
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 40, right: 40, top: 10, bottom: 10),
-                          child: Text((AppLocalization.localizations!.continueBtn),
-                              style: const TextStyle(
-                                  fontFamily: 'Roboto Regular',
-                                  fontSize: 18,
+                          padding: EdgeInsets.only(
+                              left: 40.w, right: 40.w, top: 10.h, bottom: 10.h),
+                          child: Text(
+                              (AppLocalization.localizations!.continueBtn),
+                              style: TextStyle(
+                                  fontFamily: FontType.fontRobotoRegular,
+                                  fontSize: 18.sp,
                                   fontStyle: FontStyle.normal,
                                   color: Colors.white)),
                         )))
@@ -152,12 +161,14 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                         verticalPosition: VerticalPosition.top,
                         horizontalPosition: HorizontalPosition.left),
                     child: Container(
-                        height: 100,
+                        height: 85.h,
                         padding: const EdgeInsets.only(bottom: 0),
                         color: ColorsTheme.secondColor,
                         alignment: FractionalOffset.bottomCenter),
                   ),
-                  Container(height: 45, color: ColorsTheme.bottomColor)
+                  Container(
+                      height: ScreenConfig.bottomBarColorHeight(),
+                      color: ColorsTheme.bottomColor)
                 ],
               )),
         )

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
+import 'package:flutter_redux_bank/app/utils/view/toast_view/toast_view.dart';
 import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/preferences/preferences.dart';

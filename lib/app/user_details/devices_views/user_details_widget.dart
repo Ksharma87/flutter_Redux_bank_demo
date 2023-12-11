@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/user_details/devices_views/user_details_viewmodel.dart';
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
-import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
+import 'package:flutter_redux_bank/app/utils/view/view.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
@@ -11,6 +11,7 @@ import 'package:flutter_redux_bank/redux/store/details/details_actions.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:redux/redux.dart';
 
 class UserDetailsWidget extends StatelessWidget {
@@ -61,63 +62,58 @@ class UserDetailsWidget extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: Column(children: [
           Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 5),
+              padding: EdgeInsets.only(top: 10.h, bottom: 5.h),
               child: SizedBox(
-                width: 320,
-                child: TextField(
+                width: 320.w, child: TextField(
                   controller: _firstName,
                   textInputAction: TextInputAction.next,
                   autocorrect: false,
-                  style: const TextStyle(
-                      color: ColorsTheme.primaryColor, fontSize: 18),
+                  style: TextStyle(
+                      color: ColorsTheme.primaryColor, fontSize: 18.sp),
                   obscureText: false,
                   decoration: InputDecoration(
-                    focusedBorder: const UnderlineInputBorder(
+                    focusedBorder: UnderlineInputBorder(
                       //<-- SEE HERE
-                      borderSide: BorderSide(
-                          width: 2, color: ColorsTheme.primaryColor),
+                      borderSide:
+                          BorderSide(width: 2.w, color: ColorsTheme.primaryColor),
                     ),
                     enabledBorder: const UnderlineInputBorder(
                       //<-- SEE HERE
-                      borderSide:
-                      BorderSide(width: 1, color: Colors.grey),
+                      borderSide: BorderSide(width: 1, color: Colors.grey),
                     ),
-                    labelStyle:
-                    const TextStyle(color: ColorsTheme.secondColor),
+                    labelStyle: const TextStyle(color: ColorsTheme.secondColor),
                     labelText: AppLocalization.localizations!.firstname,
                   ),
-                ),
-              )),
+                )),
+              ),
           Padding(
-              padding: const EdgeInsets.only(top: 5, bottom: 10),
+              padding: EdgeInsets.only(top: 5.h, bottom: 10.h),
               child: SizedBox(
-                width: 320,
+                width: 320.w,
                 child: TextField(
                   controller: _lastName,
                   textInputAction: TextInputAction.next,
                   autocorrect: false,
-                  style: const TextStyle(
-                      color: ColorsTheme.primaryColor, fontSize: 18),
+                  style: TextStyle(
+                      color: ColorsTheme.primaryColor, fontSize: 18.sp),
                   obscureText: false,
                   decoration: InputDecoration(
                     focusedBorder: const UnderlineInputBorder(
                       //<-- SEE HERE
-                      borderSide: BorderSide(
-                          width: 2, color: ColorsTheme.primaryColor),
+                      borderSide:
+                          BorderSide(width: 2, color: ColorsTheme.primaryColor),
                     ),
                     enabledBorder: const UnderlineInputBorder(
                       //<-- SEE HERE
-                      borderSide:
-                      BorderSide(width: 1, color: Colors.grey),
+                      borderSide: BorderSide(width: 1, color: Colors.grey),
                     ),
-                    labelStyle:
-                    const TextStyle(color: ColorsTheme.secondColor),
+                    labelStyle: const TextStyle(color: ColorsTheme.secondColor),
                     labelText: AppLocalization.localizations!.lastname,
                   ),
                 ),
               )),
           SizedBox(
-            width: 320,
+            width: 320.w,
             child: TextField(
               controller: _mobileNumber,
               textInputAction: TextInputAction.done,
@@ -126,30 +122,29 @@ class UserDetailsWidget extends StatelessWidget {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
               ],
-              style: const TextStyle(
-                  color: ColorsTheme.primaryColor, fontSize: 18),
+              style: TextStyle(
+                  color: ColorsTheme.primaryColor, fontSize: 18.sp),
               obscureText: false,
               decoration: InputDecoration(
                 focusedBorder: const UnderlineInputBorder(
                   //<-- SEE HERE
-                  borderSide: BorderSide(
-                      width: 2, color: ColorsTheme.primaryColor),
+                  borderSide:
+                      BorderSide(width: 2, color: ColorsTheme.primaryColor),
                 ),
                 enabledBorder: const UnderlineInputBorder(
                   //<-- SEE HERE
                   borderSide: BorderSide(width: 1, color: Colors.grey),
                 ),
-                labelStyle:
-                const TextStyle(color: ColorsTheme.secondColor),
+                labelStyle: const TextStyle(color: ColorsTheme.secondColor),
                 labelText: AppLocalization.localizations!.mobileNumber,
               ),
             ),
           ),
           Padding(
-              padding: const EdgeInsets.only(left: 30, top: 30),
-              child: SizedBox(width: 320, child: genderView(vm))),
+              padding: EdgeInsets.only(top: 30.h),
+              child: SizedBox(child: genderView(vm))),
           Padding(
-              padding: const EdgeInsets.only(top: 40),
+              padding: EdgeInsets.only(top: 40.h),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: ColorsTheme.primaryColor,
@@ -159,29 +154,28 @@ class UserDetailsWidget extends StatelessWidget {
                       elevation: 1,
                       //elevation of button
                       shape: RoundedRectangleBorder(
-                        //to set border radius to button
+                          //to set border radius to button
                           borderRadius: BorderRadius.circular(50)),
                       padding: const EdgeInsets.all(
                           0) //content padding inside button
-                  ),
+                      ),
                   onPressed: () {
                     _onSubmitClick(vm);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 70, right: 70, top: 10, bottom: 10),
+                    padding: EdgeInsets.only(
+                        left: 70.w, right: 70.w, top: 10.h, bottom: 10.h),
                     child: Text(AppLocalization.localizations!.submit,
-                        style: const TextStyle(
-                            fontFamily: 'Roboto Regular',
-                            fontSize: 18,
+                        style: TextStyle(
+                            fontFamily: FontType.fontRobotoRegular,
+                            fontSize: 18.sp,
                             fontStyle: FontStyle.normal,
                             color: Colors.white)),
                   ))),
           Expanded(
             child: Align(
                 alignment: FractionalOffset.bottomCenter,
-                child: Container(
-                    height: 60, color: ColorsTheme.bottomColor)),
+                child: Container(height: 60.h, color: ColorsTheme.bottomColor)),
           ),
         ]));
   }
@@ -210,7 +204,7 @@ class UserDetailsWidget extends StatelessWidget {
             Text(
               genderLabel,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: (isMale) ? FontWeight.bold : FontWeight.normal,
                 color: (isMale) ? Colors.white : Colors.black,
               ),
@@ -221,13 +215,15 @@ class UserDetailsWidget extends StatelessWidget {
 
   Widget genderView(UserDetailsViewModel vm) {
     return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-            padding: const EdgeInsets.only(top: 10, left: 10),
+            padding: EdgeInsets.only(top: 10.h, left: 10.w),
             child: customRadioButton(AppLocalization.localizations!.male,
                 vm.detailsState.isMale, store)),
         Padding(
-            padding: const EdgeInsets.only(top: 10, left: 10),
+            padding: EdgeInsets.only(top: 10.h, left: 10.w),
             child: customRadioButton(AppLocalization.localizations!.female,
                 !(vm.detailsState.isMale), store))
       ],

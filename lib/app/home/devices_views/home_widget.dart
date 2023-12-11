@@ -1,10 +1,12 @@
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/app/home/devices_views/home_viewmodel.dart';
-import 'package:flutter_redux_bank/app/utils/custom_view/app_logo.dart';
+import 'package:flutter_redux_bank/app/utils/view/view.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeWidget extends StatelessWidget {
   HomeWidget({super.key});
@@ -22,7 +24,7 @@ class HomeWidget extends StatelessWidget {
         child: ClipPath(
           clipper: DirectionalWaveClipper(verticalPosition: VerticalPosition.bottom, horizontalPosition: HorizontalPosition.left),
           child: Container(
-            padding: const EdgeInsets.only(bottom: 60),
+            padding: EdgeInsets.only(bottom: 60.h),
             color: ColorsTheme.secondColor,
             alignment: Alignment.center,
             child: AppLogo.logo(Colors.white, Colors.white),
@@ -31,31 +33,31 @@ class HomeWidget extends StatelessWidget {
       ),
       Expanded(
           child: Padding(
-              padding: const EdgeInsets.only(left: 50),
+              padding: EdgeInsets.only(left: 40.w),
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(AppLocalization.localizations!.welcomeNoidaBank,
                       textAlign: TextAlign.start,
-                      style: const TextStyle(
-                          fontFamily: 'Roboto Light',
-                          fontSize: 38,
+                      style: TextStyle(
+                          fontFamily: FontType.fontRobotoLight,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.w100,
                           color: Colors.white))))),
       Expanded(
           child: Padding(
-              padding: const EdgeInsets.only(left: 50),
+              padding: EdgeInsets.only(left: 40.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                      height: 42, //height of button
-                      width: 150, //width of button
+                      height: 35.h, //height of button
+                      width: 150.w, //width of button
                       child: loginButtonView(context)),
                   Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding: EdgeInsets.only(top: 20.h),
                       child: SizedBox(
-                          height: 42, //height of button
-                          width: 250, //width of button
+                          height: 35.h, //height of button
+                          width: 240.w, //width of button
                           child: createAccountButtonView(context))),
                 ],
               )))
@@ -68,13 +70,13 @@ class HomeWidget extends StatelessWidget {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: ColorsTheme.secondColor,
-            side: const BorderSide(width: 1.5, color: ColorsTheme.secondColor),
+            side: BorderSide(width: 1.5.w, color: ColorsTheme.secondColor),
             //border width and color
             elevation: 1,
             //elevation of button
             shape: RoundedRectangleBorder(
                 //to set border radius to button
-                borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(10.h)),
             padding: const EdgeInsets.all(0) //content padding inside button
             ),
         onPressed: () {
@@ -82,9 +84,9 @@ class HomeWidget extends StatelessWidget {
           //code to execute when this button is pressed.
         },
         child: Text(AppLocalization.localizations!.createAccount,
-            style: const TextStyle(
-                fontFamily: 'Roboto Regular',
-                fontSize: 18,
+            style: TextStyle(
+                fontFamily: FontType.fontRobotoRegular,
+                fontSize: 16.sp,
                 fontStyle: FontStyle.normal,
                 color: Colors.white)));
   }
@@ -107,9 +109,9 @@ class HomeWidget extends StatelessWidget {
         //code to execute when this button is pressed.
       },
       child: Text(AppLocalization.localizations!.login,
-          style: const TextStyle(
-              fontFamily: 'Roboto Regular',
-              fontSize: 18,
+          style: TextStyle(
+              fontFamily: FontType.fontRobotoRegular,
+              fontSize: 16.sp,
               fontStyle: FontStyle.normal,
               color: ColorsTheme.secondColor)),
     );

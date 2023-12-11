@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/payment_transfer/devices_views/payment_transfer_viewmodel.dart';
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
-import 'package:flutter_redux_bank/app/utils/profile_view/profile_view_utils.dart';
-import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
+import 'package:flutter_redux_bank/app/utils/view/view.dart';
 import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
@@ -19,6 +18,7 @@ import 'package:flutter_redux_bank/services/balance_service.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
 import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_to_words_english/number_to_words_english.dart';
 import 'package:redux/redux.dart';
 
@@ -78,8 +78,8 @@ class PaymentTransferWidget extends StatelessWidget {
     return Column(children: [
       Expanded(
           child: Padding(
-              padding: const EdgeInsets.only(
-                top: 30,
+              padding: EdgeInsets.only(
+                top: 30.h,
               ),
               child: Row(
                   mainAxisSize: MainAxisSize.max,
@@ -106,21 +106,21 @@ class PaymentTransferWidget extends StatelessWidget {
                                     _profileViewUtils.profileName(
                                         vm.paymentState.firstName,
                                         vm.paymentState.lastName),
-                                    style: const TextStyle(
-                                      fontFamily: 'Roboto Regular',
-                                      fontSize: 20,
+                                    style: TextStyle(
+                                      fontFamily: FontType.fontRobotoRegular,
+                                      fontSize: 18.sp,
                                     )),
                                 Text(vm.paymentState.mobileNumber,
-                                    style: const TextStyle(
-                                      fontFamily: 'Roboto Light',
-                                      fontSize: 25,
+                                    style: TextStyle(
+                                      fontFamily: FontType.fontRobotoLight,
+                                      fontSize: 22.sp,
                                     )),
                                 Text(
                                   vm.paymentState.email,
-                                  style: const TextStyle(
-                                    fontFamily: 'Roboto Regular',
+                                  style: TextStyle(
+                                    fontFamily: FontType.fontRobotoRegular,
                                     color: ColorsTheme.secondColor,
-                                    fontSize: 15,
+                                    fontSize: 15.sp,
                                   ),
                                 ),
                               ],
@@ -135,10 +135,10 @@ class PaymentTransferWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: EdgeInsets.only(bottom: 20.h),
                     child: balanceUpdate(yourBalance)),
                 SizedBox(
-                  width: 200,
+                  width: 200.w,
                   child: TextField(
                     onChanged: _onChange,
                     textAlign: TextAlign.center,
@@ -150,9 +150,9 @@ class PaymentTransferWidget extends StatelessWidget {
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     autocorrect: false,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: ColorsTheme.primaryColor,
-                      fontSize: 18,
+                      fontSize: 18.sp,
                     ),
                     obscureText: false,
                     decoration: InputDecoration(
@@ -174,20 +174,20 @@ class PaymentTransferWidget extends StatelessWidget {
                         '${AppLocalization.localizations!.rupeeSymbol} ${AppLocalization.localizations!.enterTheAmount}',
                         textAlign: TextAlign.center,
                       ),
-                      labelStyle: const TextStyle(
-                          fontFamily: 'Roboto Light',
+                      labelStyle: TextStyle(
+                          fontFamily: FontType.fontRobotoLight,
                           letterSpacing: 1,
                           wordSpacing: 1,
                           color: ColorsTheme.secondColor,
-                          fontSize: 14),
+                          fontSize: 14.sp),
                     ),
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.only(top: 30, bottom: 0),
+                    padding: EdgeInsets.only(top: 10.h, bottom: 0),
                     child: _buildNumberConvertText()),
                 Padding(
-                    padding: const EdgeInsets.only(top: 40),
+                    padding: EdgeInsets.only(top: 40.h),
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: ColorsTheme.primaryColor,
@@ -206,11 +206,11 @@ class PaymentTransferWidget extends StatelessWidget {
                           validation(vm, context);
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 40, right: 40, top: 10, bottom: 10),
+                          padding: EdgeInsets.only(
+                              left: 40.w, right: 40.w, top: 10.h, bottom: 10.h),
                           child: Text(AppLocalization.localizations!.payment,
                               style: const TextStyle(
-                                  fontFamily: 'Roboto Regular',
+                                  fontFamily: FontType.fontRobotoRegular,
                                   fontSize: 18,
                                   fontStyle: FontStyle.normal,
                                   color: Colors.white)),
@@ -250,9 +250,9 @@ class PaymentTransferWidget extends StatelessWidget {
           return Text(
               NumberToWordsEnglish.convert(int.parse(
                   ourStore.state.paymentTransferState.numberConvertText)),
-              style: const TextStyle(
-                  fontFamily: 'Roboto Light',
-                  fontSize: 16,
+              style: TextStyle(
+                  fontFamily: FontType.fontRobotoLight,
+                  fontSize: 16.sp,
                   fontStyle: FontStyle.normal,
                   color: ColorsTheme.secondColor));
         });
@@ -299,11 +299,11 @@ class PaymentTransferWidget extends StatelessWidget {
           bool isData = snapshot.hasData;
           String? value = isData ? snapshot.data : balance;
           return Text(
-              '${AppLocalization.localizations!.yourBalance} ${(value!).amountFormat()}',
-              style: const TextStyle(
+              '${AppLocalization.localizations!.yourBalance} : ${(value!).amountFormat()}',
+              style: TextStyle(
                   color: ColorsTheme.secondColor,
-                  fontFamily: 'Roboto Light',
-                  fontSize: 20,
+                  fontFamily: FontType.fontRobotoThin,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold));
         });
   }

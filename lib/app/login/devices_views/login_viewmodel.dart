@@ -1,4 +1,4 @@
-import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
+import 'package:flutter_redux_bank/app/utils/view/view.dart';
 import 'package:flutter_redux_bank/common/status/account_status.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/di/injection.dart';

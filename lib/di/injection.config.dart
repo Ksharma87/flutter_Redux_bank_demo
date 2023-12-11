@@ -11,7 +11,7 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import '../app/utils/loading_view/loading_progress_dialog.dart' as _i5;
+import '../app/utils/view/loading_view/loading_progress_dialog.dart' as _i5;
 import '../data/data_sources/remote/api_services.dart' as _i3;
 import '../data/data_sources/remote/rest_api.dart' as _i10;
 import '../data/data_sources/remote/rest_api_config.dart' as _i8;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:base/base_view.dart';
 import 'package:flutter_redux_bank/app/user_details/devices_views/user_details_widget.dart';
 import 'package:flutter_redux_bank/app/user_details/user_details_page.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 
@@ -31,7 +32,7 @@ class UserDetailsController extends BaseStatelessScreen<UserDetailsPage>  {
       toolbarHeight: 60,
       title: Text(title,
           style: const TextStyle(
-              fontFamily: 'Roboto Regular',
+              fontFamily: FontType.fontRobotoRegular,
               fontSize: 20,
               fontWeight: FontWeight.w100,
               color: Colors.white)),

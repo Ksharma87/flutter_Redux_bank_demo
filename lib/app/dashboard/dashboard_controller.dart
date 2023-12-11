@@ -5,11 +5,13 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/dashboard/dashboard_page.dart';
 import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_viewmodel.dart';
 import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_widget.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/dashboard/bottom_nav_actions.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DashBoardController extends BaseStateFullState<DashboardPage>
     with BaseStatefulScreen {
@@ -60,9 +62,10 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
         builder: (BuildContext context, DashboardViewModel vm) {
           return Builder(builder: (BuildContext context) {
             return Text(tabs[vm.bottomNavState.index],
-                style: const TextStyle(
-                    fontFamily: 'Roboto Regular',
-                    fontSize: 20,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: FontType.fontRobotoRegular,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.w100,
                     color: Colors.white));
           });
@@ -74,7 +77,7 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
     return AppBar(
       actions: [
         Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: EdgeInsets.only(right: 10.w),
             child: IconButton(
                 icon: const Icon(
                   Icons.logout,
@@ -90,7 +93,7 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
       ],
       titleSpacing: 2,
       backgroundColor: ColorsTheme.primaryColor,
-      toolbarHeight: 60,
+      toolbarHeight: 60.h,
       title: toolBarTitle(),
     );
   }

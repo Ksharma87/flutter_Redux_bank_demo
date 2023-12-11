@@ -10,6 +10,7 @@ import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/app/store.dart';
 import 'package:flutter_redux_bank/utils/global_key_holder.dart';
 import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,27 +25,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return StoreProvider(
-        store: store,
-        child: MaterialApp(
-          title: 'Redux - Dart',
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en'), // English
-          ],
-          theme: ThemeData(
-              primaryColor: ColorsTheme.primaryColor,
-              primaryColorDark: ColorsTheme.secondColor
-          ),
-          navigatorKey: NavigatorHolder.navigatorKey,
-          scaffoldMessengerKey: GlobalKeyHolder.scaffoldMessengerKey,
-          onGenerateRoute: _getRoute,
-        ));
+    return ScreenUtilInit(builder: (_, child) {
+      return StoreProvider(
+          store: store,
+          child: MaterialApp(
+            title: 'Redux - Dart',
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'), // English
+            ],
+            theme: ThemeData(
+                primaryColor: ColorsTheme.primaryColor,
+                primaryColorDark: ColorsTheme.secondColor),
+            navigatorKey: NavigatorHolder.navigatorKey,
+            scaffoldMessengerKey: GlobalKeyHolder.scaffoldMessengerKey,
+            onGenerateRoute: _getRoute,
+          ));
+    });
   }
 
   Route _getRoute(RouteSettings settings) {

@@ -7,17 +7,26 @@ abstract class BaseStatelessScreen<T extends StatelessWidget> {
   }
 
   Widget? rootView() {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBody: true,
-        appBar: appBar(),
-        drawer: drawer(),
-        bottomNavigationBar: bottomNavigationBar(),
-        backgroundColor: rootBackgroundColor(),
-        body: _layoutBuilderBody());
+    return PopScope(
+        canPop: isCanPop(),
+        onPopInvoked: (didPop) {
+          onPopInvokedHere();
+        },
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            extendBody: true,
+            appBar: appBar(),
+            drawer: drawer(),
+            bottomNavigationBar: bottomNavigationBar(),
+            backgroundColor: rootBackgroundColor(),
+            body: _layoutBuilderBody()));
   }
 
+  void onPopInvokedHere() {}
+
   bool isFullScreen() => false;
+
+  bool isCanPop() => true;
 
   Widget? drawer() {
     return null;

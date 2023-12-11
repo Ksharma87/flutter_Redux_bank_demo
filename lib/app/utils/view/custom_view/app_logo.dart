@@ -1,9 +1,10 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppLogo {
-
   static Widget logo(Color primaryColor, Color secondColor) {
     return Container(
       alignment: Alignment.center,
@@ -14,29 +15,37 @@ class AppLogo {
           Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!)!.noida.substring(0,1),
+                AppLocalizations.of(
+                        NavigatorHolder.navigatorKey.currentContext!)!
+                    .noida
+                    .substring(0, 1),
                 style: TextStyle(
-                    fontSize: 80,
+                    fontSize: 80.sp,
                     fontWeight: FontWeight.bold,
                     color: primaryColor),
               )),
           Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!)!.noida.substring(1),
+                  padding: EdgeInsets.only(bottom: 8.h),
+                  child: Text(
+                      AppLocalizations.of(
+                              NavigatorHolder.navigatorKey.currentContext!)!
+                          .noida
+                          .substring(1),
                       style: TextStyle(
-                          fontSize: 50,
+                          fontSize: 50.sp,
                           fontWeight: FontWeight.w600,
                           color: primaryColor)))),
           Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(" ${AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!)!.bank}",
+                  padding: EdgeInsets.only(bottom: 8.h),
+                  child: Text(
+                      " ${AppLocalizations.of(NavigatorHolder.navigatorKey.currentContext!)!.bank}",
                       style: TextStyle(
-                          fontFamily: 'Roboto Light',
-                          fontSize: 50,
+                          fontFamily: FontType.fontRobotoLight,
+                          fontSize: 50.sp,
                           fontWeight: FontWeight.w100,
                           // light
                           fontStyle: FontStyle.normal,
@@ -45,5 +54,4 @@ class AppLogo {
       ),
     );
   }
-
 }

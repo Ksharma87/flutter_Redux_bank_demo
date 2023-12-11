@@ -1,3 +1,4 @@
+import 'package:flutter_redux_bank/app/utils/view/view.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
 import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
@@ -31,14 +32,22 @@ class PaymentViewModel {
     String loginUserUid =
         _manager.getPreferencesValue(PreferencesContents.userUid)!;
     if (payeeUid == "-1") {
-      //
+      // "-1" no data found.
+      ToastView.displaySnackBar("This Email-Id OR mobile Number not exist.");
     } else if (payeeUid != loginUserUid) {
       navigationPayment(payeeUid.trim());
     }
   }
 
-  void onClickContinue(String emailOrMobile) {
-    store.dispatch(FetchPaymentUserProfile(mobileOrEmail: emailOrMobile.trim()));
+  bool onClickContinue(String emailOrMobile) {
+    if (emailOrMobile.isEmpty) {
+      ToastView.displaySnackBar("Please enter the Email-Id OR mobile Number");
+      return false;
+    } else {
+      store.dispatch(
+          FetchPaymentUserProfile(mobileOrEmail: emailOrMobile.trim()));
+      return true;
+    }
   }
 
   @override

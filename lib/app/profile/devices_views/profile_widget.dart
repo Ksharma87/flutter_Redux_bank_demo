@@ -2,14 +2,17 @@ import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/profile/devices_views/profile_viewModel.dart';
-import 'package:flutter_redux_bank/app/utils/profile_view/profile_view_utils.dart';
+import 'package:flutter_redux_bank/app/utils/screen_config/ScreenConfig.dart';
+import 'package:flutter_redux_bank/app/utils/view/profile_view/profile_view_utils.dart';
 import 'package:flutter_redux_bank/common/types/gender_type.dart';
 import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/preferences/preferences.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/services/balance_service.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ProfileWidget extends StatelessWidget {
@@ -53,22 +56,22 @@ class ProfileWidget extends StatelessWidget {
     return Column(
       children: [
         Padding(
-            padding: const EdgeInsets.only(top: 30),
+            padding: EdgeInsets.only(top: 30.h),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
                       child: Stack(
                     children: [
-                      const Center(
+                      Center(
                           child: SizedBox(
-                              width: 150.0,
-                              height: 150.0,
+                              width: 120.h,
+                              height: 120.h,
                               child: Card(
                                 color: ColorsTheme.primaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
+                                      BorderRadius.all((const Radius.circular(15).w)),
                                 ),
                               ))),
                       SizedBox(
@@ -81,8 +84,7 @@ class ProfileWidget extends StatelessWidget {
                   )),
                   Expanded(
                       child: SizedBox(
-                          width: 150.0,
-                          height: 150.0,
+                          height: 120.h,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -91,22 +93,22 @@ class ProfileWidget extends StatelessWidget {
                                   _profileViewUtils.profileName(
                                       vm.profileState.firstName,
                                       vm.profileState.lastName),
-                                  style: const TextStyle(
-                                    fontFamily: 'Roboto Regular',
-                                    fontSize: 20,
+                                  style: TextStyle(
+                                    fontFamily: FontType.fontRobotoRegular,
+                                    fontSize: 18.sp,
                                   )),
                               Text(vm.profileState.mobileNumber,
-                                  style: const TextStyle(
-                                    fontFamily: 'Roboto Light',
-                                    fontSize: 18,
+                                  style: TextStyle(
+                                    fontFamily: FontType.fontRobotoLight,
+                                    fontSize: 16.sp,
                                   )),
                               const Spacer(),
                               Text(
                                 AppLocalization.localizations!.balance,
-                                style: const TextStyle(
-                                  fontFamily: 'Roboto Regular',
+                                style: TextStyle(
+                                  fontFamily: FontType.fontRobotoRegular,
                                   color: ColorsTheme.secondColor,
-                                  fontSize: 28,
+                                  fontSize: 23.sp,
                                 ),
                               ),
                               balanceUpdate(vm)
@@ -127,12 +129,14 @@ class ProfileWidget extends StatelessWidget {
                         verticalPosition: VerticalPosition.top,
                         horizontalPosition: HorizontalPosition.right),
                     child: Container(
-                        height: 100,
+                        height: 85.h,
                         padding: const EdgeInsets.only(bottom: 0),
                         color: ColorsTheme.secondColor,
                         alignment: FractionalOffset.bottomCenter),
                   ),
-                  Container(height: 45, color: ColorsTheme.bottomColor)
+                  Container(
+                      height: ScreenConfig.bottomBarColorHeight(),
+                      color: ColorsTheme.bottomColor)
                 ],
               )),
         )
@@ -179,10 +183,10 @@ class ProfileWidget extends StatelessWidget {
           }
           String? value = isData ? snapshot.data : balance;
           return Text((value!).amountFormat(),
-              style: const TextStyle(
+              style: TextStyle(
                   color: ColorsTheme.secondColor,
-                  fontFamily: 'Roboto Light',
-                  fontSize: 20,
+                  fontFamily: FontType.fontRobotoLight,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold));
         });
   }

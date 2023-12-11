@@ -2,16 +2,17 @@ import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/login/devices_views/login_viewmodel.dart';
-import 'package:flutter_redux_bank/app/utils/custom_view/app_logo.dart';
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
-import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
+import 'package:flutter_redux_bank/app/utils/screen_config/ScreenConfig.dart';
+import 'package:flutter_redux_bank/app/utils/view/view.dart';
 import 'package:flutter_redux_bank/common/types/auth_type.dart';
+import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/redux/store/app/store.dart';
 import 'package:flutter_redux_bank/redux/store/auth/store.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginWidget extends StatelessWidget {
   final String authType;
@@ -65,26 +66,26 @@ class LoginWidget extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.all(10),
                     child: SizedBox(
-                      width: 320,
+                      width: 320.w,
                       child: TextField(
                         cursorColor: ColorsTheme.primaryColor,
                         textInputAction: TextInputAction.next,
                         controller: _emailController,
                         autocorrect: false,
-                        style: const TextStyle(
-                            color: ColorsTheme.primaryColor, fontSize: 18),
+                        style: TextStyle(
+                            color: ColorsTheme.primaryColor, fontSize: 18.sp),
                         obscureText: false,
                         decoration: InputDecoration(
                           focusColor: ColorsTheme.secondColor,
-                          focusedBorder: const UnderlineInputBorder(
+                          focusedBorder: UnderlineInputBorder(
                             //<-- SEE HERE
                             borderSide: BorderSide(
-                                width: 2, color: ColorsTheme.primaryColor),
+                                width: 2.w, color: ColorsTheme.primaryColor),
                           ),
-                          enabledBorder: const UnderlineInputBorder(
+                          enabledBorder: UnderlineInputBorder(
                             //<-- SEE HERE
                             borderSide:
-                                BorderSide(width: 1, color: Colors.grey),
+                                BorderSide(width: 1.w, color: Colors.grey),
                           ),
                           labelStyle:
                               const TextStyle(color: ColorsTheme.secondColor),
@@ -95,15 +96,15 @@ class LoginWidget extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.all(10),
                     child: SizedBox(
-                      width: 320,
+                      width: 320.w,
                       child: TextField(
                         cursorColor: ColorsTheme.primaryColor,
                         textInputAction: TextInputAction.done,
                         controller: _passwordController,
                         autocorrect: false,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: ColorsTheme.primaryColor,
-                          fontSize: 18,
+                          fontSize: 18.sp,
                         ),
                         obscureText: true,
                         decoration: InputDecoration(
@@ -128,7 +129,7 @@ class LoginWidget extends StatelessWidget {
                       ),
                     )),
                 Padding(
-                    padding: const EdgeInsets.only(top: 40),
+                    padding: EdgeInsets.only(top: 40.h),
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: ColorsTheme.primaryColor,
@@ -139,7 +140,7 @@ class LoginWidget extends StatelessWidget {
                             //elevation of button
                             shape: RoundedRectangleBorder(
                                 //to set border radius to button
-                                borderRadius: BorderRadius.circular(50)),
+                                borderRadius: (BorderRadius.circular(50).w)),
                             padding: const EdgeInsets.all(
                                 0) //content padding inside button
                             ),
@@ -151,17 +152,17 @@ class LoginWidget extends StatelessWidget {
                           }
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 40, right: 40, top: 10, bottom: 10),
+                          padding: EdgeInsets.only(
+                              left: 40.w, right: 40.w, top: 10.h, bottom: 10.h),
                           child: Text(
                               isLogin
                                   ? AppLocalization.localizations!.login
                                       .toUpperCase()
                                   : AppLocalization.localizations!.createAccount
                                       .toUpperCase(),
-                              style: const TextStyle(
-                                  fontFamily: 'Roboto Regular',
-                                  fontSize: 18,
+                              style: TextStyle(
+                                  fontFamily: FontType.fontRobotoRegular,
+                                  fontSize: 18.sp,
                                   fontStyle: FontStyle.normal,
                                   color: Colors.white)),
                         )))
@@ -178,12 +179,12 @@ class LoginWidget extends StatelessWidget {
                           verticalPosition: VerticalPosition.top,
                           horizontalPosition: HorizontalPosition.left),
                       child: Container(
-                          height: 100,
+                          height: 85.h,
                           padding: const EdgeInsets.only(bottom: 0),
                           color: ColorsTheme.secondColor,
                           alignment: FractionalOffset.bottomCenter),
                     ),
-                    Container(height: 30, color: ColorsTheme.bottomColor)
+                    Container(height: ScreenConfig.bottomBarColorHeight(), color: ColorsTheme.bottomColor)
                   ],
                 )),
           ),
