@@ -8,6 +8,7 @@ class GenderSelectionAction extends Actions {
 }
 
 class UserDetailsSubmit extends Actions {
+  final String email;
   final bool gender;
   final String firstName;
   final String lastName;
@@ -15,7 +16,8 @@ class UserDetailsSubmit extends Actions {
   final Completer completer;
 
   UserDetailsSubmit(
-      {required this.firstName,
+      {required this.email,
+      required this.firstName,
       required this.lastName,
       required this.mobileNumber,
       required this.gender,
@@ -34,18 +36,21 @@ class UserUniqueMobileNumberCall extends Actions {
 
 class UserUniqueMobileNumberCallResult extends Actions {
   final bool isUniqueMobileNumber;
+
   UserUniqueMobileNumberCallResult({required this.isUniqueMobileNumber});
 }
 
 class UserIdentity extends Actions {
   final String email;
   final String mobileNumber;
+  final String uid;
   final Completer completer;
-  UserIdentity({
-    required this.email,
-    required this.mobileNumber,
-    required this.completer
-  });
+
+  UserIdentity(
+      {required this.email,
+      required this.mobileNumber,
+      required this.uid,
+      required this.completer});
 }
 
 class CreateAccountsAction extends Actions {
@@ -54,12 +59,11 @@ class CreateAccountsAction extends Actions {
   final String accountNumber;
   final Completer completer;
 
-  CreateAccountsAction({
-    required this.uid,
-    required this.balance,
-    required this.accountNumber,
-    required this.completer
-  });
+  CreateAccountsAction(
+      {required this.uid,
+      required this.balance,
+      required this.accountNumber,
+      required this.completer});
 }
 
 class CreateAccountsSuccessful extends Actions {

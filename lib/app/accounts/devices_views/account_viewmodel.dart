@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_redux_bank/app/payment_transfer/payment_transfer_page.dart';
 import 'package:flutter_redux_bank/redux/store/accounts/store.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:redux/redux.dart';

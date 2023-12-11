@@ -1,4 +1,3 @@
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/domain/entity/accounts/bank_account_response_entity.dart';
@@ -6,8 +5,6 @@ import 'package:flutter_redux_bank/domain/entity/profile/profile_error_response_
 import 'package:flutter_redux_bank/domain/entity/profile/profile_response_entity.dart';
 import 'package:flutter_redux_bank/domain/useCase/accounts/accounts_useCase.dart';
 import 'package:flutter_redux_bank/domain/useCase/profile/profile_useCase.dart';
-import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
-import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/accounts/accounts_actions.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
@@ -25,15 +22,9 @@ List<Middleware<AppState>> accountStoreAuthMiddleware() {
 
 Middleware<AppState> _getAccountDetailsRequest() {
   return (Store<AppState> store, action, NextDispatcher next) {
-
-    LoadingProgressDialog progressDialog = LoadingProgressDialog();
-    progressDialog.showProgressDialog();
-    PreferencesManager preferencesManager = getIt<PreferencesManager>();
-    String? uid =
-        preferencesManager.getPreferencesValue(PreferencesContents.userUid)!;
-    String? token =
-        preferencesManager.getPreferencesValue(PreferencesContents.loginToken)!;
-
+    GetAccountsDetails getAccountsDetailsAction = action;
+    String? uid = getAccountsDetailsAction.loginUserUid;
+    String? token = getAccountsDetailsAction.token;
     AccountsUseCase accountsUseCase = getIt<AccountsUseCase>();
     Future<BankAccountResponseEntity> bankResponse =
         accountsUseCase.invokeBankAccountDetails(uid);
@@ -43,15 +34,10 @@ Middleware<AppState> _getAccountDetailsRequest() {
       Future<Result<ProfileResponseEntity, ProfileResponseErrorEntity>>
           profileResponse = profileUseCase.invokeGetUserProfile(token, uid);
       Future.wait([profileResponse, bankResponse])
-          .then((result) => {
-             progressDialog.hideProgressDialog(),
-            _handleResponse(result)
-          });
+          .then((result) => {_handleResponse(result)});
     } else {
-      Future.wait([bankResponse]).then((result) => {
-         progressDialog.hideProgressDialog(),
-        _handleResponseAccount(result)
-      });
+      Future.wait([bankResponse])
+          .then((result) => {_handleResponseAccount(result)});
     }
 
     next(action);

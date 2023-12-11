@@ -12,7 +12,7 @@ Reducer<AccountsState> accountStateReducer = combineReducers<AccountsState>([
 
 AccountsState _getUserProfile(
     AccountsState accountsState, GetAccountsDetails action) {
-  return accountsState.copyWith(balance: '', bankAccountNumber: '', cardNumber: '', displayName: '', isLoading: false);
+  return accountsState.copyWith(balance: '', bankAccountNumber: '', cardNumber: '', displayName: '', isLoading: true);
 }
 
 AccountsState _getUserProfileLoaded(

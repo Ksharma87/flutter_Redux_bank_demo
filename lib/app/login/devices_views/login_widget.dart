@@ -29,6 +29,10 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _buildStore();
+  }
+
+  Widget _buildStore() {
     return StoreConnector<AppState, LoginViewModel>(
       distinct: true,
       onDidChange: (oldViewModel, newViewModel) {
@@ -40,155 +44,150 @@ class LoginWidget extends StatelessWidget {
       builder: (BuildContext context, LoginViewModel vm) {
         return Builder(
           builder: (BuildContext context) {
-            return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: AppLogo.logo(
-                          ColorsTheme.primaryColor, ColorsTheme.primaryColor)),
-                  Expanded(
-                      flex: 2,
-                      child: Column(children: [
-                        Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: SizedBox(
-                              width: 320,
-                              child: TextField(
-                                cursorColor: ColorsTheme.primaryColor,
-                                textInputAction: TextInputAction.next,
-                                controller: _emailController,
-                                autocorrect: false,
-                                style: const TextStyle(
-                                    color: ColorsTheme.primaryColor,
-                                    fontSize: 18),
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  focusColor: ColorsTheme.secondColor,
-                                  focusedBorder: const UnderlineInputBorder(
-                                    //<-- SEE HERE
-                                    borderSide: BorderSide(
-                                        width: 2,
-                                        color: ColorsTheme.primaryColor),
-                                  ),
-                                  enabledBorder: const UnderlineInputBorder(
-                                    //<-- SEE HERE
-                                    borderSide: BorderSide(
-                                        width: 1, color: Colors.grey),
-                                  ),
-                                  labelStyle: const TextStyle(
-                                      color: ColorsTheme.secondColor),
-                                  labelText:
-                                      AppLocalization.localizations!.email,
-                                ),
-                              ),
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: SizedBox(
-                              width: 320,
-                              child: TextField(
-                                cursorColor: ColorsTheme.primaryColor,
-                                textInputAction: TextInputAction.done,
-                                controller: _passwordController,
-                                autocorrect: false,
-                                style: const TextStyle(
-                                  color: ColorsTheme.primaryColor,
-                                  fontSize: 18,
-                                ),
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  //suffixIcon: IconButton(onPressed: () => {}, icon: Icons.remove_red_eye_rounded,),
-                                  hintStyle: const TextStyle(
-                                      color: ColorsTheme.secondColor),
-                                  focusColor: ColorsTheme.secondColor,
-                                  focusedBorder: const UnderlineInputBorder(
-                                    //<-- SEE HERE
-                                    borderSide: BorderSide(
-                                        width: 2,
-                                        color: ColorsTheme.primaryColor),
-                                  ),
-                                  enabledBorder: const UnderlineInputBorder(
-                                    //<-- SEE HERE
-                                    borderSide: BorderSide(
-                                        width: 1, color: Colors.grey),
-                                  ),
-                                  labelStyle: const TextStyle(
-                                      color: ColorsTheme.secondColor),
-                                  labelText:
-                                      AppLocalization.localizations!.password,
-                                ),
-                              ),
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(top: 40),
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: ColorsTheme.primaryColor,
-                                    side: const BorderSide(
-                                        width: 1.5,
-                                        color: ColorsTheme.primaryColor),
-                                    //border width and color
-                                    elevation: 1,
-                                    //elevation of button
-                                    shape: RoundedRectangleBorder(
-                                        //to set border radius to button
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                    padding: const EdgeInsets.all(
-                                        0) //content padding inside button
-                                    ),
-                                onPressed: () {
-                                  if (isLogin) {
-                                    _onLoginClick(vm);
-                                  } else {
-                                    _onCreateAccount(vm);
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 40, right: 40, top: 10, bottom: 10),
-                                  child: Text(
-                                      isLogin
-                                          ? AppLocalization.localizations!.login
-                                              .toUpperCase()
-                                          : AppLocalization
-                                              .localizations!.createAccount
-                                              .toUpperCase(),
-                                      style: const TextStyle(
-                                          fontFamily: 'Roboto Regular',
-                                          fontSize: 18,
-                                          fontStyle: FontStyle.normal,
-                                          color: Colors.white)),
-                                )))
-                      ])),
-                  Expanded(
-                    child: Align(
-                        alignment: FractionalOffset.bottomCenter,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ClipPath(
-                              clipper: DirectionalWaveClipper(
-                                  verticalPosition: VerticalPosition.top,
-                                  horizontalPosition: HorizontalPosition.left),
-                              child: Container(
-                                  height: 100,
-                                  padding: const EdgeInsets.only(bottom: 0),
-                                  color: ColorsTheme.secondColor,
-                                  alignment: FractionalOffset.bottomCenter),
-                            ),
-                            Container(
-                                height: 30, color: ColorsTheme.bottomColor)
-                          ],
-                        )),
-                  ),
-                ]);
+            return _buildView(vm);
           },
         );
       },
     );
+  }
+
+  Widget _buildView(LoginViewModel vm) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+              child: AppLogo.logo(
+                  ColorsTheme.primaryColor, ColorsTheme.primaryColor)),
+          Expanded(
+              flex: 2,
+              child: Column(children: [
+                Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SizedBox(
+                      width: 320,
+                      child: TextField(
+                        cursorColor: ColorsTheme.primaryColor,
+                        textInputAction: TextInputAction.next,
+                        controller: _emailController,
+                        autocorrect: false,
+                        style: const TextStyle(
+                            color: ColorsTheme.primaryColor, fontSize: 18),
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          focusColor: ColorsTheme.secondColor,
+                          focusedBorder: const UnderlineInputBorder(
+                            //<-- SEE HERE
+                            borderSide: BorderSide(
+                                width: 2, color: ColorsTheme.primaryColor),
+                          ),
+                          enabledBorder: const UnderlineInputBorder(
+                            //<-- SEE HERE
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.grey),
+                          ),
+                          labelStyle:
+                              const TextStyle(color: ColorsTheme.secondColor),
+                          labelText: AppLocalization.localizations!.email,
+                        ),
+                      ),
+                    )),
+                Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SizedBox(
+                      width: 320,
+                      child: TextField(
+                        cursorColor: ColorsTheme.primaryColor,
+                        textInputAction: TextInputAction.done,
+                        controller: _passwordController,
+                        autocorrect: false,
+                        style: const TextStyle(
+                          color: ColorsTheme.primaryColor,
+                          fontSize: 18,
+                        ),
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          //suffixIcon: IconButton(onPressed: () => {}, icon: Icons.remove_red_eye_rounded,),
+                          hintStyle:
+                              const TextStyle(color: ColorsTheme.secondColor),
+                          focusColor: ColorsTheme.secondColor,
+                          focusedBorder: const UnderlineInputBorder(
+                            //<-- SEE HERE
+                            borderSide: BorderSide(
+                                width: 2, color: ColorsTheme.primaryColor),
+                          ),
+                          enabledBorder: const UnderlineInputBorder(
+                            //<-- SEE HERE
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.grey),
+                          ),
+                          labelStyle:
+                              const TextStyle(color: ColorsTheme.secondColor),
+                          labelText: AppLocalization.localizations!.password,
+                        ),
+                      ),
+                    )),
+                Padding(
+                    padding: const EdgeInsets.only(top: 40),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorsTheme.primaryColor,
+                            side: const BorderSide(
+                                width: 1.5, color: ColorsTheme.primaryColor),
+                            //border width and color
+                            elevation: 1,
+                            //elevation of button
+                            shape: RoundedRectangleBorder(
+                                //to set border radius to button
+                                borderRadius: BorderRadius.circular(50)),
+                            padding: const EdgeInsets.all(
+                                0) //content padding inside button
+                            ),
+                        onPressed: () {
+                          if (isLogin) {
+                            _onLoginClick(vm);
+                          } else {
+                            _onCreateAccount(vm);
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 40, right: 40, top: 10, bottom: 10),
+                          child: Text(
+                              isLogin
+                                  ? AppLocalization.localizations!.login
+                                      .toUpperCase()
+                                  : AppLocalization.localizations!.createAccount
+                                      .toUpperCase(),
+                              style: const TextStyle(
+                                  fontFamily: 'Roboto Regular',
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.normal,
+                                  color: Colors.white)),
+                        )))
+              ])),
+          Expanded(
+            child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ClipPath(
+                      clipper: DirectionalWaveClipper(
+                          verticalPosition: VerticalPosition.top,
+                          horizontalPosition: HorizontalPosition.left),
+                      child: Container(
+                          height: 100,
+                          padding: const EdgeInsets.only(bottom: 0),
+                          color: ColorsTheme.secondColor,
+                          alignment: FractionalOffset.bottomCenter),
+                    ),
+                    Container(height: 30, color: ColorsTheme.bottomColor)
+                  ],
+                )),
+          ),
+        ]);
   }
 
   _handleResponse(LoginViewModel newViewModel) {

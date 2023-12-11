@@ -1,7 +1,9 @@
 import 'package:flutter_redux_bank/redux/actions.dart';
 
 class GetAccountsDetails extends Actions {
-  GetAccountsDetails();
+  final String loginUserUid;
+  final String token;
+  GetAccountsDetails({required this.loginUserUid, required this.token});
 }
 
 class AccountsDetailsLoaded extends Actions {

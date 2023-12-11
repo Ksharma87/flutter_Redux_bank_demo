@@ -2,8 +2,7 @@ import 'dart:async';
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
 import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
-import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
-import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
+import 'package:flutter_redux_bank/preferences/preferences.dart';
 import 'package:flutter_redux_bank/redux/store/accounts/store.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
@@ -36,14 +35,16 @@ class UserDetailsViewModel {
     store.dispatch(UserIdentity(
         email: manager.getPreferencesValue(PreferencesContents.emailId)!,
         mobileNumber: mobile,
-        completer: completer[0]));
+        completer: completer[0],
+        uid: manager.getPreferencesValue(PreferencesContents.userUid)!));
 
     store.dispatch(UserDetailsSubmit(
         firstName: firstName,
         lastName: lastName,
         mobileNumber: mobile,
         gender: detailsState.isMale,
-        completer: completer[1]));
+        completer: completer[1],
+        email: manager.getPreferencesValue(PreferencesContents.emailId)!));
 
     store.dispatch(CreateAccountsAction(
         balance: "250000", // default money
@@ -53,7 +54,7 @@ class UserDetailsViewModel {
 
     Future.wait([completer[0].future, completer[1].future, completer[2].future])
         .then((result) => {
-          if (result[0] as bool && result[1] as bool && result[2] as bool)
+              if (result[0] as bool && result[1] as bool && result[2] as bool)
                 {
                   manager.setPreferencesValue(PreferencesContents.balance, ''),
                   store.dispatch(InitUserProfile()),

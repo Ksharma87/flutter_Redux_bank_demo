@@ -4,6 +4,7 @@ import 'package:flutter_redux_bank/redux/store/auth/auth_state.dart';
 import 'package:flutter_redux_bank/redux/store/dashboard/bottom_nav_state.dart';
 import 'package:flutter_redux_bank/redux/store/details/details_state.dart';
 import 'package:flutter_redux_bank/redux/store/payment/payment_state.dart';
+import 'package:flutter_redux_bank/redux/store/payment_transfer/payment_transfer_state.dart';
 import 'package:flutter_redux_bank/redux/store/profile/profile_state.dart';
 
 @immutable
@@ -14,6 +15,7 @@ class AppState {
   final ProfileState profileState;
   final AccountsState accountsState;
   final PaymentState paymentState;
+  final PaymentTransferState paymentTransferState;
 
   const AppState(
       {required this.authState,
@@ -21,7 +23,8 @@ class AppState {
       required this.bottomNavState,
       required this.profileState,
       required this.accountsState,
-      required this.paymentState});
+      required this.paymentState,
+      required this.paymentTransferState});
 
   factory AppState.initial() => AppState(
       authState: AuthState.initial(),
@@ -29,7 +32,8 @@ class AppState {
       bottomNavState: BottomNavState.initial(),
       profileState: ProfileState.initial(),
       accountsState: AccountsState.initial(),
-      paymentState: PaymentState.initial());
+      paymentState: PaymentState.initial(),
+      paymentTransferState: PaymentTransferState.initial());
 
   AppState copyWith(
       {required AuthState authState,
@@ -37,13 +41,15 @@ class AppState {
       required BottomNavState bottomNavState,
       required ProfileState profileState,
       required AccountsState accountsState,
-      required PaymentState paymentState}) {
+      required PaymentState paymentState,
+      required PaymentTransferState paymentTransferState}) {
     return AppState(
         authState: authState,
         detailsState: detailsState,
         bottomNavState: bottomNavState,
         profileState: profileState,
         accountsState: accountsState,
-        paymentState: paymentState);
+        paymentState: paymentState,
+        paymentTransferState: paymentTransferState);
   }
 }

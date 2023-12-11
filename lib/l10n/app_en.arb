@@ -48,5 +48,7 @@
     "passbookTab": "Passbook",
     "profileTab": "Profile",
 
+    "continueBtn": "Continue",
+
     "logout": "Logout"
 }

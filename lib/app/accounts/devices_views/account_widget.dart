@@ -7,8 +7,7 @@ import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialo
 import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
 import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
-import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
-import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
+import 'package:flutter_redux_bank/preferences/preferences.dart';
 import 'package:flutter_redux_bank/redux/store/accounts/accounts_actions.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
@@ -19,10 +18,10 @@ class AccountWidget extends StatelessWidget {
   AccountWidget({super.key, required this.boxConstraints});
 
   final BoxConstraints boxConstraints;
-  final LoadingProgressDialog _loadingProgressDialog = LoadingProgressDialog();
   final String appName =
       '${AppLocalization.localizations!.noida} ${(AppLocalization.localizations!.bank).capitalize()}';
   final PreferencesManager _manager = PreferencesManager();
+  final LoadingProgressDialog loadingProgressDialog = LoadingProgressDialog();
   final Stream<String> updateBalance =
       BalanceUpdateService().updateBalanceStream();
 
@@ -32,9 +31,17 @@ class AccountWidget extends StatelessWidget {
         distinct: true,
         onInit: (store) {},
         onDispose: (store) {},
-        onWillChange: (oldViewModel, newViewModel) {},
+        onWillChange: (oldViewModel, newViewModel) {
+          if (newViewModel.accountsState.isLoading) {
+            loadingProgressDialog.showProgressDialog();
+          }
+        },
         onInitialBuild: (accountViewModel) {
-          store.dispatch(GetAccountsDetails());
+          store.dispatch(GetAccountsDetails(
+              loginUserUid:
+                  _manager.getPreferencesValue(PreferencesContents.userUid)!,
+              token: _manager
+                  .getPreferencesValue(PreferencesContents.loginToken)!));
           if (accountViewModel.accountsState.balance.isNotEmpty) {
             _manager.saveBalance(accountViewModel.accountsState.balance);
           }
@@ -42,6 +49,9 @@ class AccountWidget extends StatelessWidget {
         onDidChange: (oldViewModel, newViewModel) {
           if (newViewModel.accountsState.balance.isNotEmpty) {
             _manager.saveBalance(newViewModel.accountsState.balance);
+          }
+          if (!(newViewModel.accountsState.isLoading)) {
+            loadingProgressDialog.hideProgressDialog();
           }
         },
         converter: (store) {

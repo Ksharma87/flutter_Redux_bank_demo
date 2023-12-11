@@ -25,6 +25,10 @@ class UserDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _buildStore();
+  }
+
+  Widget _buildStore() {
     return StoreConnector<AppState, UserDetailsViewModel>(
         distinct: true,
         onInit: (store) {},
@@ -46,136 +50,140 @@ class UserDetailsWidget extends StatelessWidget {
         },
         builder: (BuildContext context, UserDetailsViewModel vm) {
           return Builder(builder: (BuildContext context) {
-            return Container(
-                height: boxConstraints.maxHeight,
-                alignment: Alignment.topCenter,
-                child: Column(children: [
-                  Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 5),
-                      child: SizedBox(
-                        width: 320,
-                        child: TextField(
-                          controller: _firstName,
-                          textInputAction: TextInputAction.next,
-                          autocorrect: false,
-                          style: const TextStyle(
-                              color: ColorsTheme.primaryColor, fontSize: 18),
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            focusedBorder: const UnderlineInputBorder(
-                              //<-- SEE HERE
-                              borderSide: BorderSide(
-                                  width: 2, color: ColorsTheme.primaryColor),
-                            ),
-                            enabledBorder: const UnderlineInputBorder(
-                              //<-- SEE HERE
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.grey),
-                            ),
-                            labelStyle:
-                                const TextStyle(color: ColorsTheme.secondColor),
-                            labelText: AppLocalization.localizations!.firstname,
-                          ),
-                        ),
-                      )),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 10),
-                      child: SizedBox(
-                        width: 320,
-                        child: TextField(
-                          controller: _lastName,
-                          textInputAction: TextInputAction.next,
-                          autocorrect: false,
-                          style: const TextStyle(
-                              color: ColorsTheme.primaryColor, fontSize: 18),
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            focusedBorder: const UnderlineInputBorder(
-                              //<-- SEE HERE
-                              borderSide: BorderSide(
-                                  width: 2, color: ColorsTheme.primaryColor),
-                            ),
-                            enabledBorder: const UnderlineInputBorder(
-                              //<-- SEE HERE
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.grey),
-                            ),
-                            labelStyle:
-                                const TextStyle(color: ColorsTheme.secondColor),
-                            labelText: AppLocalization.localizations!.lastname,
-                          ),
-                        ),
-                      )),
-                  SizedBox(
-                    width: 320,
-                    child: TextField(
-                      controller: _mobileNumber,
-                      textInputAction: TextInputAction.done,
-                      autocorrect: false,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      style: const TextStyle(
-                          color: ColorsTheme.primaryColor, fontSize: 18),
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        focusedBorder: const UnderlineInputBorder(
-                          //<-- SEE HERE
-                          borderSide: BorderSide(
-                              width: 2, color: ColorsTheme.primaryColor),
-                        ),
-                        enabledBorder: const UnderlineInputBorder(
-                          //<-- SEE HERE
-                          borderSide: BorderSide(width: 1, color: Colors.grey),
-                        ),
-                        labelStyle:
-                            const TextStyle(color: ColorsTheme.secondColor),
-                        labelText: AppLocalization.localizations!.mobileNumber,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 30, top: 30),
-                      child: SizedBox(width: 320, child: genderView(vm))),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 40),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorsTheme.primaryColor,
-                              side: const BorderSide(
-                                  width: 1.5, color: ColorsTheme.primaryColor),
-                              //border width and color
-                              elevation: 1,
-                              //elevation of button
-                              shape: RoundedRectangleBorder(
-                                  //to set border radius to button
-                                  borderRadius: BorderRadius.circular(50)),
-                              padding: const EdgeInsets.all(
-                                  0) //content padding inside button
-                              ),
-                          onPressed: () {
-                            _onSubmitClick(vm);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 70, right: 70, top: 10, bottom: 10),
-                            child: Text(AppLocalization.localizations!.submit,
-                                style: const TextStyle(
-                                    fontFamily: 'Roboto Regular',
-                                    fontSize: 18,
-                                    fontStyle: FontStyle.normal,
-                                    color: Colors.white)),
-                          ))),
-                  Expanded(
-                    child: Align(
-                        alignment: FractionalOffset.bottomCenter,
-                        child: Container(
-                            height: 60, color: ColorsTheme.bottomColor)),
-                  ),
-                ]));
+            return _buildView(vm);
           });
         });
+  }
+
+  Widget _buildView(UserDetailsViewModel vm) {
+    return Container(
+        height: boxConstraints.maxHeight,
+        alignment: Alignment.topCenter,
+        child: Column(children: [
+          Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 5),
+              child: SizedBox(
+                width: 320,
+                child: TextField(
+                  controller: _firstName,
+                  textInputAction: TextInputAction.next,
+                  autocorrect: false,
+                  style: const TextStyle(
+                      color: ColorsTheme.primaryColor, fontSize: 18),
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    focusedBorder: const UnderlineInputBorder(
+                      //<-- SEE HERE
+                      borderSide: BorderSide(
+                          width: 2, color: ColorsTheme.primaryColor),
+                    ),
+                    enabledBorder: const UnderlineInputBorder(
+                      //<-- SEE HERE
+                      borderSide:
+                      BorderSide(width: 1, color: Colors.grey),
+                    ),
+                    labelStyle:
+                    const TextStyle(color: ColorsTheme.secondColor),
+                    labelText: AppLocalization.localizations!.firstname,
+                  ),
+                ),
+              )),
+          Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 10),
+              child: SizedBox(
+                width: 320,
+                child: TextField(
+                  controller: _lastName,
+                  textInputAction: TextInputAction.next,
+                  autocorrect: false,
+                  style: const TextStyle(
+                      color: ColorsTheme.primaryColor, fontSize: 18),
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    focusedBorder: const UnderlineInputBorder(
+                      //<-- SEE HERE
+                      borderSide: BorderSide(
+                          width: 2, color: ColorsTheme.primaryColor),
+                    ),
+                    enabledBorder: const UnderlineInputBorder(
+                      //<-- SEE HERE
+                      borderSide:
+                      BorderSide(width: 1, color: Colors.grey),
+                    ),
+                    labelStyle:
+                    const TextStyle(color: ColorsTheme.secondColor),
+                    labelText: AppLocalization.localizations!.lastname,
+                  ),
+                ),
+              )),
+          SizedBox(
+            width: 320,
+            child: TextField(
+              controller: _mobileNumber,
+              textInputAction: TextInputAction.done,
+              autocorrect: false,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              style: const TextStyle(
+                  color: ColorsTheme.primaryColor, fontSize: 18),
+              obscureText: false,
+              decoration: InputDecoration(
+                focusedBorder: const UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(
+                      width: 2, color: ColorsTheme.primaryColor),
+                ),
+                enabledBorder: const UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(width: 1, color: Colors.grey),
+                ),
+                labelStyle:
+                const TextStyle(color: ColorsTheme.secondColor),
+                labelText: AppLocalization.localizations!.mobileNumber,
+              ),
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.only(left: 30, top: 30),
+              child: SizedBox(width: 320, child: genderView(vm))),
+          Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorsTheme.primaryColor,
+                      side: const BorderSide(
+                          width: 1.5, color: ColorsTheme.primaryColor),
+                      //border width and color
+                      elevation: 1,
+                      //elevation of button
+                      shape: RoundedRectangleBorder(
+                        //to set border radius to button
+                          borderRadius: BorderRadius.circular(50)),
+                      padding: const EdgeInsets.all(
+                          0) //content padding inside button
+                  ),
+                  onPressed: () {
+                    _onSubmitClick(vm);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 70, right: 70, top: 10, bottom: 10),
+                    child: Text(AppLocalization.localizations!.submit,
+                        style: const TextStyle(
+                            fontFamily: 'Roboto Regular',
+                            fontSize: 18,
+                            fontStyle: FontStyle.normal,
+                            color: Colors.white)),
+                  ))),
+          Expanded(
+            child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Container(
+                    height: 60, color: ColorsTheme.bottomColor)),
+          ),
+        ]));
   }
 
   Widget customRadioButton(

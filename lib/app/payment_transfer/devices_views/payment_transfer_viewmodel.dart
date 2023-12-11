@@ -1,19 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialog.dart';
-import 'package:flutter_redux_bank/di/injection.dart';
-import 'package:flutter_redux_bank/domain/useCase/accounts/accounts_useCase.dart';
-import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
-import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
-import 'package:flutter_redux_bank/redux/store/payment/payment_state.dart';
-import 'package:flutter_redux_bank/redux/store/profile/store.dart';
+import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
+import 'package:flutter_redux_bank/redux/store/payment/store.dart';
 import 'package:redux/redux.dart';
-import '../../../domain/useCase/payment/payment_useCase.dart';
 
 class PaymentTransferViewModel {
   final PaymentState paymentState;
-  final PreferencesManager preferencesManager = PreferencesManager();
-  final LoadingProgressDialog progressDialog = LoadingProgressDialog();
 
   PaymentTransferViewModel({
     required this.paymentState,
@@ -25,39 +16,23 @@ class PaymentTransferViewModel {
     );
   }
 
-  void paymentCall(String uid, PaymentTransferViewModel vm, String amt,
-      BuildContext context) async {
-    progressDialog.showProgressDialog();
-    AccountsUseCase accountsUseCase = getIt<AccountsUseCase>();
-    PaymentUseCase useCase = getIt<PaymentUseCase>();
-    String otherBalance = await accountsUseCase.invokeUpdateBalance(uid);
-    final paymentResponse = await useCase.invokePayment(
-        preferencesManager.getPreferencesValue(PreferencesContents.userUid)!,
-        uid,
-        yourUpdatedAmount(vm, amt),
-        otherUpdatedAmount(otherBalance, amt));
-
-    if (paymentResponse) {
-      progressDialog.hideProgressDialog();
-      Future.delayed(
-          const Duration(seconds: 3), () => {Navigator.pop(context)});
-    }
+  void paymentCall(String payeeUid, String amt, String loginUserUid) {
+    store.dispatch(InitialPaymentAction(
+        loginUserId: loginUserUid, payeeUserId: payeeUid, amount: amt));
   }
 
   bool isSufficientBalance(String ourAmount, String amt) {
     return (int.parse((ourAmount)) >= int.parse(amt)) ? true : false;
   }
 
-  String otherUpdatedAmount(String balance, String amt) {
-    int amtTransfer = int.parse(amt);
-    int other = int.parse(balance);
-    return (other + amtTransfer).toString();
-  }
+  @override
+  int get hashCode =>
+      paymentState.hasData.hashCode ^ paymentState.isPaymentDone.hashCode ^ paymentState.numberConvertText.hashCode;
 
-  String yourUpdatedAmount(PaymentTransferViewModel vm, String amt) {
-    int amtTransfer = int.parse(amt);
-    int yourAmount = int.parse(
-        preferencesManager.getPreferencesValue(PreferencesContents.balance)!);
-    return (yourAmount - amtTransfer).toString();
+  @override
+  bool operator == (Object other) {
+     PaymentTransferViewModel model = (other as PaymentTransferViewModel);
+     return paymentState.isPaymentDone == model.paymentState.isPaymentDone &&
+         paymentState.hasData == model.paymentState.hasData;
   }
 }

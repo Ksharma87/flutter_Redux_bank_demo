@@ -1,14 +1,20 @@
 import 'package:flutter_redux_bank/redux/store/payment/store.dart';
 import 'package:redux/redux.dart';
 
-Reducer<PaymentState> paymentProfileStateReducer = combineReducers<PaymentState>([
-  TypedReducer<PaymentState, FetchPaymentUserProfileSuccess>(_fetchPaymentUserSuccess).call,
-  TypedReducer<PaymentState, FetchPaymentUserProfileFail>(_fetchPaymentUserFail).call,
+Reducer<PaymentState> paymentProfileStateReducer =
+    combineReducers<PaymentState>([
+  TypedReducer<PaymentState, FetchPaymentUserProfileSuccess>(
+          _fetchPaymentUserSuccess)
+      .call,
+  TypedReducer<PaymentState, FetchPaymentUserProfileFail>(_fetchPaymentUserFail)
+      .call,
   TypedReducer<PaymentState, InitialAction>(_initPaymentStore).call,
-  TypedReducer<PaymentState, GetPayeeUserProfileLoaded>(_getPayeeUserProfileLoaded).call,
+  TypedReducer<PaymentState, GetPayeeUserProfileLoaded>(
+          _getPayeeUserProfileLoaded)
+      .call,
+  TypedReducer<PaymentState, PaymentCompletedAction>(_paymentCompleted).call,
 
 ]);
-
 
 PaymentState _getPayeeUserProfileLoaded(
     PaymentState paymentState, GetPayeeUserProfileLoaded action) {
@@ -17,17 +23,28 @@ PaymentState _getPayeeUserProfileLoaded(
       lastName: action.lastName,
       mobileNumber: action.mobileNumber,
       isMale: action.gender,
-      email: action.email, paymentUid: '');
+      email: action.email,
+      paymentUid: '',
+      hasData: true);
 }
 
-PaymentState _fetchPaymentUserFail(PaymentState paymentState, FetchPaymentUserProfileFail action) {
+PaymentState _fetchPaymentUserFail(
+    PaymentState paymentState, FetchPaymentUserProfileFail action) {
   return paymentState.copyWith(paymentUid: "-1"); // User Not exist
 }
 
-PaymentState _fetchPaymentUserSuccess(PaymentState paymentState, FetchPaymentUserProfileSuccess action) {
+PaymentState _fetchPaymentUserSuccess(
+    PaymentState paymentState, FetchPaymentUserProfileSuccess action) {
   return paymentState.copyWith(paymentUid: action.uid);
 }
 
-PaymentState _initPaymentStore(PaymentState paymentState, InitialAction action) {
+PaymentState _initPaymentStore(
+    PaymentState paymentState, InitialAction action) {
   return paymentState.copyWith(paymentUid: '');
 }
+
+PaymentState _paymentCompleted(
+    PaymentState paymentState, PaymentCompletedAction action) {
+  return paymentState.copyWith(paymentUid: '', isPaymentDone: true);
+}
+

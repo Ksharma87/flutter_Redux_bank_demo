@@ -8,6 +8,9 @@ class PaymentState {
   final String lastName;
   final String mobileNumber;
   final String email;
+  final bool isPaymentDone;
+  final String numberConvertText;
+  final bool hasData;
 
   const PaymentState(
       {required this.paymentUid,
@@ -15,7 +18,10 @@ class PaymentState {
       this.lastName = '',
       this.mobileNumber = '',
       this.isMale = '',
-      this.email = ''});
+      this.email = '',
+      this.isPaymentDone = false,
+      this.numberConvertText = '',
+      this.hasData = false});
 
   factory PaymentState.initial() {
     return const PaymentState(
@@ -24,7 +30,10 @@ class PaymentState {
         lastName: '',
         mobileNumber: '',
         isMale: '',
-        email: '');
+        email: '',
+        isPaymentDone: false,
+        numberConvertText: '',
+        hasData: false);
   }
 
   PaymentState copyWith(
@@ -33,13 +42,19 @@ class PaymentState {
       String lastName = '',
       String mobileNumber = '',
       String isMale = '',
-      String email = ''}) {
+      String email = '',
+      isPaymentDone = false,
+      numberConvertText = '',
+      hasData = false}) {
     return PaymentState(
         paymentUid: paymentUid,
         firstName: firstName,
         lastName: lastName,
         isMale: isMale,
         email: email,
-        mobileNumber: mobileNumber);
+        mobileNumber: mobileNumber,
+        isPaymentDone: isPaymentDone,
+        numberConvertText: numberConvertText,
+        hasData: hasData);
   }
 }

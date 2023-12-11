@@ -7,16 +7,20 @@ import 'package:flutter_redux_bank/app/utils/loading_view/loading_progress_dialo
 import 'package:flutter_redux_bank/app/utils/profile_view/profile_view_utils.dart';
 import 'package:flutter_redux_bank/app/utils/toast_view/toast_view.dart';
 import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
+import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
-import 'package:flutter_redux_bank/preferences/preferences_contents.dart';
-import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
+import 'package:flutter_redux_bank/preferences/preferences.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/payment/store.dart';
+import 'package:flutter_redux_bank/redux/store/payment_transfer/payment_transfer_actions.dart';
 import 'package:flutter_redux_bank/services/balance_service.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
+import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+import 'package:number_to_words_english/number_to_words_english.dart';
+import 'package:redux/redux.dart';
 
 class PaymentTransferWidget extends StatelessWidget {
   PaymentTransferWidget(
@@ -28,17 +32,21 @@ class PaymentTransferWidget extends StatelessWidget {
   final ProfileViewUtils _profileViewUtils = ProfileViewUtils();
   final TextEditingController _amountController = TextEditingController();
   final PreferencesManager _manager = PreferencesManager();
-  late String yourBalance;
+  late String yourBalance =
+      _manager.getPreferencesValue(PreferencesContents.balance)!;
 
   final Stream<String> updateBalance =
       BalanceUpdateService().updateBalanceStream();
 
   @override
   Widget build(BuildContext context) {
+    return _buildStore(context);
+  }
+
+  Widget _buildStore(BuildContext context) {
     return StoreConnector<AppState, PaymentTransferViewModel>(
         distinct: true,
         onInit: (store) {
-          yourBalance = _manager.getPreferencesValue(PreferencesContents.balance)!;
           store.dispatch(InitialAction());
         },
         onWillChange: (oldVm, newVm) {},
@@ -46,9 +54,14 @@ class PaymentTransferWidget extends StatelessWidget {
           if (newVm.paymentState.mobileNumber.isNotEmpty) {
             _progressDialog.hideProgressDialog();
           }
+          moveDashboard(newVm);
         },
         onInitialBuild: (profileViewModel) {
-          store.dispatch(GetPayeeUserProfile(uid: uid));
+          store.dispatch(GetPayeeUserProfile(
+              uid: uid,
+              token: _manager
+                  .getPreferencesValue(PreferencesContents.loginToken)!));
+
           _progressDialog.showProgressDialog();
         },
         converter: (store) {
@@ -56,12 +69,12 @@ class PaymentTransferWidget extends StatelessWidget {
         },
         builder: (BuildContext context, PaymentTransferViewModel vm) {
           return Builder(builder: (BuildContext context) {
-            return _build(vm, context);
+            return _buildView(vm, context);
           });
         });
   }
 
-  Widget _build(PaymentTransferViewModel vm, BuildContext context) {
+  Widget _buildView(PaymentTransferViewModel vm, BuildContext context) {
     return Column(children: [
       Expanded(
           child: Padding(
@@ -77,8 +90,9 @@ class PaymentTransferWidget extends StatelessWidget {
                         flex: 1,
                         child: Align(
                             alignment: Alignment.topLeft,
-                            child: _profileViewUtils
-                                .profileImageHolder(vm.paymentState.mobileNumber, vm.paymentState.isMale))),
+                            child: _profileViewUtils.profileImageHolder(
+                                vm.paymentState.mobileNumber,
+                                vm.paymentState.isMale))),
                     Flexible(
                         flex: 2,
                         child: Padding(
@@ -89,8 +103,9 @@ class PaymentTransferWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                    _profileViewUtils
-                                        .profileName(vm.paymentState.firstName, vm.paymentState.lastName),
+                                    _profileViewUtils.profileName(
+                                        vm.paymentState.firstName,
+                                        vm.paymentState.lastName),
                                     style: const TextStyle(
                                       fontFamily: 'Roboto Regular',
                                       fontSize: 20,
@@ -125,6 +140,7 @@ class PaymentTransferWidget extends StatelessWidget {
                 SizedBox(
                   width: 200,
                   child: TextField(
+                    onChanged: _onChange,
                     textAlign: TextAlign.center,
                     cursorColor: ColorsTheme.primaryColor,
                     textInputAction: TextInputAction.done,
@@ -167,14 +183,9 @@ class PaymentTransferWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Padding(
-                    padding: EdgeInsets.only(top: 0, bottom: 0),
-                    child: Text("",
-                        style: TextStyle(
-                            fontFamily: 'Roboto Regular',
-                            fontSize: 20,
-                            fontStyle: FontStyle.normal,
-                            color: ColorsTheme.secondColor))),
+                Padding(
+                    padding: const EdgeInsets.only(top: 30, bottom: 0),
+                    child: _buildNumberConvertText()),
                 Padding(
                     padding: const EdgeInsets.only(top: 40),
                     child: ElevatedButton(
@@ -225,6 +236,40 @@ class PaymentTransferWidget extends StatelessWidget {
     ]);
   }
 
+  void _onChange(value) {
+    store.dispatch(NumberConvertAction(textChange: value.toString().trim()));
+  }
+
+  Widget _buildNumberConvertText() {
+    return StoreBuilder<AppState>(
+        onInit: (store) => {store.dispatch(InitialNumberConvertAction())},
+        builder: (BuildContext context, Store<AppState> ourStore) {
+          if (ourStore.state.paymentTransferState.numberConvertText.isEmpty) {
+            return const SizedBox();
+          }
+          return Text(
+              NumberToWordsEnglish.convert(int.parse(
+                  ourStore.state.paymentTransferState.numberConvertText)),
+              style: const TextStyle(
+                  fontFamily: 'Roboto Light',
+                  fontSize: 16,
+                  fontStyle: FontStyle.normal,
+                  color: ColorsTheme.secondColor));
+        });
+  }
+
+  void moveDashboard(PaymentTransferViewModel viewModel) {
+    if (viewModel.paymentState.isPaymentDone) {
+      _progressDialog.hideProgressDialog();
+      Future.delayed(
+          const Duration(milliseconds: 00),
+          () => {
+                store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
+                    AppRouter.DASHBOARD, (route) => false))
+              });
+    }
+  }
+
   void validation(PaymentTransferViewModel vm, BuildContext context) {
     String? amountMsg =
         getIt<Validation>().validateAmount(_amountController.text.toString());
@@ -233,7 +278,10 @@ class PaymentTransferWidget extends StatelessWidget {
           _manager.getPreferencesValue(PreferencesContents.balance)!;
       String amtAmount = _amountController.text.toString();
       if (vm.isSufficientBalance(ourAmount, amtAmount)) {
-        vm.paymentCall(uid, vm, amtAmount, context);
+        String loginUserUid =
+            _manager.getPreferencesValue(PreferencesContents.userUid)!;
+        _progressDialog.showProgressDialog();
+        vm.paymentCall(uid, amtAmount, loginUserUid);
       } else {
         ToastView.displaySnackBar(
             AppLocalization.localizations!.insufficientAmount);
