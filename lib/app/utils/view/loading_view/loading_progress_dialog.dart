@@ -23,6 +23,9 @@ class LoadingProgressDialog {
     if (isLoading) {
       isLoading = false;
       Navigator.pop(NavigatorHolder.navigatorKey.currentState!.context);
+      Future.delayed(const Duration(seconds: 0), () => {
+
+      });
     }
   }
 }

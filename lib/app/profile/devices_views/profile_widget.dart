@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/profile/devices_views/profile_viewModel.dart';
 import 'package:flutter_redux_bank/app/utils/screen_config/ScreenConfig.dart';
+import 'package:flutter_redux_bank/app/utils/view/balance_view/balance_view_utils.dart';
 import 'package:flutter_redux_bank/app/utils/view/profile_view/profile_view_utils.dart';
 import 'package:flutter_redux_bank/common/types/gender_type.dart';
 import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
@@ -70,8 +71,8 @@ class ProfileWidget extends StatelessWidget {
                               child: Card(
                                 color: ColorsTheme.primaryColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all((const Radius.circular(15).w)),
+                                  borderRadius: BorderRadius.all(
+                                      (const Radius.circular(15).w)),
                                 ),
                               ))),
                       SizedBox(
@@ -111,7 +112,7 @@ class ProfileWidget extends StatelessWidget {
                                   fontSize: 23.sp,
                                 ),
                               ),
-                              balanceUpdate(vm)
+                              balanceUpdateText(vm)
                             ],
                           )))
                 ])),
@@ -169,25 +170,12 @@ class ProfileWidget extends StatelessWidget {
     }
   }
 
-  Widget balanceUpdate(ProfileViewModel viewModel) {
-    PreferencesManager manager = PreferencesManager();
-    String balance =
-        manager.getPreferencesValue(PreferencesContents.balance) ?? '';
-    return StreamBuilder(
-        initialData: balance,
-        stream: updateBalance,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          bool isData = snapshot.hasData;
-          if (isData) {
-            manager.saveBalance(snapshot.data!);
-          }
-          String? value = isData ? snapshot.data : balance;
-          return Text((value!).amountFormat(),
-              style: TextStyle(
-                  color: ColorsTheme.secondColor,
-                  fontFamily: FontType.fontRobotoLight,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold));
-        });
+  Widget balanceUpdateText(ProfileViewModel viewModel) {
+    TextStyle style = TextStyle(
+        color: ColorsTheme.secondColor,
+        fontFamily: FontType.fontRobotoLight,
+        fontSize: 18.sp,
+        fontWeight: FontWeight.bold);
+    return BalanceViewUtils().balanceUpdate(updateBalance, style);
   }
 }

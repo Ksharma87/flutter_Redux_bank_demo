@@ -5,6 +5,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/dashboard/dashboard_page.dart';
 import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_viewmodel.dart';
 import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_widget.dart';
+import 'package:flutter_redux_bank/app/logout/logout_dialogs.dart';
+import 'package:flutter_redux_bank/app/logout/logout_manager.dart';
+import 'package:flutter_redux_bank/app/utils/animation_lottie/AnimationLottie.dart';
 import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
@@ -46,6 +49,16 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
   }
 
   @override
+  bool isCanPop() {
+    return false;
+  }
+
+  @override
+  void onPopInvokedHere() {
+    LogoutManager.logoutCall(context);
+  }
+
+  @override
   Color rootBackgroundColor() {
     return Colors.white;
   }
@@ -64,7 +77,7 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
             return Text(tabs[vm.bottomNavState.index],
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontFamily: FontType.fontRobotoRegular,
+                    fontFamily: FontType.fontRobotoLight,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w100,
                     color: Colors.white));
@@ -77,23 +90,19 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
     return AppBar(
       actions: [
         Padding(
-            padding: EdgeInsets.only(right: 10.w),
+            padding: EdgeInsets.only(right: 0.w),
             child: IconButton(
                 icon: const Icon(
                   Icons.logout,
                   color: Colors.white,
                   size: 24.0,
                 ),
-                onPressed: () => {
-                      Future.delayed(const Duration(milliseconds: 1000), () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, "/", (route) => false);
-                      })
-                    })),
+                onPressed: () => {LogoutManager.logoutCall(context)})),
       ],
       titleSpacing: 2,
       backgroundColor: ColorsTheme.primaryColor,
       toolbarHeight: 60.h,
+      centerTitle: true,
       title: toolBarTitle(),
     );
   }

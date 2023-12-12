@@ -33,10 +33,16 @@ class PaymentViewModel {
         _manager.getPreferencesValue(PreferencesContents.userUid)!;
     if (payeeUid == "-1") {
       // "-1" no data found.
-      ToastView.displaySnackBar("This Email-Id OR mobile Number not exist.");
-    } else if (payeeUid != loginUserUid) {
+      store.dispatch(InitialAction());
+      ToastView.displaySnackBar("This Email-Id OR Mobile Number not exist.");
+    } else if (payeeUid.replaceAll("\"", '') != loginUserUid.replaceAll("\"", "")) {
       navigationPayment(payeeUid.trim());
+    } else {
+      store.dispatch(InitialAction());
+      ToastView.displaySnackBar("Sorry, It is your email-Id OR Mobile Number");
     }
+
+
   }
 
   bool onClickContinue(String emailOrMobile) {

@@ -10,7 +10,7 @@ class BalanceUpdateService {
 
   Stream<String> updateBalanceStream() async* {
     while (true) {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 1000));
       String balance = await getIt<AccountsUseCase>().invokeUpdateBalance(
           preferencesManager.getPreferencesValue(PreferencesContents.userUid)!);
       yield balance;

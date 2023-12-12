@@ -1,9 +1,13 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/accounts/devices_views/account_viewmodel.dart';
+import 'package:flutter_redux_bank/app/logout/logout_manager.dart';
+import 'package:flutter_redux_bank/app/utils/animation_lottie/AnimationLottie.dart';
 import 'package:flutter_redux_bank/app/utils/screen_config/ScreenConfig.dart';
+import 'package:flutter_redux_bank/app/utils/view/balance_view/balance_view_utils.dart';
 import 'package:flutter_redux_bank/app/utils/view/loading_view/loading_progress_dialog.dart';
 import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
 import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
@@ -22,11 +26,12 @@ class AccountWidget extends StatelessWidget {
 
   final BoxConstraints boxConstraints;
   final String appName =
-      '${AppLocalization.localizations!.noida} ${(AppLocalization.localizations!.bank).capitalize()}';
+      '${AppLocalization.localizations!.noida} ${(AppLocalization.localizations!
+      .bank).capitalize()}';
   final PreferencesManager _manager = PreferencesManager();
   final LoadingProgressDialog loadingProgressDialog = LoadingProgressDialog();
   final Stream<String> updateBalance =
-      BalanceUpdateService().updateBalanceStream();
+  BalanceUpdateService().updateBalanceStream();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +47,7 @@ class AccountWidget extends StatelessWidget {
         onInitialBuild: (accountViewModel) {
           store.dispatch(GetAccountsDetails(
               loginUserUid:
-                  _manager.getPreferencesValue(PreferencesContents.userUid)!,
+              _manager.getPreferencesValue(PreferencesContents.userUid)!,
               token: _manager
                   .getPreferencesValue(PreferencesContents.loginToken)!));
           if (accountViewModel.accountsState.balance.isNotEmpty) {
@@ -74,24 +79,27 @@ class AccountWidget extends StatelessWidget {
                           child: Column(
                             children: [
                               Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 20.w, bottom: 10.h),
-                                  child: balanceUpdate()),
+                                  padding:
+                                  EdgeInsets.only(top: 20.w, bottom: 10.h),
+                                  child: SizedBox(
+                                      height: 30.h,
+                                      child: balanceUpdateText())),
                               Row(
                                 children: [
                                   Expanded(
                                       child: Padding(
                                           padding: const EdgeInsets.all(5).w,
                                           child: Text(
-                                              "${AppLocalization.localizations!.branch} :",
+                                              "${AppLocalization.localizations!
+                                                  .branch} :",
                                               textAlign: TextAlign.end,
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily:
-                                                      FontType.fontRobotoThin,
+                                                  FontType.fontRobotoThin,
                                                   fontSize: 18.sp,
                                                   fontWeight:
-                                                      FontWeight.normal)))),
+                                                  FontWeight.normal)))),
                                   Expanded(
                                       child: Padding(
                                           padding: const EdgeInsets.all(0),
@@ -104,7 +112,7 @@ class AccountWidget extends StatelessWidget {
                                                       .fontRobotoRegular,
                                                   fontSize: 18.sp,
                                                   fontWeight:
-                                                      FontWeight.normal))))
+                                                  FontWeight.normal))))
                                 ],
                               ),
                               Row(
@@ -120,14 +128,16 @@ class AccountWidget extends StatelessWidget {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily:
-                                                      FontType.fontRobotoThin,
+                                                  FontType.fontRobotoThin,
                                                   fontSize: 18.sp,
                                                   fontWeight:
-                                                      FontWeight.normal)))),
+                                                  FontWeight.normal)))),
                                   Expanded(
                                       child: Padding(
                                           padding: EdgeInsets.only(
-                                              left: 5.w, bottom: 40.h, top: 10.h),
+                                              left: 5.w,
+                                              bottom: 40.h,
+                                              top: 10.h),
                                           child: Text(
                                               vm.accountsState
                                                   .bankAccountNumber,
@@ -137,7 +147,7 @@ class AccountWidget extends StatelessWidget {
                                                       .fontRobotoRegular,
                                                   fontSize: 18.sp,
                                                   fontWeight:
-                                                      FontWeight.normal))))
+                                                  FontWeight.normal))))
                                 ],
                               ),
                             ],
@@ -180,7 +190,7 @@ class AccountWidget extends StatelessWidget {
                       showBackView: false,
                       //true when you want to show cvv(back) view
                       onCreditCardWidgetChange: (CreditCardBrand
-                          brand) {}, // Callback for anytime credit card brand is changed
+                      brand) {}, // Callback for anytime credit card brand is changed
                     )),
                 Expanded(
                     child: Align(
@@ -197,21 +207,28 @@ class AccountWidget extends StatelessWidget {
                                     elevation: 1,
                                     //elevation of button
                                     shape: RoundedRectangleBorder(
-                                        //to set border radius to button
+                                      //to set border radius to button
                                         borderRadius:
-                                        (BorderRadius.circular(50).w)),
+                                        (BorderRadius
+                                            .circular(50)
+                                            .w)),
                                     padding: const EdgeInsets.all(
                                         0) //content padding inside button
-                                    ),
-                                onPressed: () {},
+                                ),
+                                onPressed: () {
+                                  LogoutManager.logoutCall(context);
+                                },
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      left: 40.w, right: 40.w, top: 10.h, bottom: 10.h),
+                                      left: 40.w,
+                                      right: 40.w,
+                                      top: 10.h,
+                                      bottom: 10.h),
                                   child: Text(
                                       AppLocalization.localizations!.logout,
                                       style: TextStyle(
                                           fontFamily:
-                                              FontType.fontRobotoRegular,
+                                          FontType.fontRobotoRegular,
                                           fontSize: 18.sp,
                                           fontStyle: FontStyle.normal,
                                           color: Colors.white)),
@@ -246,22 +263,11 @@ class AccountWidget extends StatelessWidget {
         });
   }
 
-  Widget balanceUpdate() {
-    return StreamBuilder(
-        stream: updateBalance,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if (snapshot.hasData) {
-            _manager.saveBalance(snapshot.data!);
-          }
-          String? value = snapshot.hasData
-              ? snapshot.data
-              : _manager.getPreferencesValue(PreferencesContents.balance) ?? '';
-          return Text((value!.amountFormat()),
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: FontType.fontRobotoRegular,
-                  fontSize: 26.sp,
-                  fontWeight: FontWeight.normal));
-        });
+  Widget balanceUpdateText() {
+    TextStyle style = TextStyle(
+        color: Colors.white,
+        fontSize: 30.sp,
+        fontWeight: FontWeight.bold);
+    return BalanceViewUtils().balanceUpdate(updateBalance, style);
   }
 }

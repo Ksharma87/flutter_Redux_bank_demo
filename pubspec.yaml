@@ -59,6 +59,8 @@ dependencies:
   flutter_screenutil: ^5.9.0
   number_to_words_english: ^2.0.2
   flutter_zxing: ^1.5.0
+  lottie: ^2.7.0
+  animated_text_kit: ^4.2.2
 
 
 
@@ -98,7 +100,11 @@ flutter:
   assets:
     - assets/image/male-profile-holder.png
     - assets/image/female-profile-holder.png
-  #   - images/a_dot_ham.jpeg
+    - assets/lottie/noData.json
+    - assets/lottie/congratulation.json
+    - assets/lottie/payment-receipt.json
+    - assets/lottie/rupees.json
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

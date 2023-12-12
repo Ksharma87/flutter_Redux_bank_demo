@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_redux_bank/config/router/app_router.dart';
+import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
+import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+import 'package:lottie/lottie.dart';
+
+class Receipt extends StatelessWidget {
+  const Receipt({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    moveToHome();
+    return Center(
+        child: Container(
+      height: double.infinity,
+      width: double.infinity,
+      color: Colors.white,
+      child: Lottie.asset('assets/lottie/payment-receipt.json'),
+    ));
+  }
+
+  void moveToHome() {
+    Future.delayed(
+        const Duration(milliseconds: 5000),
+        () => {
+              store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
+                  AppRouter.DASHBOARD, (route) => false))
+            });
+  }
+}

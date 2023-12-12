@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/app/accounts/devices_views/account_widget.dart';
+import 'package:flutter_redux_bank/app/passbook/devices_views/passbook_widget.dart';
 import 'package:flutter_redux_bank/app/payment/devices_views/payment_widget.dart';
 import 'package:flutter_redux_bank/app/profile/devices_views/profile_widget.dart';
 
@@ -25,7 +26,7 @@ class DashboardWidget extends StatelessWidget {
         }
       case 2:
         {
-          return Container();
+          return const PassbookWidget();
         }
       case 3:
         {

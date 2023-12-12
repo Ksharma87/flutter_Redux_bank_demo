@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/payment_transfer/devices_views/payment_transfer_viewmodel.dart';
+import 'package:flutter_redux_bank/app/utils/view/balance_view/balance_view_utils.dart';
 import 'package:flutter_redux_bank/app/utils/view/view.dart';
-import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
 import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
@@ -261,12 +261,7 @@ class PaymentTransferWidget extends StatelessWidget {
   void moveDashboard(PaymentTransferViewModel viewModel) {
     if (viewModel.paymentState.isPaymentDone) {
       _progressDialog.hideProgressDialog();
-      Future.delayed(
-          const Duration(milliseconds: 00),
-          () => {
-                store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
-                    AppRouter.DASHBOARD, (route) => false))
-              });
+      store.dispatch(NavigateToAction.push(AppRouter.PAYMENT_RECEIPT));
     }
   }
 
@@ -292,19 +287,12 @@ class PaymentTransferWidget extends StatelessWidget {
   }
 
   Widget balanceUpdate(String balance) {
-    return StreamBuilder(
-        initialData: balance,
-        stream: updateBalance,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          bool isData = snapshot.hasData;
-          String? value = isData ? snapshot.data : balance;
-          return Text(
-              '${AppLocalization.localizations!.yourBalance} : ${(value!).amountFormat()}',
-              style: TextStyle(
-                  color: ColorsTheme.secondColor,
-                  fontFamily: FontType.fontRobotoThin,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold));
-        });
+    TextStyle style = TextStyle(
+        color: ColorsTheme.secondColor,
+        fontFamily: FontType.fontRobotoThin,
+        fontSize: 18.sp,
+        fontWeight: FontWeight.bold);
+    return BalanceViewUtils().balanceUpdate(updateBalance, style,
+        prefixBalance: AppLocalization.localizations!.yourBalance);
   }
 }
