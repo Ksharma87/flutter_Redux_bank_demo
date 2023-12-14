@@ -38,13 +38,16 @@ class UserDetailsViewModel {
         completer: completer[0],
         uid: manager.getPreferencesValue(PreferencesContents.userUid)!));
 
-    store.dispatch(UserDetailsSubmit(
-        firstName: firstName,
-        lastName: lastName,
-        mobileNumber: mobile,
-        gender: detailsState.isMale,
-        completer: completer[1],
-        email: manager.getPreferencesValue(PreferencesContents.emailId)!));
+    store.dispatch(
+      UserDetailsSubmit(
+          firstName: firstName,
+          lastName: lastName,
+          mobileNumber: mobile,
+          gender: detailsState.isMale,
+          completer: completer[1],
+          email: manager.getPreferencesValue(PreferencesContents.emailId)!,
+          uid: manager.getPreferencesValue(PreferencesContents.userUid)!),
+    );
 
     store.dispatch(CreateAccountsAction(
         balance: "250000", // default money

@@ -10,8 +10,8 @@ class ProfileUseCase {
 
   ProfileUseCase({required this.profileRepository});
 
-  Future<bool> invokeUpdateProfile(String email, String firstName, String lastName, String mobileNumber, String gender) async {
-    return await profileRepository.doUpdateProfile(email, firstName, lastName, mobileNumber, gender);
+  Future<bool> invokeUpdateProfile(String email, String firstName, String lastName, String mobileNumber, String gender, String uid) async {
+    return await profileRepository.doUpdateProfile(email, firstName, lastName, mobileNumber, gender, uid);
   }
 
   Future<bool> invokeUpdateIdentity(String email, String mobileNumber, String uid) async {

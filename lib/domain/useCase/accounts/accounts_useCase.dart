@@ -8,8 +8,8 @@ class AccountsUseCase {
 
   AccountsUseCase({required this.accountsRepository});
 
-  Future<bool> invokeCreateBankAccount(String accountNO, String balance) async {
-    return await accountsRepository.doCreateBankAccount(accountNO, balance);
+  Future<bool> invokeCreateBankAccount(String accountNO, String balance, String uid) async {
+    return await accountsRepository.doCreateBankAccount(accountNO, balance, uid);
   }
 
   Future<BankAccountResponseEntity> invokeBankAccountDetails(String uid) async {

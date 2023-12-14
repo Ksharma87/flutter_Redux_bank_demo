@@ -1,6 +1,4 @@
 import 'package:flutter_redux_bank/data/data_sources/remote/api_services.dart';
-import 'package:flutter_redux_bank/di/injection.dart';
-import 'package:flutter_redux_bank/preferences/preferences_manager.dart';
 import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,11 +21,6 @@ class RestApiConfig {
     Uri uri = Uri.parse(url);
     final http.Response response = await http.get(uri);
     return response;
-  }
-
-  String getFireBaseDataBaseUrl(String url) {
-    String? uid = getIt<PreferencesManager>().getUid();
-    return "${ApiServices.firebase_Database_URL}$url${uid!}/.json";
   }
 
   String getProfileDetailsUrl(String url) {

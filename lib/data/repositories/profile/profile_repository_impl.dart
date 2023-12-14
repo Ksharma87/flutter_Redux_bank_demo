@@ -15,13 +15,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<bool> doUpdateProfile(String email, String firstName, String lastName,
-      String mobileNumber, String gender) async {
+      String mobileNumber, String gender, String uid) async {
     return await restApi.updateProfile(UpdateProfileRequest(
         email: email,
         firstName: firstName,
         lastName: lastName,
         mobileNumber: mobileNumber,
-        gender: gender));
+        gender: gender), uid);
   }
 
   @override

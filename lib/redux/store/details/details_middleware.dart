@@ -49,7 +49,7 @@ Middleware<AppState> _updateDetailsRequest() {
             userDetailsSubmit.mobileNumber,
             userDetailsSubmit.gender
                 ? GenderType.MALE.name
-                : GenderType.FEMALE.name)
+                : GenderType.FEMALE.name, userDetailsSubmit.uid)
         .then((data) {
       userDetailsSubmit.completer.complete(data);
     });
@@ -76,7 +76,7 @@ Middleware<AppState> _createBankAccount() {
     String accountNumber = createAccountsAction.accountNumber;
     AccountsUseCase accountsUseCase = getIt<AccountsUseCase>();
     accountsUseCase
-        .invokeCreateBankAccount(accountNumber, balance)
+        .invokeCreateBankAccount(accountNumber, balance, createAccountsAction.uid)
         .then((value) => {createAccountsAction.completer.complete(value)});
     next(action);
   };

@@ -73,11 +73,11 @@ class RestApi {
 
   // Details update and user new or exist api
 
-  Future<bool> updateProfile(UpdateProfileRequest request) async {
-    http.Response response = await restApiConfig.patchHttpCall(
-        restApiConfig.getFireBaseDataBaseUrl(
-            "${ApiServices.user_prefix}${ApiServices.accountDetails}"),
-        request.toString());
+  Future<bool> updateProfile(UpdateProfileRequest request, String uid) async {
+    String url =
+        "${ApiServices.firebase_Database_URL}${ApiServices.user_prefix}${ApiServices.accountDetails}$uid/.json";
+    http.Response response =
+        await restApiConfig.patchHttpCall(url, request.toString());
     if (response.statusCode == ApiServices.apiStatusSuccessful) {
       return true;
     } else {
@@ -125,9 +125,9 @@ class RestApi {
     return BankAccountResponse.fromJson(json);
   }
 
-  Future<bool> createBankAccount(CreateAccountsRequest request) async {
-    String url = restApiConfig.getFireBaseDataBaseUrl(
-        ApiServices.user_prefix + ApiServices.bankAccount);
+  Future<bool> createBankAccount(CreateAccountsRequest request, String uid) async {
+    String url =
+        "${ApiServices.firebase_Database_URL}${ApiServices.user_prefix + ApiServices.bankAccount}$uid/.json";
     http.Response response =
         await restApiConfig.patchHttpCall(url, request.toString());
     if (response.statusCode == ApiServices.apiStatusSuccessful) {
@@ -200,4 +200,3 @@ class RestApi {
     return response.body;
   }
 }
-

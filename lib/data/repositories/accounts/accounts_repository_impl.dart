@@ -12,8 +12,8 @@ class AccountsRepositoryImpl implements AccountsRepository {
   AccountsRepositoryImpl({required this.restApi});
 
   @override
-  Future<bool> doCreateBankAccount(String accountNO, String balance) async {
-     return await restApi.createBankAccount(CreateAccountsRequest(bankAccountNumber : accountNO, balance:balance));
+  Future<bool> doCreateBankAccount(String accountNO, String balance, String uid) async {
+     return await restApi.createBankAccount(CreateAccountsRequest(bankAccountNumber : accountNO, balance:balance), uid);
   }
 
   @override

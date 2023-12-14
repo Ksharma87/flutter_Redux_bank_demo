@@ -8,6 +8,7 @@ class GenderSelectionAction extends Actions {
 }
 
 class UserDetailsSubmit extends Actions {
+  final String uid;
   final String email;
   final bool gender;
   final String firstName;
@@ -16,7 +17,8 @@ class UserDetailsSubmit extends Actions {
   final Completer completer;
 
   UserDetailsSubmit(
-      {required this.email,
+      {required this.uid,
+      required this.email,
       required this.firstName,
       required this.lastName,
       required this.mobileNumber,
