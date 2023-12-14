@@ -189,9 +189,15 @@ class RestApi {
     Future.wait([response1, response2]).then((response) => {
           if (response[0].statusCode == ApiServices.apiStatusSuccessful &&
               response[1].statusCode == ApiServices.apiStatusSuccessful)
-            {
-              //
-            }
+            {getPassBookList(request2["uid"])}
         });
   }
+
+  Future<String> getPassBookList(String uid) async {
+    String url =
+        "${ApiServices.firebase_Database_URL}${ApiServices.user_prefix}${ApiServices.passBook}/$uid/.json";
+    http.Response response = await restApiConfig.getHttpCall(url);
+    return response.body;
+  }
 }
+

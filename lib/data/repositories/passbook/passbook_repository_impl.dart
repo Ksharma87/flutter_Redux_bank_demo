@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'package:flutter_redux_bank/data/data_sources/remote/rest_api.dart';
 import 'package:flutter_redux_bank/data/models/passbook/request/passbook_request.dart';
-import 'package:flutter_redux_bank/domain/entity/accounts/bank_account_response_entity.dart';
-import 'package:flutter_redux_bank/domain/repositories/accounts/accounts_repository.dart';
 import 'package:flutter_redux_bank/domain/repositories/passbook/passbook_repository.dart';
-import 'package:flutter_redux_bank/domain/repositories/payment/payment_repository.dart';
 import 'package:injectable/injectable.dart';
-import '../../models/accounts/request/create_accounts_request.dart';
 
 @Injectable(as: PassbookRepository)
 class PassbookRepositoryImpl implements PassbookRepository {
@@ -55,5 +51,21 @@ class PassbookRepositoryImpl implements PassbookRepository {
     json2.remove("payeeAmount");
 
     restApi.updatePassbook(json1, json2);
+  }
+
+  @override
+  Future<List> getPassbookList(String uid) async {
+    String response = await restApi.getPassBookList(uid);
+    return jsonPassbookListParsing(response);
+  }
+
+  List<dynamic> jsonPassbookListParsing(String jsonList) {
+    Map<String, dynamic> myMap = json.decode(jsonList);
+    List<dynamic> list = [];
+    for (final name in myMap.keys) {
+      final value = myMap[name];
+      list.add(value);
+    }
+    return list;
   }
 }

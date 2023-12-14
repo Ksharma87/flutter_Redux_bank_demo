@@ -7,9 +7,19 @@ class PassbookUseCase {
 
   PassbookUseCase({required this.passbookRepository});
 
-  Future<void> invokePassbookUpdate(String selfUid, String paymentUid,
-      String updatedAmount, String payeeBalance, String amount, String timeStamp, String transactionType) async {
-    return await passbookRepository.doPassbookUpdate(
-        selfUid, paymentUid, updatedAmount, payeeBalance ,amount, timeStamp, transactionType);
+  Future<void> invokePassbookUpdate(
+      String selfUid,
+      String paymentUid,
+      String updatedAmount,
+      String payeeBalance,
+      String amount,
+      String timeStamp,
+      String transactionType) async {
+    return await passbookRepository.doPassbookUpdate(selfUid, paymentUid,
+        updatedAmount, payeeBalance, amount, timeStamp, transactionType);
+  }
+
+  Future<List<dynamic>> invokePassbookList(String uid) async {
+    return await passbookRepository.getPassbookList(uid);
   }
 }

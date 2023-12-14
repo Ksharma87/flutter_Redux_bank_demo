@@ -13,7 +13,7 @@ void main() {
     configureDependencies();
   });
 
-  testWidgets('Auth testing', (WidgetTester tester) async {
+  testWidgets('Auth and details screens testing', (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
         localizationsDelegates: const [
