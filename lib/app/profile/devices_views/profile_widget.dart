@@ -101,7 +101,7 @@ class ProfileWidget extends StatelessWidget {
                               Text(vm.profileState.mobileNumber,
                                   style: TextStyle(
                                     fontFamily: FontType.fontRobotoLight,
-                                    fontSize: 16.sp,
+                                    fontSize: 14.sp,
                                   )),
                               const Spacer(),
                               Text(

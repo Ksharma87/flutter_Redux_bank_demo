@@ -11,6 +11,8 @@ class ApiServices {
    static const String accountDetails = "details/";
    static const String identity_prefix = "/identity/";
    static const String bankAccount = "accounts/";
+   static const String balance = "balance";
+   static const String passBook = "passbook";
 
    // WebAPI KEY_Value firebase projects
    static const String WebAPI_KEY_Value = "AIzaSyDSFOpJ7KtAbUVPio-UXJx1SAVX91dH3W8";
@@ -24,12 +26,8 @@ class ApiServices {
 
    static const String loginPassword = "accounts:signInWithPassword?";
    static const String createAccount = "accounts:signUp?";
-   static const String getProfile = "accounts:lookup?";
 
-
-
-
-//
+   //
 
 
 }

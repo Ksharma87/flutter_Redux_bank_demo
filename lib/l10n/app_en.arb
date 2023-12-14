@@ -6,6 +6,10 @@
     "createAccount" : "create an account",
     "email" : "Email",
     "password": "Password",
+    "logout": "Logout",
+    "logoutDesc": "Are You Sure for Logout ?",
+    "yes": "Yes",
+    "no": "No",
 
 
     "emailInvalidation" : "Enter a valid email address",

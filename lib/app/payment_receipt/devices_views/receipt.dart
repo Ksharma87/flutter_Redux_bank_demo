@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux_bank/app/utils/animation_lottie/AnimationLottie.dart';
 import 'package:flutter_redux_bank/config/router/app_router.dart';
+import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:lottie/lottie.dart';
@@ -14,8 +16,8 @@ class Receipt extends StatelessWidget {
         child: Container(
       height: double.infinity,
       width: double.infinity,
-      color: Colors.white,
-      child: Lottie.asset('assets/lottie/payment-receipt.json'),
+      color: ColorsTheme.bottomColor,
+      child: Lottie.asset(AnimationLottie.lottie_receipt),
     ));
   }
 
@@ -27,4 +29,7 @@ class Receipt extends StatelessWidget {
                   AppRouter.DASHBOARD, (route) => false))
             });
   }
+
+
+
 }

@@ -3,15 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 class AnimationLottie {
-  static showCongratulation(BuildContext context) {
-    showDialog(
-      barrierColor: Colors.transparent,
-      context: context,
-      builder: (_) => Dialog(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          child: Lottie.asset('assets/lottie/congratulation.json',
-              width: 300.w, height: 300.w)),
-    );
-  }
+   static const lottie_MaleIcon = "assets/lottie/male.json";
+   static const lottie_FemaleIcon = "assets/lottie/female.json";
+   static const lottie_rupess_loading = "assets/lottie/rupees.json";
+   static const lottie_empty_passbook = "assets/lottie/noData.json";
+   static const lottie_passbook_loading = "assets/lottie/passbook-loading.json";
+   static const lottie_receipt = "assets/lottie/payment-receipt.json";
 }

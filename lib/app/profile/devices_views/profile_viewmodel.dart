@@ -14,5 +14,4 @@ class ProfileViewModel {
       profileState: store.state.profileState,
     );
   }
-
 }

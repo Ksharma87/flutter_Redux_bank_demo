@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter_redux_bank/redux/actions.dart';
 
 class AuthLoggedIn extends Actions {

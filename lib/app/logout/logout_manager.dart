@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import 'logout_dialogs.dart';
 
 class LogoutManager {

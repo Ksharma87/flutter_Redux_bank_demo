@@ -139,7 +139,7 @@ class RestApi {
 
   Future<String> getUpdatedBalance(String uid) async {
     String url =
-        "https://redux-flutter-bank-default-rtdb.firebaseio.com/users/accounts/$uid/balance.json";
+        "${ApiServices.firebase_Database_URL}${ApiServices.user_prefix}${ApiServices.bankAccount}/$uid/${ApiServices.balance}.json";
     http.Response response = await restApiConfig.getHttpCall(url);
     if (response.statusCode == ApiServices.apiStatusSuccessful) {
       return response.body.replaceAll("\"", '');
@@ -166,5 +166,32 @@ class RestApi {
             response2.statusCode == ApiServices.apiStatusSuccessful)
         ? true
         : false;
+  }
+
+  ///// ---------------------//////////
+  Future<void> updatePassbook(
+      Map<String, dynamic> request1, Map<String, dynamic> request2) async {
+    String url1 =
+        "${ApiServices.firebase_Database_URL}${ApiServices.user_prefix}${ApiServices.passBook}/${request1["uid"]}/${request1["time"]}/.json";
+
+    String url2 =
+        "${ApiServices.firebase_Database_URL}${ApiServices.user_prefix}${ApiServices.passBook}/${request2["uid"]}/${request2["time"]}/.json";
+
+    String requestJson1 =
+        "{\"uid\": \"${request1["uid"]}\", \"transactionType\": \"${request1["transactionType"]}\", \"balance\": \"${request1["balance"]}\", \"time\":\"${request1["time"]}\", \"amount\": \"${request1["amount"]}\"}";
+    String requestJson2 =
+        '{"uid": "${request2["uid"]}", "transactionType":"${request2["transactionType"]}", "balance": "${request2["balance"]}", "time":"${request2["time"]}", "amount": "${request2["amount"]}"}';
+
+    Future<http.Response> response1 =
+        restApiConfig.patchHttpCall(url2, requestJson1);
+    Future<http.Response> response2 =
+        restApiConfig.patchHttpCall(url1, requestJson2);
+    Future.wait([response1, response2]).then((response) => {
+          if (response[0].statusCode == ApiServices.apiStatusSuccessful &&
+              response[1].statusCode == ApiServices.apiStatusSuccessful)
+            {
+              //
+            }
+        });
   }
 }

@@ -18,16 +18,19 @@ import '../data/data_sources/remote/rest_api.dart' as _i11;
 import '../data/data_sources/remote/rest_api_config.dart' as _i9;
 import '../data/repositories/accounts/accounts_repository_impl.dart' as _i13;
 import '../data/repositories/auth/auth_repository_impl.dart' as _i16;
-import '../data/repositories/payment/payment_repository_impl.dart' as _i19;
-import '../data/repositories/profile/profile_repository_impl.dart' as _i22;
+import '../data/repositories/passbook/passbook_repository_impl.dart' as _i19;
+import '../data/repositories/payment/payment_repository_impl.dart' as _i22;
+import '../data/repositories/profile/profile_repository_impl.dart' as _i25;
 import '../domain/repositories/accounts/accounts_repository.dart' as _i12;
 import '../domain/repositories/auth/auth_repository.dart' as _i15;
-import '../domain/repositories/payment/payment_repository.dart' as _i18;
-import '../domain/repositories/profile/profile_repository.dart' as _i21;
+import '../domain/repositories/passbook/passbook_repository.dart' as _i18;
+import '../domain/repositories/payment/payment_repository.dart' as _i21;
+import '../domain/repositories/profile/profile_repository.dart' as _i24;
 import '../domain/useCase/accounts/accounts_useCase.dart' as _i14;
 import '../domain/useCase/auth/auth_useCase.dart' as _i17;
-import '../domain/useCase/payment/payment_useCase.dart' as _i20;
-import '../domain/useCase/profile/profile_useCase.dart' as _i23;
+import '../domain/useCase/passbook/passbook_useCase.dart' as _i20;
+import '../domain/useCase/payment/payment_useCase.dart' as _i23;
+import '../domain/useCase/profile/profile_useCase.dart' as _i26;
 import '../preferences/preferences_contents.dart' as _i7;
 import '../preferences/preferences_manager.dart' as _i8;
 import '../services/balance_service.dart' as _i4;
@@ -62,13 +65,17 @@ _i1.GetIt $initGetIt(
       () => _i16.AuthRepositoryImpl(restApi: gh<_i11.RestApi>()));
   gh.factory<_i17.AuthUseCase>(
       () => _i17.AuthUseCase(authRepository: gh<_i15.AuthRepository>()));
-  gh.factory<_i18.PaymentRepository>(
-      () => _i19.PaymentRepositoryImpl(restApi: gh<_i11.RestApi>()));
-  gh.factory<_i20.PaymentUseCase>(() =>
-      _i20.PaymentUseCase(paymentRepository: gh<_i18.PaymentRepository>()));
-  gh.factory<_i21.ProfileRepository>(
-      () => _i22.ProfileRepositoryImpl(restApi: gh<_i11.RestApi>()));
-  gh.factory<_i23.ProfileUseCase>(() =>
-      _i23.ProfileUseCase(profileRepository: gh<_i21.ProfileRepository>()));
+  gh.factory<_i18.PassbookRepository>(
+      () => _i19.PassbookRepositoryImpl(restApi: gh<_i11.RestApi>()));
+  gh.factory<_i20.PassbookUseCase>(() =>
+      _i20.PassbookUseCase(passbookRepository: gh<_i18.PassbookRepository>()));
+  gh.factory<_i21.PaymentRepository>(
+      () => _i22.PaymentRepositoryImpl(restApi: gh<_i11.RestApi>()));
+  gh.factory<_i23.PaymentUseCase>(() =>
+      _i23.PaymentUseCase(paymentRepository: gh<_i21.PaymentRepository>()));
+  gh.factory<_i24.ProfileRepository>(
+      () => _i25.ProfileRepositoryImpl(restApi: gh<_i11.RestApi>()));
+  gh.factory<_i26.ProfileUseCase>(() =>
+      _i26.ProfileUseCase(profileRepository: gh<_i24.ProfileRepository>()));
   return getIt;
 }

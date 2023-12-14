@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
+import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
@@ -10,26 +11,26 @@ class LogoutDialogs {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Logout'),
-          content: const SingleChildScrollView(
+          title: Text(AppLocalization.localizations!.logout),
+          content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Are You Sure for Logout ?'),
+                Text(AppLocalization.localizations!.logoutDesc),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('No',
-                  style: TextStyle(color: ColorsTheme.secondColor)),
+              child: Text(AppLocalization.localizations!.no,
+                  style: const TextStyle(color: ColorsTheme.secondColor)),
               onPressed: () {
                 callback(false);
               },
             ),
             TextButton(
-              child: const Text(
-                'Yes',
-                style: TextStyle(color: ColorsTheme.secondColor),
+              child: Text(
+                AppLocalization.localizations!.yes,
+                style: const TextStyle(color: ColorsTheme.secondColor),
               ),
               onPressed: () {
                 callback(true);

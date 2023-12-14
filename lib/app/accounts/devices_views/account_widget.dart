@@ -1,15 +1,12 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/accounts/devices_views/account_viewmodel.dart';
 import 'package:flutter_redux_bank/app/logout/logout_manager.dart';
-import 'package:flutter_redux_bank/app/utils/animation_lottie/AnimationLottie.dart';
 import 'package:flutter_redux_bank/app/utils/screen_config/ScreenConfig.dart';
 import 'package:flutter_redux_bank/app/utils/view/balance_view/balance_view_utils.dart';
 import 'package:flutter_redux_bank/app/utils/view/loading_view/loading_progress_dialog.dart';
-import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
 import 'package:flutter_redux_bank/common/extensions/string_extension.dart';
 import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';

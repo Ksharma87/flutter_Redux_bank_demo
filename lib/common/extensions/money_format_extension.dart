@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:money_formatter/money_formatter.dart';
 

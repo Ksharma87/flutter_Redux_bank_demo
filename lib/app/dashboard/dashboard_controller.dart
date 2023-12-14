@@ -5,9 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/dashboard/dashboard_page.dart';
 import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_viewmodel.dart';
 import 'package:flutter_redux_bank/app/dashboard/devices_views/dashboard_widget.dart';
-import 'package:flutter_redux_bank/app/logout/logout_dialogs.dart';
 import 'package:flutter_redux_bank/app/logout/logout_manager.dart';
-import 'package:flutter_redux_bank/app/utils/animation_lottie/AnimationLottie.dart';
 import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
@@ -92,10 +90,10 @@ class DashBoardController extends BaseStateFullState<DashboardPage>
         Padding(
             padding: EdgeInsets.only(right: 0.w),
             child: IconButton(
-                icon: const Icon(
+                icon:  Icon(
                   Icons.logout,
                   color: Colors.white,
-                  size: 24.0,
+                  size: 24.w,
                 ),
                 onPressed: () => {LogoutManager.logoutCall(context)})),
       ],
