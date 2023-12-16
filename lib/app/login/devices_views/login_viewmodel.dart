@@ -9,6 +9,7 @@ import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/auth/auth_actions.dart';
 import 'package:flutter_redux_bank/redux/store/auth/auth_state.dart';
 import 'package:flutter_redux_bank/redux/store/profile/profile_actions.dart';
+import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:redux/redux.dart';
 
@@ -64,7 +65,7 @@ class LoginViewModel {
   errorMessageFilters(String value) {
     if (value.compareTo(AccountApiStatus.EMAIL_NOT_FOUND.name.toString()) ==
         0) {
-      ToastView.displaySnackBar("Account does not exist.");
+      ToastView.displaySnackBar(AppLocalization.localizations!.account_not_exist);
     } else if ((value.compareTo(
                 AccountApiStatus.INVALID_PASSWORD.name.toString())) ==
             0 ||
@@ -73,10 +74,10 @@ class LoginViewModel {
         (value.compareTo(
                 AccountApiStatus.INVALID_LOGIN_CREDENTIALS.name.toString())) ==
             0) {
-      ToastView.displaySnackBar("user credentials mismatch");
+      ToastView.displaySnackBar(AppLocalization.localizations!.password_mismatch);
     } else if (value.compareTo(AccountApiStatus.EMAIL_EXISTS.name.toString()) ==
         0) {
-      ToastView.displaySnackBar("Account already exist.");
+      ToastView.displaySnackBar(AppLocalization.localizations!.account_already_exist);
     }
   }
 

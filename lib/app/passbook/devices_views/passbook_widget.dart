@@ -13,18 +13,15 @@ import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/passbook/passbook_actions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../config/styles/colors_theme.dart';
 import '../../utils/screen_config/ScreenConfig.dart';
-import '../../utils/view/profile_view/profile_view_utils.dart';
 
 class PassbookWidget extends StatelessWidget {
   PassbookWidget({super.key, required this.boxConstraints});
 
   final HashMap mapStoreProfile = HashMap<dynamic, dynamic>();
-  final ProfileViewUtils _profileViewUtils = ProfileViewUtils();
   final BoxConstraints boxConstraints;
 
   @override
@@ -185,10 +182,6 @@ class PassbookWidget extends StatelessWidget {
       return passbookEmpty();
     }
     return passbookLoading();
-  }
-
-  Future<void> _handleRefresh() {
-    return Future(() => {});
   }
 
   Widget passbookLoading() {

@@ -13,7 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_zxing/flutter_zxing.dart';
 
 class PaymentWidget extends StatefulWidget {
-  PaymentWidget({super.key, required this.boxConstraints});
+  const PaymentWidget({super.key, required this.boxConstraints});
 
   final BoxConstraints boxConstraints;
 

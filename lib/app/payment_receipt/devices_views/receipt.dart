@@ -23,7 +23,7 @@ class Receipt extends StatelessWidget {
 
   void moveToHome() {
     Future.delayed(
-        const Duration(milliseconds: 5000),
+        const Duration(milliseconds: 3000),
         () => {
               store.dispatch(NavigateToAction.pushNamedAndRemoveUntil(
                   AppRouter.DASHBOARD, (route) => false))

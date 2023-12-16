@@ -1,16 +1,10 @@
 import 'dart:collection';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/domain/useCase/passbook/passbook_useCase.dart';
 import 'package:flutter_redux_bank/domain/useCase/profile/profile_useCase.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
 import 'package:flutter_redux_bank/redux/store/passbook/passbook_actions.dart';
-import 'package:multiple_result/multiple_result.dart';
 import 'package:redux/redux.dart';
-
-import '../../../domain/entity/profile/profile_error_response_entity.dart';
-import '../../../domain/entity/profile/profile_response_entity.dart';
 import '../app/app_store.dart';
 
 List<Middleware<AppState>> passbookStoreAuthMiddleware() {

@@ -1,4 +1,3 @@
-import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/passbook/passbook_actions.dart';
 import 'package:flutter_redux_bank/redux/store/passbook/passbook_state.dart';
 import 'package:redux/redux.dart';

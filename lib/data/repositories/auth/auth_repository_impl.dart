@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_redux_bank/data/data_sources/remote/rest_api.dart';
 import 'package:flutter_redux_bank/data/models/auth/request/login_request.dart';
 import 'package:flutter_redux_bank/domain/entity/auth/login_response_entity.dart';

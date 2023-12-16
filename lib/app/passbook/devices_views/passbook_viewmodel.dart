@@ -1,11 +1,6 @@
-import 'dart:collection';
-
 import 'package:flutter_redux_bank/redux/store/app/app_state.dart';
-import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
 import 'package:flutter_redux_bank/redux/store/passbook/passbook_state.dart';
 import 'package:redux/redux.dart';
-
-import '../../../redux/store/passbook/passbook_actions.dart';
 
 class PassbookViewModel {
   final PassbookState passbookState;

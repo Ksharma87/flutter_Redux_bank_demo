@@ -11,6 +11,9 @@
     "yes": "Yes",
     "no": "No",
 
+    "account_not_exist": "Account does not exist.",
+    "account_already_exist": "Account already exist.",
+    "password_mismatch": "user credentials mismatch",
 
     "emailInvalidation" : "Enter a valid email address",
     "emailEmpty" : "Please enter email address",
@@ -52,7 +55,5 @@
     "passbookTab": "Passbook",
     "profileTab": "Profile",
 
-    "continueBtn": "Continue",
-
-    "logout": "Logout"
+    "continueBtn": "Continue"
 }

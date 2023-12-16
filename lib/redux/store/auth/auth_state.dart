@@ -27,11 +27,11 @@ class AuthState {
       required bool isLoading,
       required String errorMsg}) {
     return AuthState(
-        token: token ?? this.token,
-        uid: uid ?? this.uid,
-        isEmailLinked: isEmailLinked ?? this.isEmailLinked,
-        isLoading: isLoading ?? this.isLoading,
-        errorMsg: errorMsg ?? this.errorMsg);
+        token: token,
+        uid: uid,
+        isEmailLinked: isEmailLinked,
+        isLoading: isLoading,
+        errorMsg: errorMsg);
   }
 
   @override

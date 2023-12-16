@@ -6,7 +6,6 @@ import 'package:flutter_redux_bank/app/utils/screen_config/ScreenConfig.dart';
 import 'package:flutter_redux_bank/app/utils/view/balance_view/balance_view_utils.dart';
 import 'package:flutter_redux_bank/app/utils/view/profile_view/profile_view_utils.dart';
 import 'package:flutter_redux_bank/common/types/gender_type.dart';
-import 'package:flutter_redux_bank/common/extensions/money_format_extension.dart';
 import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/preferences/preferences.dart';
