@@ -22,11 +22,11 @@ class DashboardWidget extends StatelessWidget {
         }
       case 1:
         {
-          return const PaymentWidget();
+          return PaymentWidget(boxConstraints: boxConstraints);
         }
       case 2:
         {
-          return const PassbookWidget();
+          return PassbookWidget(boxConstraints: boxConstraints);
         }
       case 3:
         {

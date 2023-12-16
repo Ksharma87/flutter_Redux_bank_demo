@@ -3,6 +3,7 @@ import 'package:flutter_redux_bank/redux/store/accounts/accounts_state.dart';
 import 'package:flutter_redux_bank/redux/store/auth/auth_state.dart';
 import 'package:flutter_redux_bank/redux/store/dashboard/bottom_nav_state.dart';
 import 'package:flutter_redux_bank/redux/store/details/details_state.dart';
+import 'package:flutter_redux_bank/redux/store/passbook/passbook_state.dart';
 import 'package:flutter_redux_bank/redux/store/payment/payment_state.dart';
 import 'package:flutter_redux_bank/redux/store/payment_transfer/payment_transfer_state.dart';
 import 'package:flutter_redux_bank/redux/store/profile/profile_state.dart';
@@ -16,6 +17,7 @@ class AppState {
   final AccountsState accountsState;
   final PaymentState paymentState;
   final PaymentTransferState paymentTransferState;
+  final PassbookState passbookState;
 
   const AppState(
       {required this.authState,
@@ -24,7 +26,8 @@ class AppState {
       required this.profileState,
       required this.accountsState,
       required this.paymentState,
-      required this.paymentTransferState});
+      required this.paymentTransferState,
+      required this.passbookState});
 
   factory AppState.initial() => AppState(
       authState: AuthState.initial(),
@@ -33,7 +36,8 @@ class AppState {
       profileState: ProfileState.initial(),
       accountsState: AccountsState.initial(),
       paymentState: PaymentState.initial(),
-      paymentTransferState: PaymentTransferState.initial());
+      paymentTransferState: PaymentTransferState.initial(),
+      passbookState: PassbookState.initial());
 
   AppState copyWith(
       {required AuthState authState,
@@ -42,7 +46,8 @@ class AppState {
       required ProfileState profileState,
       required AccountsState accountsState,
       required PaymentState paymentState,
-      required PaymentTransferState paymentTransferState}) {
+      required PaymentTransferState paymentTransferState,
+      required PassbookState passbookState}) {
     return AppState(
         authState: authState,
         detailsState: detailsState,
@@ -50,6 +55,7 @@ class AppState {
         profileState: profileState,
         accountsState: accountsState,
         paymentState: paymentState,
-        paymentTransferState: paymentTransferState);
+        paymentTransferState: paymentTransferState,
+        passbookState: passbookState);
   }
 }

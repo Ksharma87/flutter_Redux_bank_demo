@@ -1,7 +1,7 @@
 {
-    "welcomeNoidaBank": "Welcome to Noida bank",
+    "welcomeNoidaBank": "Welcome to {city} bank",
     "bank" : "bank",
-    "noida" : "Noida",
+    "noida" : "Pune",
     "login" : "Log in",
     "createAccount" : "create an account",
     "email" : "Email",

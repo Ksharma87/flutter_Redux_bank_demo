@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class BaseStatelessScreen<T extends StatelessWidget> {
-  @override
+
   Widget build(BuildContext context) {
     return isFullScreen() ? rootView()! : SafeArea(child: rootView()!);
   }
@@ -13,6 +13,7 @@ abstract class BaseStatelessScreen<T extends StatelessWidget> {
           onPopInvokedHere();
         },
         child: Scaffold(
+            floatingActionButton: addFloatingActionButton(),
             resizeToAvoidBottomInset: false,
             extendBody: true,
             appBar: appBar(),
@@ -20,6 +21,10 @@ abstract class BaseStatelessScreen<T extends StatelessWidget> {
             bottomNavigationBar: bottomNavigationBar(),
             backgroundColor: rootBackgroundColor(),
             body: _layoutBuilderBody()));
+  }
+
+  Widget? addFloatingActionButton() {
+    return null;
   }
 
   void onPopInvokedHere() {}

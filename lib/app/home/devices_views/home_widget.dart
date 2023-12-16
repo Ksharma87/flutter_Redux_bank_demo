@@ -36,7 +36,7 @@ class HomeWidget extends StatelessWidget {
               padding: EdgeInsets.only(left: 40.w),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(AppLocalization.localizations!.welcomeNoidaBank,
+                  child: Text(AppLocalization.localizations!.welcomeNoidaBank(AppLocalization.localizations!.noida),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontFamily: FontType.fontRobotoLight,

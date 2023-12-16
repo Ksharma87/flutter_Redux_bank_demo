@@ -60,11 +60,13 @@ class PassbookRepositoryImpl implements PassbookRepository {
   }
 
   List<dynamic> jsonPassbookListParsing(String jsonList) {
-    Map<String, dynamic> myMap = json.decode(jsonList);
     List<dynamic> list = [];
-    for (final name in myMap.keys) {
-      final value = myMap[name];
-      list.add(value);
+    if(jsonList != "null") {
+      Map<String, dynamic> myMap = json.decode(jsonList);
+      for (final name in myMap.keys) {
+        final value = myMap[name];
+        list.add(value);
+      }
     }
     return list;
   }
