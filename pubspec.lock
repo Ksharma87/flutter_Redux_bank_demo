@@ -852,6 +852,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  screen_size_test:
+    dependency: "direct main"
+    description:
+      name: screen_size_test
+      sha256: "3b7a3cc0ced4bc52980a70ebaf1461a66a5148673169bd4a1320344d180bcbed"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2+3"
   shared_preferences:
     dependency: "direct main"
     description:
