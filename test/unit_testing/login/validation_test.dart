@@ -7,28 +7,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../main_config.dart';
+
 void main() {
+  final MainConfig mainConfig = MainConfig();
+
   setUpAll(() {
     WidgetsFlutterBinding.ensureInitialized();
     configureDependencies();
   });
 
   testWidgets('Auth and details screens testing', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en'), // English
-        ],
-        home: const Scaffold(),
-        navigatorKey: NavigatorHolder.navigatorKey,
-      ),
-    );
+    MaterialApp mainApp = await mainConfig.mainMaterialAppSetup(tester, const Scaffold());
+    await tester.pumpWidget(mainApp);
 
     Validation validation = getIt<Validation>();
     String? email = "tushar.chinu82@gmail";
@@ -39,7 +30,6 @@ void main() {
 
     email = "";
     expect(validation.validateEmail(email), "Please enter email address");
-
 
     // null return valid  Password
     String? password = "Tkaushik@786";
@@ -55,10 +45,12 @@ void main() {
     expect(validation.validatePassword(password), 'Please enter password');
 
     String? name = "";
-    expect(validation.validateName(name, UserDetailsType.FIRSTNAME.name), 'Please enter first name');
+    expect(validation.validateName(name, UserDetailsType.FIRSTNAME.name),
+        'Please enter first name');
 
     name = "tushar789";
-    expect(validation.validateName(name, UserDetailsType.FIRSTNAME.name), 'Please enter valid first name');
+    expect(validation.validateName(name, UserDetailsType.FIRSTNAME.name),
+        'Please enter valid first name');
 
     name = "tushar";
     expect(validation.validateName(name, UserDetailsType.FIRSTNAME.name), null);
@@ -67,8 +59,7 @@ void main() {
     expect(validation.validateMobile(mobile), null);
 
     mobile = "+91-9958208726";
-    expect(validation.validateMobile(mobile), 'Please enter valid mobile number');
-
+    expect(
+        validation.validateMobile(mobile), 'Please enter valid mobile number');
   });
-
 }

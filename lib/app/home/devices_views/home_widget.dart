@@ -2,6 +2,7 @@ import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/app/home/devices_views/home_viewmodel.dart';
 import 'package:flutter_redux_bank/app/utils/view/view.dart';
+import 'package:flutter_redux_bank/app/utils/view_keys/view_keys_config.dart';
 import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
@@ -37,6 +38,7 @@ class HomeWidget extends StatelessWidget {
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(AppLocalization.localizations!.welcomeNoidaBank(AppLocalization.localizations!.noida),
+                      key: const Key(ViewKeysConfig.welcomeBankTextHomeKey),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontFamily: FontType.fontRobotoLight,
@@ -68,6 +70,7 @@ class HomeWidget extends StatelessWidget {
 
   Widget createAccountButtonView(BuildContext context) {
     return ElevatedButton(
+        key: const Key(ViewKeysConfig.createAccountButtonHomeKey),
         style: ElevatedButton.styleFrom(
             backgroundColor: ColorsTheme.secondColor,
             side: BorderSide(width: 1.5.w, color: ColorsTheme.secondColor),
@@ -93,6 +96,7 @@ class HomeWidget extends StatelessWidget {
 
   Widget loginButtonView(BuildContext context) {
     return ElevatedButton(
+      key: const Key(ViewKeysConfig.loginButtonHomeKey),
       style: ElevatedButton.styleFrom(
           backgroundColor: ColorsTheme.primaryColor,
           side: const BorderSide(width: 1.5, color: ColorsTheme.secondColor),
