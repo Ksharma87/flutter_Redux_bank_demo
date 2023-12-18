@@ -7,6 +7,7 @@
 # Ignore build output directory
 build/
 /build/
+.idea/
 .idea
 .dart_tool
 .android
