@@ -2,23 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/common/types/user_details_type.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
-import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../main_config.dart';
+import '../../configuration/material_app_config.dart';
 
 void main() {
-  final MainConfig mainConfig = MainConfig();
-
   setUpAll(() {
     WidgetsFlutterBinding.ensureInitialized();
     configureDependencies();
   });
 
   testWidgets('Auth and details screens testing', (WidgetTester tester) async {
-    MaterialApp mainApp = await mainConfig.mainMaterialAppSetup(tester, const Scaffold());
+    MaterialApp mainApp = await materialAppSetup(tester, const Scaffold());
     await tester.pumpWidget(mainApp);
 
     Validation validation = getIt<Validation>();

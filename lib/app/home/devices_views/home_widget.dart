@@ -87,6 +87,7 @@ class HomeWidget extends StatelessWidget {
           //code to execute when this button is pressed.
         },
         child: Text(AppLocalization.localizations!.createAccount,
+            key: const Key(ViewKeysConfig.createAccountTextHomeKey),
             style: TextStyle(
                 fontFamily: FontType.fontRobotoRegular,
                 fontSize: 16.sp,
@@ -113,6 +114,7 @@ class HomeWidget extends StatelessWidget {
         //code to execute when this button is pressed.
       },
       child: Text(AppLocalization.localizations!.login,
+          key: const Key(ViewKeysConfig.loginTextHomeKey),
           style: TextStyle(
               fontFamily: FontType.fontRobotoRegular,
               fontSize: 16.sp,
