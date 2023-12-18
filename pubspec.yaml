@@ -66,6 +66,7 @@ dependencies:
   liquid_pull_to_refresh: ^3.0.1
   screen_size_test: ^1.0.2+3
   mockito: ^5.4.4
+  golden_toolkit: ^0.15.0
 
 
 

@@ -1,5 +1,5 @@
 {
-    "welcomeNoidaBank": "Welcome to {city} bank",
+    "welcomeNoidaBank": "Welcome to {city}\nbank",
     "bank" : "bank",
     "noida" : "Pune",
     "login" : "Log in",

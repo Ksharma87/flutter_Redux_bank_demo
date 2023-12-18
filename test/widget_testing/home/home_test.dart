@@ -11,7 +11,6 @@ import '../../configuration/wrapper_testWidgets_responsive.dart';
 class MockBuildContext extends Mock implements BuildContext {}
 
 void main() {
-
   final HomePage page = HomePage();
 
   setUpAll(() {
@@ -19,7 +18,8 @@ void main() {
     configureDependencies();
   });
 
-  testResponsiveWidgets('Home UI welcome text testing', (WidgetTester tester) async {
+  testResponsiveWidgets('Home UI welcome text testing',
+      (WidgetTester tester) async {
     Widget mainView = await materialAppConfigSetup(tester, page);
     await tester.pumpWidget(mainView);
 
@@ -29,21 +29,22 @@ void main() {
     var text = welcomeText.evaluate().single.widget as Text;
     expect(welcomeText, findsOneWidget);
     expect(text.style?.color, Colors.white);
-  });
+  }, goldenCallback: (size, tester) async {});
 
-  testResponsiveWidgets('Home UI Login Text testing', (WidgetTester tester) async {
+  testResponsiveWidgets('Home UI Login Text testing',
+      (WidgetTester tester) async {
     Widget mainView = await materialAppConfigSetup(tester, page);
     await tester.pumpWidget(mainView);
 
     await tester.pumpAndSettle();
     var loginButtonText =
-    find.byKey(const Key(ViewKeysConfig.loginTextHomeKey));
+        find.byKey(const Key(ViewKeysConfig.loginTextHomeKey));
     var loginText = loginButtonText.evaluate().single.widget as Text;
     expect(loginText.data, AppLocalization.localizations!.login);
-
   });
 
-  testResponsiveWidgets('Home UI Login action testing', (WidgetTester tester) async {
+  testResponsiveWidgets('Home UI Login action testing',
+      (WidgetTester tester) async {
     Widget mainView = await materialAppConfigSetup(tester, page);
     await tester.pumpWidget(mainView);
 
@@ -53,16 +54,18 @@ void main() {
     await tester.tap(elevatedButtonLogin);
   });
 
-  testResponsiveWidgets('Home UI Create Text testing', (WidgetTester tester) async {
+  testResponsiveWidgets('Home UI Create Text testing',
+      (WidgetTester tester) async {
     Widget mainView = await materialAppConfigSetup(tester, page);
     await tester.pumpWidget(mainView);
 
     await tester.pumpAndSettle();
     var createAccountTextKey =
-    find.byKey(const Key(ViewKeysConfig.createAccountTextHomeKey));
-    var createAccountText = createAccountTextKey.evaluate().single.widget as Text;
-    expect(createAccountText.data, AppLocalization.localizations!.createAccount);
-
+        find.byKey(const Key(ViewKeysConfig.createAccountTextHomeKey));
+    var createAccountText =
+        createAccountTextKey.evaluate().single.widget as Text;
+    expect(
+        createAccountText.data, AppLocalization.localizations!.createAccount);
   });
 
   testResponsiveWidgets('Home UI Create account action testing',

@@ -8,23 +8,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'device_config.dart';
 import 'screen_size.dart';
 
 Future<Widget> materialAppConfigSetup(
     WidgetTester tester, Widget homeWidget) async {
-  Size size = Size(responsiveVariant.currentValue!.width,
-      responsiveVariant.currentValue!.height);
-  MediaQueryData currentData = MediaQueryData(size: size);
-
   tester.view.padding = const FakeViewPadding();
   tester.view.systemGestureInsets = const FakeViewPadding();
   tester.view.viewInsets = const FakeViewPadding();
   tester.view.viewPadding = const FakeViewPadding();
 
   MaterialApp app = await materialAppSetup(tester, homeWidget);
+  MediaQueryData mediaQueryData;
+  mediaQueryData = MediaQueryData(
+        devicePixelRatio: responsiveVariant.currentValue!.pixelDensity,
+        size: Size(responsiveVariant.currentValue!.width,
+            responsiveVariant.currentValue!.height));
 
   return MediaQuery(
-    data: currentData,
+    data: mediaQueryData,
     child: ScreenUtilInit(
         useInheritedMediaQuery: true,
         builder: (_, child) {
