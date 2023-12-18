@@ -1,6 +1,8 @@
 # Ignore temporary files
 *.tmp
 .DS_Store
+.*
+!/.gitignore
 
 # Ignore build output directory
 build/
@@ -9,6 +11,9 @@ build/
 .dart_tool
 .android
 /.gradle/
+.gradle/
+.gradle
+.symlinks
 
 # Ignore a specific file
 secret.key
