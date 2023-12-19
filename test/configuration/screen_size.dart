@@ -12,5 +12,4 @@ final responsiveVariant = ValueVariant<ScreenSize>({
   iPhone8,
   iPhone13ProMax,
   iPhone15ProMax
-  // desktop,
 });
