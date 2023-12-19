@@ -12,9 +12,9 @@ class MockBuildContext extends Mock implements BuildContext {}
 
 void main() {
   final HomePage page = HomePage();
+  TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() {
-    WidgetsFlutterBinding.ensureInitialized();
     configureDependencies();
   });
 
