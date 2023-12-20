@@ -4,4 +4,8 @@ class ViewKeysConfig {
   static const String createAccountButtonHomeKey = "createAccountButtonHomeKey";
   static const String createAccountTextHomeKey = "createAccountTextHomeKey";
   static const String welcomeBankTextHomeKey = "welcomeBankTextHomeKey";
+
+  static const String loginTextLoginKey = "loginTextLoginKey";
+  static const String createAccountTextLoginKey = "createAccountTextLoginKey";
+
 }

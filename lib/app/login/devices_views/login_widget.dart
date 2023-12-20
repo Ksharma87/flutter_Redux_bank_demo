@@ -14,6 +14,8 @@ import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/view_keys/view_keys_config.dart';
+
 class LoginWidget extends StatelessWidget {
   final String authType;
 
@@ -21,7 +23,7 @@ class LoginWidget extends StatelessWidget {
       {super.key, required this.authType, required this.boxConstraints});
 
   final BoxConstraints boxConstraints;
-  late bool isLogin = (authType.toString() == AuthType.LOGIN.toString());
+  late bool isLogin = (authType.toString() == AuthType.LOGIN.name.toString());
   late String buttonLabel;
   final LoadingProgressDialog _loadingProgressDialog = LoadingProgressDialog();
   final Validation _validation = getIt<Validation>();
@@ -62,7 +64,8 @@ class LoginWidget extends StatelessWidget {
                   ColorsTheme.primaryColor, ColorsTheme.primaryColor)),
           Expanded(
               flex: 2,
-              child: Column(children: [
+              child: SingleChildScrollView(
+                  child: Column(children: [
                 Padding(
                     padding: const EdgeInsets.all(10),
                     child: SizedBox(
@@ -155,6 +158,7 @@ class LoginWidget extends StatelessWidget {
                           padding: EdgeInsets.only(
                               left: 40.w, right: 40.w, top: 10.h, bottom: 10.h),
                           child: Text(
+                              key: const Key(ViewKeysConfig.loginTextLoginKey),
                               isLogin
                                   ? AppLocalization.localizations!.login
                                       .toUpperCase()
@@ -166,11 +170,12 @@ class LoginWidget extends StatelessWidget {
                                   fontStyle: FontStyle.normal,
                                   color: Colors.white)),
                         )))
-              ])),
+              ]))),
           Expanded(
             child: Align(
                 alignment: FractionalOffset.bottomCenter,
-                child: Column(
+                child: SingleChildScrollView(
+                    child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -184,9 +189,11 @@ class LoginWidget extends StatelessWidget {
                           color: ColorsTheme.secondColor,
                           alignment: FractionalOffset.bottomCenter),
                     ),
-                    Container(height: ScreenConfig.bottomBarColorHeight(), color: ColorsTheme.bottomColor)
+                    Container(
+                        height: ScreenConfig.bottomBarColorHeight(),
+                        color: ColorsTheme.bottomColor)
                   ],
-                )),
+                ))),
           ),
         ]);
   }
