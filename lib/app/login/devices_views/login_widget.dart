@@ -13,7 +13,6 @@ import 'package:flutter_redux_bank/redux/store/auth/store.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_redux_bank/utils/validation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../utils/view_keys/view_keys_config.dart';
 
 class LoginWidget extends StatelessWidget {
@@ -23,7 +22,7 @@ class LoginWidget extends StatelessWidget {
       {super.key, required this.authType, required this.boxConstraints});
 
   final BoxConstraints boxConstraints;
-  late bool isLogin = (authType.toString() == AuthType.LOGIN.name.toString());
+  late bool isLogin = false;
   late String buttonLabel;
   final LoadingProgressDialog _loadingProgressDialog = LoadingProgressDialog();
   final Validation _validation = getIt<Validation>();
@@ -32,6 +31,7 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    isLogin = authType == AuthType.LOGIN.name.toString();
     return _buildStore();
   }
 
@@ -47,14 +47,14 @@ class LoginWidget extends StatelessWidget {
       builder: (BuildContext context, LoginViewModel vm) {
         return Builder(
           builder: (BuildContext context) {
-            return _buildView(vm);
+            return _buildView(vm, context);
           },
         );
       },
     );
   }
 
-  Widget _buildView(LoginViewModel vm) {
+  Widget _buildView(LoginViewModel vm, BuildContext context) {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,6 +71,7 @@ class LoginWidget extends StatelessWidget {
                     child: SizedBox(
                       width: 320.w,
                       child: TextField(
+                        key: const Key(ViewKeysConfig.emailIdTextField),
                         cursorColor: ColorsTheme.primaryColor,
                         textInputAction: TextInputAction.next,
                         controller: _emailController,
@@ -101,6 +102,7 @@ class LoginWidget extends StatelessWidget {
                     child: SizedBox(
                       width: 320.w,
                       child: TextField(
+                        key: const Key(ViewKeysConfig.passwordTextField),
                         cursorColor: ColorsTheme.primaryColor,
                         textInputAction: TextInputAction.done,
                         controller: _passwordController,
@@ -149,7 +151,7 @@ class LoginWidget extends StatelessWidget {
                             ),
                         onPressed: () {
                           if (isLogin) {
-                            _onLoginClick(vm);
+                            _onLoginClick(vm, context);
                           } else {
                             _onCreateAccount(vm);
                           }
@@ -211,7 +213,7 @@ class LoginWidget extends StatelessWidget {
     }
   }
 
-  _onLoginClick(LoginViewModel loginViewModel) {
+  _onLoginClick(LoginViewModel loginViewModel, BuildContext context) {
     String? result = _validation.validateLogin(
         _emailController.text.toString(), _passwordController.text.toString());
     if (result == null) {

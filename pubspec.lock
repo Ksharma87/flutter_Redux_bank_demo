@@ -421,10 +421,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_zxing
-      sha256: "41c46b20d04c5b1cc76417a7c507de97764285ee9bfeeb363545f89754709b71"
+      sha256: eebc5a040cd9bdd0a88e1db9a3b7a250d7fe0ebcb6d70678408c7fa15ba7681f
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.5.1"
   frontend_server_client:
     dependency: transitive
     description:

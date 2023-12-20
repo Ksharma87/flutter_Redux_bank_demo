@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/app/home/home_page.dart';
+import 'package:flutter_redux_bank/app/login/login_page.dart';
 import 'package:flutter_redux_bank/app/utils/view_keys/view_keys_config.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
@@ -52,6 +53,8 @@ void main() {
     var elevatedButtonLogin =
         find.byKey(const Key(ViewKeysConfig.loginButtonHomeKey));
     await tester.tap(elevatedButtonLogin);
+    await tester.pumpAndSettle();
+    expect(find.byType(LoginPage), findsOneWidget);
   });
 
   testResponsiveWidgets('Home UI Create Text testing',
@@ -70,12 +73,15 @@ void main() {
 
   testResponsiveWidgets('Home UI Create account action testing',
       (WidgetTester tester) async {
-    Widget mainView = await materialAppConfigSetup(tester, page);
-    await tester.pumpWidget(mainView);
 
-    await tester.pumpAndSettle();
+    Widget mainView =
+        await materialAppConfigSetup(tester, page);
+    await tester.pumpWidget(mainView);
     var elevatedButtonCreateAccountButton =
         find.byKey(const Key(ViewKeysConfig.createAccountButtonHomeKey));
+    await tester.pump();
     await tester.tap(elevatedButtonCreateAccountButton);
+    await tester.pumpAndSettle();
+    expect(find.byType(LoginPage), findsOneWidget);
   });
 }

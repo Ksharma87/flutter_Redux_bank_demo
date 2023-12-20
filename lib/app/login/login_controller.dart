@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux_bank/app/login/devices_views/login_widget.dart';
 import 'package:flutter_redux_bank/app/login/login_page.dart';
 import 'package:base/base_view.dart';
+import 'package:flutter_redux_bank/app/utils/view_keys/view_keys_config.dart';
 import 'package:flutter_redux_bank/config/font/font_type.dart';
 import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
+import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginController extends BaseStatelessScreen<LoginPage> {
@@ -35,6 +37,15 @@ class LoginController extends BaseStatelessScreen<LoginPage> {
     String title =
         "${AppLocalization.localizations!.noida} ${AppLocalization.localizations!.bank}";
     return AppBar(
+      leading: IconButton(
+        key: const Key(ViewKeysConfig.appBarBackArrowKey),
+        color: Colors.white,
+        icon: const Icon(Icons.arrow_back),
+        iconSize: 30.0,
+        onPressed: () {
+          Navigator.pop(NavigatorHolder.navigatorKey.currentContext!);
+        },
+      ),
       backgroundColor: ColorsTheme.primaryColor,
       toolbarHeight: 60.h,
       title: Text(title,

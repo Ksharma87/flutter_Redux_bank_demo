@@ -11,11 +11,11 @@ class HomeViewModel {
 
   void login() {
     _store.dispatch(NavigateToAction.push(AppRouter.LOGIN_PAGE,
-        arguments: AuthType.LOGIN.toString()));
+        arguments: AuthType.LOGIN.name.toString()));
   }
 
   void createAccount() {
     _store.dispatch(NavigateToAction.push(AppRouter.LOGIN_PAGE,
-        arguments: AuthType.CREATE_ACCOUNT.toString()));
+        arguments: AuthType.CREATE_ACCOUNT.name.toString()));
   }
 }

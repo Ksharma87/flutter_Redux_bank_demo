@@ -6,6 +6,7 @@ class ToastView {
   static displaySnackBar(String msg) {
     SnackBar snackBar = SnackBar(
       content: Text(msg),
+      duration: const Duration(seconds: 2),
     );
     GlobalKeyHolder.scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
   }

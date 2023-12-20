@@ -5,7 +5,14 @@ class ViewKeysConfig {
   static const String createAccountTextHomeKey = "createAccountTextHomeKey";
   static const String welcomeBankTextHomeKey = "welcomeBankTextHomeKey";
 
+  ///////////////-============================////////////////////
   static const String loginTextLoginKey = "loginTextLoginKey";
   static const String createAccountTextLoginKey = "createAccountTextLoginKey";
+
+  static const String emailIdTextField = "emailIdTextField";
+  static const String passwordTextField = "passwordTextField";
+
+  static const String appBarBackArrowKey = "appBarBackArrowKey";
+
 
 }
