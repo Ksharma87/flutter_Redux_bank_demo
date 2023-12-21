@@ -12,7 +12,7 @@ void main() {
   });
 
   testWidgets('Auth and details screens testing', (WidgetTester tester) async {
-    MaterialApp mainApp = await materialAppSetup(tester, const Scaffold());
+    MaterialApp mainApp = await materialAppSetup(const Scaffold());
     await tester.pumpWidget(mainApp);
 
     Validation validation = getIt<Validation>();

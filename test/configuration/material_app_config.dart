@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_redux_bank/config/router/app_router_configuration.dart';
-import 'package:flutter_redux_bank/config/styles/colors_theme.dart';
+import 'package:flutter_redux_bank/my_application/material_bank_app.dart';
 import 'package:flutter_redux_bank/redux/store/app/app_store.dart';
-import 'package:flutter_redux_bank/utils/global_key_holder.dart';
-import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'screen_size.dart';
 
-Future<Widget> materialAppConfigSetup(
-    WidgetTester tester, Widget homeWidget, {NavigatorObserver? mockObserver}) async {
+Future<Widget> materialAppConfigSetup(WidgetTester tester, Widget homeWidget,
+    {NavigatorObserver? mockObserver}) async {
   tester.view.padding = const FakeViewPadding();
   tester.view.systemGestureInsets = const FakeViewPadding();
   tester.view.viewInsets = const FakeViewPadding();
   tester.view.viewPadding = const FakeViewPadding();
 
-  MaterialApp app = await materialAppSetup(tester, homeWidget);
+  MaterialApp app = await materialAppSetup(homeWidget);
   MediaQueryData mediaQueryData;
   mediaQueryData = MediaQueryData(
-        devicePixelRatio: responsiveVariant.currentValue!.pixelDensity,
-        size: Size(responsiveVariant.currentValue!.width,
-            responsiveVariant.currentValue!.height));
+      devicePixelRatio: responsiveVariant.currentValue!.pixelDensity,
+      size: Size(responsiveVariant.currentValue!.width,
+          responsiveVariant.currentValue!.height));
 
   return MediaQuery(
     data: mediaQueryData,
@@ -35,28 +30,6 @@ Future<Widget> materialAppConfigSetup(
   );
 }
 
-Future<MaterialApp> materialAppSetup(
-    WidgetTester tester, Widget homeWidget, {NavigatorObserver? mockObserver}) async {
-  return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'), // English
-      ],
-      home: homeWidget,
-      theme: ThemeData(
-          primaryColor: ColorsTheme.primaryColor,
-          primaryColorDark: ColorsTheme.secondColor),
-      navigatorKey: NavigatorHolder.navigatorKey,
-      scaffoldMessengerKey: GlobalKeyHolder.scaffoldMessengerKey,
-      navigatorObservers: mockObserver == null ? []: [mockObserver],
-      onGenerateRoute: _getRoute);
-}
-
-Route _getRoute(RouteSettings settings) {
-  return AppRouterConfiguration.getRouteConfig(settings);
+Future<MaterialApp> materialAppSetup(Widget homeWidget) async {
+  return getRootMaterialApp(homeWidget);
 }
