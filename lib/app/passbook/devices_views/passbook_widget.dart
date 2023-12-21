@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_bank/app/passbook/devices_views/passbook_viewmodel.dart';
@@ -87,11 +88,11 @@ class PassbookWidget extends StatelessWidget {
               return Column(
                 children: [
                   SizedBox(
-                      height: boxConstraints.maxHeight * 0.15,
+                      height: boxConstraints.maxHeight * 0.16,
                       child: Row(
                         children: [
                           getImagePlaceHolder(vm, index),
-                          Expanded(
+                          Flexible(
                               flex: 2,
                               child: Container(
                                   color: Colors.white,
@@ -123,7 +124,7 @@ class PassbookWidget extends StatelessWidget {
                                           child: Padding(
                                               padding:
                                                   const EdgeInsets.only(top: 3),
-                                              child: Text(
+                                              child: Align(alignment: Alignment.centerLeft, child : Text(
                                                   dateFormatting(vm
                                                           .passbookState
                                                           .list[index]["time"])
@@ -131,12 +132,12 @@ class PassbookWidget extends StatelessWidget {
                                                   style: const TextStyle(
                                                       fontSize: 15,
                                                       fontWeight:
-                                                          FontWeight.bold))),
+                                                          FontWeight.bold)))),
                                         ),
                                       ],
                                     ),
                                   ))),
-                          Expanded(
+                          Flexible(
                               child: Padding(
                                   padding:
                                       const EdgeInsets.only(left: 10, top: 10),
@@ -146,7 +147,7 @@ class PassbookWidget extends StatelessWidget {
                                           child: Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 20),
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 vm.passbookState
                                                     .list[index]["amount"]
                                                     .toString()
@@ -154,18 +155,18 @@ class PassbookWidget extends StatelessWidget {
                                                 style: TextStyle(
                                                     color: getTransactionType(
                                                         vm, index),
-                                                    fontSize: 16,
+                                                    fontSize: 13,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ))),
                                       Expanded(
-                                          child: Text(
+                                          child: AutoSizeText(
                                               vm.passbookState
                                                   .list[index]["balance"]
                                                   .toString()
                                                   .amountFormat(),
                                               style: const TextStyle(
-                                                  fontSize: 13,
+                                                  fontSize: 11,
                                                   fontWeight: FontWeight.bold)))
                                     ],
                                   )))
@@ -223,7 +224,7 @@ class PassbookWidget extends StatelessWidget {
                 as ProfileResponse;
         String displayName =
             "${displayNameResponse.firstName.capitalize()} ${displayNameResponse.lastName.capitalize()}";
-        return Text(displayName,
+        return AutoSizeText(displayName,
             style:
                 const TextStyle(fontSize: 16, fontWeight: FontWeight.normal));
       }
@@ -238,7 +239,7 @@ class PassbookWidget extends StatelessWidget {
             mapStoreProfile[vm.passbookState.list[index]["uid"]]
                 as ProfileResponse;
         String displayName = displayNameResponse.email;
-        return Text(displayName,
+        return AutoSizeText(displayName,
             style:
                 const TextStyle(fontSize: 16, fontWeight: FontWeight.normal));
       }
@@ -253,7 +254,7 @@ class PassbookWidget extends StatelessWidget {
             mapStoreProfile[vm.passbookState.list[index]["uid"]]
                 as ProfileResponse;
         String displayName = displayNameResponse.mobileNumber;
-        return Text(
+        return AutoSizeText(
           displayName,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
         );

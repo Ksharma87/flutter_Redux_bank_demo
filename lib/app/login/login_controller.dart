@@ -37,6 +37,7 @@ class LoginController extends BaseStatelessScreen<LoginPage> {
     String title =
         "${AppLocalization.localizations!.noida} ${AppLocalization.localizations!.bank}";
     return AppBar(
+      key: Key("appbar"),
       leading: IconButton(
         key: const Key(ViewKeysConfig.appBarBackArrowKey),
         color: Colors.white,

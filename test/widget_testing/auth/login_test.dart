@@ -6,6 +6,7 @@ import 'package:flutter_redux_bank/common/types/auth_type.dart';
 import 'package:flutter_redux_bank/di/injection.dart';
 import 'package:flutter_redux_bank/utils/app_localization.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import '../../configuration/material_app_config.dart';
 import '../../configuration/wrapper_testWidgets_responsive.dart';
 
@@ -120,5 +121,17 @@ void main() {
         expect(find.byType(HomePage), findsNothing);
       }, skip: false);
 
+  testResponsiveWidgets('Auth UI Login AppBar Title testing',
+          (WidgetTester tester) async {
+        Widget mainView = await materialAppConfigSetup(tester, loginPage);
+        await tester.pumpWidget(mainView);
+        await tester.pumpAndSettle();
+        var appbarTitle = find.text('${AppLocalization.localizations!.noida} ${AppLocalization.localizations!.bank}'); //find.ancestor(of: find.byKey(Key("appbar")), matching: find.text('${AppLocalization.localizations!.noida} ${AppLocalization.localizations!.bank}'));
+        var appbarTitleText = appbarTitle
+            .evaluate()
+            .single
+            .widget as Text;
+        expect(appbarTitleText.style?.color, Colors.white);
+      }, skip: false);
 
 }
