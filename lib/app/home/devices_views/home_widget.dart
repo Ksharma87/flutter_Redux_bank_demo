@@ -23,7 +23,9 @@ class HomeWidget extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Expanded(
         child: ClipPath(
-          clipper: DirectionalWaveClipper(verticalPosition: VerticalPosition.bottom, horizontalPosition: HorizontalPosition.left),
+          clipper: DirectionalWaveClipper(
+              verticalPosition: VerticalPosition.bottom,
+              horizontalPosition: HorizontalPosition.left),
           child: Container(
             padding: EdgeInsets.only(bottom: 60.h),
             color: ColorsTheme.secondColor,
@@ -37,7 +39,9 @@ class HomeWidget extends StatelessWidget {
               padding: EdgeInsets.only(left: 40.w),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(AppLocalization.localizations!.welcomeNoidaBank(AppLocalization.localizations!.noida),
+                  child: Text(
+                      AppLocalization.localizations!.welcomeNoidaBank(
+                          AppLocalization.localizations!.noida),
                       key: const Key(ViewKeysConfig.welcomeBankTextHomeKey),
                       textAlign: TextAlign.start,
                       style: TextStyle(
@@ -51,16 +55,10 @@ class HomeWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                      height: 35.h, //height of button
-                      width: 150.w, //width of button
-                      child: loginButtonView(context)),
+                  loginButtonView(context),
                   Padding(
-                      padding: EdgeInsets.only(top: 20.h),
-                      child: SizedBox(
-                          height: 35.h, //height of button
-                          width: 240.w, //width of button
-                          child: createAccountButtonView(context))),
+                      padding: EdgeInsets.only(top: 10.h),
+                      child: createAccountButtonView(context)),
                 ],
               )))
     ]
@@ -75,7 +73,7 @@ class HomeWidget extends StatelessWidget {
             backgroundColor: ColorsTheme.secondColor,
             side: BorderSide(width: 1.5.w, color: ColorsTheme.secondColor),
             //border width and color
-            elevation: 1,
+            elevation: 10,
             //elevation of button
             shape: RoundedRectangleBorder(
                 //to set border radius to button
@@ -86,13 +84,16 @@ class HomeWidget extends StatelessWidget {
           _homeViewModel.createAccount();
           //code to execute when this button is pressed.
         },
-        child: Text(AppLocalization.localizations!.createAccount,
-            key: const Key(ViewKeysConfig.createAccountTextHomeKey),
-            style: TextStyle(
-                fontFamily: FontType.fontRobotoRegular,
-                fontSize: 16.sp,
-                fontStyle: FontStyle.normal,
-                color: Colors.white)));
+        child: Padding(
+            padding:
+                EdgeInsets.only(left: 50.w, right: 50.w, bottom: 5.h, top: 5.h),
+            child: Text(AppLocalization.localizations!.createAccount,
+                key: const Key(ViewKeysConfig.createAccountTextHomeKey),
+                style: TextStyle(
+                    fontFamily: FontType.fontRobotoRegular,
+                    fontSize: 16.sp,
+                    fontStyle: FontStyle.normal,
+                    color: Colors.white))));
   }
 
   Widget loginButtonView(BuildContext context) {
@@ -102,7 +103,7 @@ class HomeWidget extends StatelessWidget {
           backgroundColor: ColorsTheme.primaryColor,
           side: const BorderSide(width: 1.5, color: ColorsTheme.secondColor),
           //border width and color
-          elevation: 1,
+          elevation: 10,
           //elevation of button
           shape: RoundedRectangleBorder(
               //to set border radius to button
@@ -113,13 +114,15 @@ class HomeWidget extends StatelessWidget {
         _homeViewModel.login();
         //code to execute when this button is pressed.
       },
-      child: Text(AppLocalization.localizations!.login,
-          key: const Key(ViewKeysConfig.loginTextHomeKey),
-          style: TextStyle(
-              fontFamily: FontType.fontRobotoRegular,
-              fontSize: 16.sp,
-              fontStyle: FontStyle.normal,
-              color: ColorsTheme.secondColor)),
+      child: Padding(
+          padding: EdgeInsets.only(left: 50.w, right: 50.w),
+          child: Text(AppLocalization.localizations!.login,
+              key: const Key(ViewKeysConfig.loginTextHomeKey),
+              style: TextStyle(
+                  fontFamily: FontType.fontRobotoRegular,
+                  fontSize: 16.sp,
+                  fontStyle: FontStyle.normal,
+                  color: ColorsTheme.secondColor))),
     );
   }
 }
